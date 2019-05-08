@@ -1,0 +1,43 @@
+# Expo Client builds
+/client-builds
+
+# Expo web env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Fastlane
+/*.cer
+/fastlane/report.xml
+/fastlane/Preview.html
+/Deployment
+/Preview.html
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Expo
+.expo
+__generated__
+
+# Others
+.vscode
+.idea
+package-lock.json
+*.log
+build/
+.eslintcache
+node_modules/**/*
+.expo/*
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
