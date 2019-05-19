@@ -16,7 +16,27 @@ export default class LoginScreen extends React.Component {
 
     _signInAsync = async () => {
         // sign in here
-        this.props.navigation.navigate('App');
+        let res = null;
+        fetch("https://https://gps-time.herokuapp.com/api/authenticate", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+            },
+            body: JSON.stringify({
+                username: this.state.email,
+                password: this.state.password,
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                res = responseJson;
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        if (res != null || !res)
+            this.props.navigation.navigate('App');
     }
 
     _navToRegister = () => {
