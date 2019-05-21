@@ -1,5 +1,8 @@
 import React from "react";
-import {Text, View, TextInput, Button} from "react-native";
+import Input from '../../components/Input';
+import FormDiv from '../../components/FormDiv';
+import CButton from '../../components/CButton';
+import { View, StyleSheet } from "react-native";
 
 export default class ForgotPasswordScreen extends React.Component {
 
@@ -8,7 +11,7 @@ export default class ForgotPasswordScreen extends React.Component {
     }
 
     static navigationOptions = {
-        drawerLabel: 'Forgot Password'
+        title: 'Forgot Password'
     };
 
     _sendEmail = () => {
@@ -17,10 +20,10 @@ export default class ForgotPasswordScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <TextInput onTextChange={(email) => this.setState({email})} value={this.state.email}/>
-                <Button title="Send Email" onPress={this._sendEmail} />
-            </View>
+            <FormDiv>
+                <Input placeholder="Email" onTextChange={(email) => this.setState({email})} />
+                <CButton title="Send Email" onPress={this._sendEmail} />
+            </FormDiv>
         );
     }
 }

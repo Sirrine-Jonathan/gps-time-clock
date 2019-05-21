@@ -1,5 +1,8 @@
 import React from "react";
 import {Button, View, TextInput} from "react-native";
+import Input from '../../components/Input';
+import CButton from '../../components/CButton';
+import FormDiv from '../../components/FormDiv';
 
 export default class RegisterScreen extends React.Component {
 
@@ -27,11 +30,11 @@ export default class RegisterScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <TextInput onTextChange={(email) => this.setState({email})} value={this.state.email}/>
-                <TextInput onTextChange={(password) => this.setState({password})} value={this.state.password}/>
-                <Button title="Register" onPress={this._signUpAsync} />
-            </View>
+            <FormDiv>
+                <Input placeholder="Email" onChangeText={(email) => this.setState({email})} value={this.state.email}/>
+                <Input placeholder="Password" onChangeText={(password) => this.setState({password})} value={this.state.password}/>
+                <CButton title="Register" onPress={this._signUpAsync} />
+            </FormDiv>
         );
     }
 }
