@@ -1,10 +1,8 @@
 import React from "react";
 import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
   StyleSheet,
   View,
+  Text
 } from 'react-native';
 
 export default class AuthLoadingScreen extends React.Component {
@@ -23,8 +21,7 @@ export default class AuthLoadingScreen extends React.Component {
     render() {
         return (
           <View>
-            <ActivityIndicator />
-            <StatusBar barStyle="default" />
+            <Text>Loading</Text>
           </View>
         );
     }

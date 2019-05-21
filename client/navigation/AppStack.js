@@ -13,7 +13,7 @@ import ScreenHOC from '../screens/ScreenHOC';
 
 const AppStack = createDrawerNavigator({ 
    Home: ScreenHOC(HomeScreen), 
-   Settings: ScreenHOC(SettingsScreen) 
+   Settings: ScreenHOC(SettingsScreen)
 },
 {
    contentComponent: DrawerContents,

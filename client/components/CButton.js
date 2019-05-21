@@ -15,7 +15,6 @@ export default class CButton extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  alignItems: 'center',
   backgroundColor: '#DDDDDD',
   padding: 10,
   margin: 5,
