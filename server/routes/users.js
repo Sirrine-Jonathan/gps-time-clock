@@ -9,8 +9,8 @@ const uri = 'mongodb+srv://admin:admin123@gps-time-afto7.mongodb.net/test?retryW
 
 
 router.post("/authenticate/", function(req, res, next){
-    var username = req.body.username.toString();
-    var password = req.body.password.toString();
+    var username = req.body.username;
+    var password = req.body.password;
 
     mongoClient.connect(uri, { useNewUrlParser: true },function(err, client){
         if(err) {

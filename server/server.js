@@ -24,6 +24,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 // routes
 app.use("/", index);
-app.use("/api", users);
+app.post("/api/authenticate", users);
 
 
