@@ -1,34 +1,26 @@
 import React from 'react';
 import { View, Button } from 'react-native';
-import {NavigationActions} from 'react-navigation';
+import { NavigationActions } from 'react-navigation';
 import { createDrawerNavigator } from 'react-navigation';
 import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
+import DrawerContents from '../components/DrawerContents';
+import ScreenHOC from '../screens/ScreenHOC';
 
-class drawerContentComponents extends React.Component {
 
-   _logout = () => {
-      const navigateAction = NavigationActions.navigate({
-         routeName: 'Login'
-      })
-      this.props.navigation.dispatch(navigateAction);
-   }
 
-   render() {
-      return (
-         <View>
-            <Button onClick={_logout} value="Logout" />
-         </View>
-      )
-   }
-}
+
 
 const AppStack = createDrawerNavigator({ 
-   Home: HomeScreen, 
-   Settings: SettingsScreen 
+   Home: ScreenHOC(HomeScreen), 
+   Settings: ScreenHOC(SettingsScreen) 
 },
 {
-   contentComponent: drawerContentComponents
+   contentComponent: DrawerContents,
+   drawerBackgroundColor: '#ffffff',
+   drawerType: 'slide',
+   edgeWidth: 80,
+   initialRouteName: 'Home',
 });
 
 export default AppStack;

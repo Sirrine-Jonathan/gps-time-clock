@@ -1,0 +1,2 @@
+
+connect-src 'self'; localhost:5000
