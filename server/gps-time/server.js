@@ -26,4 +26,3 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use("/", index);
 app.use("/api", users);
 
-
