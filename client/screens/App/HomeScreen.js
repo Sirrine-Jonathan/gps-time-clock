@@ -4,14 +4,14 @@ import { Text, View, StyleSheet, Platform } from "react-native";
 import { Constants, Location, Permissions, MapView } from 'expo';
 
 class HomeScreen extends React.Component {
-    static navigationOptions = {
-        drawerLabel: 'Home'
-    };
+   static navigationOptions = {
+      drawerLabel: 'Home'
+   };
 
-    state = 
-{      location: null,
+   state = {
+      location: null,
       errorMessage: null,
-    }
+   }
 
     componentWillMount() {
         if (Platform.OS === 'android' && !Constants.isDevice) {
@@ -37,25 +37,31 @@ class HomeScreen extends React.Component {
 
     render() {
          let { location } = this.state;
+         console.log('location', location);
+
          let content = (<Text>"Loading..."</Text>);
          if (this.state.errorMessage)
             content = (<Text>{this.state.errorMessage}</Text>);
          else if (location){
             content = (
-                <MapView 
-                    region={{
-                        latitude: location.coords.latitude,
-                        longitude: location.coords.longitude,
-                        latitudeDelta: 1,
-                        longitudeDelta: 1,
+               <View>
+                  <Text>Map</Text>
+                  <MapView
+                    style={{ flex: 1 }}
+                    initialRegion={{
+                      latitude: 37.78825,
+                      longitude: -122.4324,
+                      latitudeDelta: 0.0922,
+                      longitudeDelta: 0.0421,
                     }}
-                />
+                  />
+               </View>
             );
          }
 
          return (
             <View style={styles.content}>
-                { content }
+               { content }
             </View>
          );
     }

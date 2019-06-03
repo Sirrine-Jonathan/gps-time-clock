@@ -10,30 +10,16 @@ const initialState = {};
 
 export default class App extends React.Component {
 
-    constructor(props){
-        super(props);
-    }
-
-    componentDidMount(){
-      this._checkAuthAsync();
-    }
-
-    _checkAuthAsync = async () => {
-        const userID = this._getID();
-        if (userID){
-            this.setState({ isAuthenticated: true, isLoading: false })
-        } else {
-            this.setState({ isAuthenticated: false, isLoading: false })
-        }
-    }
-
-
+   constructor(props){
+      super(props);
+   }
 
    render(){
+      // remove true and uncomment line after to restore production state
       let isAuthenticated = store.getState().userID;
       return (
          <Provider store={store}>
-               {(isAuthenticated) ? <AppNavigator /> : <AuthNavigator />}
+            {(isAuthenticated) ? <AppNavigator /> : <AuthNavigator />}
          </Provider>
       )
    }

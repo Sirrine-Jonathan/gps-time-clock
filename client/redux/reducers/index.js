@@ -31,6 +31,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userID: action.payload,
+                loginErr: null
             };
          case LOGIN_ERROR: 
             return {
@@ -41,6 +42,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userID: null,
+                logoutError: null
             };
          case LOGOUT_ERROR:
             return {
@@ -51,11 +53,12 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userID: action.payload,
+                registerError: null
             };
          case REGISTER_ERROR: 
             return {
                ...state,
-               registerError: action.payload,
+               registerError: action.payload
             }
          default:
             return state;

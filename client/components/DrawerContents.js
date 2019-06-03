@@ -11,8 +11,8 @@ import { logout } from '../redux/actions/authActions'
 class DrawerContents extends React.Component {
 
    _logout = () => {
+      console.log('calling redux logout in component')
       this.props.logout();
-      this.props.navigation.navigate('Login');
    }
 
    render() {

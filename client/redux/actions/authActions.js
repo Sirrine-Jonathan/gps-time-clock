@@ -29,39 +29,39 @@ const registerSuccess = (payload) => ({
    payload: payload
 })
 
-const login = (email, password) => async dispatch => {
-  
-     let res = null;
-     fetch("https://gps-time.herokuapp.com/api/authenticate", {
-         method: 'POST',
-         headers: {
-             Accept: 'application/json',
-         },
-         body: JSON.stringify({
-             username: email,
-             password: password,
-         })
-     })
-         .then((response) => response.json())
-         .then((responseJson) => {
-            console.log('responseJson');
-            console.log(responseJson);
-            if (responseJson){
-               res = responseJson;
-               storeID(res);
-               dispatch(loginSuccess(res));
-            } else {
-               dispatch(loginFail(true));
-            }
-         })
-         .catch((error) => {
-            dispatch(loginFail(true))
-         });
+const login = (email, password) => async dispatch => { 
+  fetch("https://gps-time.herokuapp.com/api/authenticate", {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+      },
+      body: JSON.stringify({
+          username: email,
+          password: password,
+      })
+  })
+   .then((response) => response.json())
+   .then((responseJson) => {
+      console.log('responseJson');
+      console.log(responseJson);
+      if (responseJson){
+         res = responseJson;
+         storeID(res);
+         dispatch(loginSuccess(res));
+      } else {
+         dispatch(loginFail(true));
+      }
+   })
+   .catch((error) => {
+      dispatch(loginFail(true))
+   });
 }
 
 const logout = () => async dispatch => {
+   console.log('logging out');
    try {
       await AsyncStorage.setItem('@gps_time_clock_id', null);
+      console.log('storing logged out state in phone');
    } catch (e) {
       console.log(e);
    }
@@ -73,35 +73,34 @@ const logout = () => async dispatch => {
 
 
 const register = (username, email, company, password) => async dispatch => {
-
-        fetch("https://gps-time.herokuapp.com/api/addUser", {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-            },
-            body: JSON.stringify({
-                email: email,
-                company: company,
-                username: username,
-                password: password,
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-               console.log('responseJson');
-               console.log(responseJson);
-               if (responseJson){
-                  res = responseJson;
-                  storeID(res);
-                  dispatch(registerSuccess(res));
-               } else {
-                  dispatch(registerFail(true));
-               }
-            })
-            .catch((error) => {
-              console.error(error);
-              dispatch(registerFail(true));
-            });
+   fetch("https://gps-time.herokuapp.com/api/addUser", {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+      },
+      body: JSON.stringify({
+          email: email,
+          company: company,
+          username: username,
+          password: password,
+      })
+   })
+   .then((response) => response.json())
+   .then((responseJson) => {
+      console.log('responseJson');
+      console.log(responseJson);
+      if (responseJson){
+         res = responseJson;
+         storeID(res);
+         dispatch(registerSuccess(res));
+      } else {
+         dispatch(registerFail(true));
+      }
+   })
+   .catch((error) => {
+     console.error(error);
+     dispatch(registerFail(true));
+   });
 }
 
 const storeID = async (id) => {
