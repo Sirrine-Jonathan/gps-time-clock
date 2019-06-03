@@ -1,8 +1,9 @@
 import React from "react";
+import { View, StyleSheet } from "react-native";
 import Input from '../../components/Input';
 import FormDiv from '../../components/FormDiv';
 import CButton from '../../components/CButton';
-import { View, StyleSheet } from "react-native";
+
 
 export default class ForgotPasswordScreen extends React.Component {
 

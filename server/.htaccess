@@ -1,2 +1,2 @@
-
+script-src 'self'
 connect-src 'self'; localhost:5000

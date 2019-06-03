@@ -8,7 +8,12 @@ const mongoClient = require("mongodb");
 const uri = 'mongodb+srv://admin:admin123@gps-time-afto7.mongodb.net/test?retryWrites=true';
 
 
+router.get('/hello', function(req, res, next){
+   res.send("Hello World");
+})
+
 router.post("/authenticate/", function(req, res, next){
+    console.log(req.body);
     var username = req.body.username.toString();
     var password = req.body.password.toString();
 

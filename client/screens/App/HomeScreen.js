@@ -1,14 +1,15 @@
 import React from "react";
-import {Text, View, StyleSheet, Platform} from "react-native";
-import { Constants, Location, Permissions } from 'expo';
+import { connect } from 'react-redux';
+import { Text, View, StyleSheet, Platform } from "react-native";
+import { Constants, Location, Permissions, MapView } from 'expo';
 
-export default class HomeScreen extends React.Component {
+class HomeScreen extends React.Component {
     static navigationOptions = {
         drawerLabel: 'Home'
     };
 
-    state = {
-      location: null,
+    state = 
+{      location: null,
       errorMessage: null,
     }
 
@@ -35,19 +36,45 @@ export default class HomeScreen extends React.Component {
     };
 
     render() {
-        let text = 'Loading...';
-        if (this.state.errorMessage)
-            text = this.state.errorMessage;
-        else if (this.state.location)
-            text = JSON.stringify(this.state.location);
+         let { location } = this.state;
+         let content = (<Text>"Loading..."</Text>);
+         if (this.state.errorMessage)
+            content = (<Text>{this.state.errorMessage}</Text>);
+         else if (location){
+            content = (
+                <MapView 
+                    region={{
+                        latitude: location.coords.latitude,
+                        longitude: location.coords.longitude,
+                        latitudeDelta: 1,
+                        longitudeDelta: 1,
+                    }}
+                />
+            );
+         }
 
-        return (
+         return (
             <View style={styles.content}>
-                <Text>{ text }</Text>
+                { content }
             </View>
-        );
+         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    logoutError: state.logoutError,
+    userID: state.userID,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
    content: {

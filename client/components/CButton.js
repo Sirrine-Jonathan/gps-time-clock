@@ -5,18 +5,24 @@ export default class CButton extends React.Component {
    render(){
       return (
         <TouchableOpacity
-          style={styles}
+          style={styles.container}
           onPress={this.props.onPress}
         >
-          <Text>{ this.props.title }</Text>
+          <Text styles={styles.text} >{ this.props.title }</Text>
         </TouchableOpacity>
       );
    }
 }
 
 const styles = StyleSheet.create({
-  backgroundColor: '#DDDDDD',
-  padding: 10,
-  margin: 5,
-  marginTop: 10,
+  container: {
+    backgroundColor: '#DDDDDD',
+    padding: 15,
+    margin: 5,
+    marginTop: 10,
+  },
+  text: {
+    fontSize: 24,
+    textAlign: 'center',
+  }
 });
