@@ -1,19 +1,13 @@
 import React from 'react';
-import { View, Button } from 'react-native';
-import { NavigationActions } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import DrawerContents from '../components/DrawerContents';
 import ScreenHOC from '../screens/ScreenHOC';
 
-
-
-
-
 const AppStack = createDrawerNavigator({ 
    Home: ScreenHOC(HomeScreen), 
-   Settings: ScreenHOC(SettingsScreen) 
+   Settings: ScreenHOC(SettingsScreen)
 },
 {
    contentComponent: DrawerContents,
@@ -23,4 +17,6 @@ const AppStack = createDrawerNavigator({
    initialRouteName: 'Home',
 });
 
-export default AppStack;
+const AppNavigator = createAppContainer(AppStack);
+
+export default AppNavigator;

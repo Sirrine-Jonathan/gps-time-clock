@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, View} from "react-native";
+import {Text, View, StyleSheet} from "react-native";
 
 export default class LoginScreen extends React.Component {
     static navigationOptions = {
@@ -8,9 +8,18 @@ export default class LoginScreen extends React.Component {
 
     render() {
         return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <Text>Settings Screen</Text>
+            <View style={styles.content}>
+                <Text>Settings</Text>
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+   content: {
+      marginTop: 20,
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "center"
+   }
+});

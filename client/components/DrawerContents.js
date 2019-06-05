@@ -1,15 +1,18 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { ScrollView, Text, View} from 'react-native';
 import { DrawerItems, SafeAreaView } from 'react-navigation';
 import { Avatar } from 'react-native-elements';
 import CButton from './CButton';
 
+import { logout } from '../redux/actions/authActions'
 
-export default class DrawerContents extends React.Component {
+
+class DrawerContents extends React.Component {
 
    _logout = () => {
-      // logout user and this below should happen automatically
-      this.props.navigation.navigate('Login');
+      console.log('calling redux logout in component')
+      this.props.logout();
    }
 
    render() {
@@ -27,3 +30,18 @@ export default class DrawerContents extends React.Component {
       )
    }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logout: () => dispatch(logout()),
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    logoutError: state.logoutError,
+    userID: state.userID,
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawerContents);

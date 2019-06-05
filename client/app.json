@@ -1,11 +1,14 @@
 {
   "expo": {
     "name": "gps-time-clock",
-    "description": "This project is really great.",
+    "description": "A time clock application for companies with remote employees.",
     "slug": "gps-time-clock",
     "privacy": "public",
     "sdkVersion": "31.0.0",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +25,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "githubUrl": "https://github.com/Sirrine-Jonathan/gps-time-clock"
   }
 }
