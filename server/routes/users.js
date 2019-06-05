@@ -28,7 +28,7 @@ router.post("/authenticate/", function(req, res){
             if (!user)
                 return res.send(false);
             if (!bcrypt.compareSync(password, user.password))
-                return res.status(400).send(false)
+                return res.status(400).send(false);
             res.send(user._id);
         });
         client.close();
