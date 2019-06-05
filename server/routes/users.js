@@ -13,6 +13,7 @@ const uri = 'mongodb+srv://admin:admin123@gps-time-afto7.mongodb.net/test?retryW
 router.post("/authenticate/", function(req, res){
     const username = req.body.username;
     const password = req.body.password;
+})
 
 router.get('/hello', function(req, res, next){
    res.send("Hello World");
