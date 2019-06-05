@@ -5,7 +5,9 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
-   USERID
+   USERID,
+   STAGE_EMAIL,
+   STAGE_PASSWORD
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -14,6 +16,8 @@ const initialState = {
    loginError: null,
    logoutError: null,
    registerError: null,
+   email: "",
+   password: "",
 }
 
 const checkAuth = async () => {
@@ -59,6 +63,16 @@ const rootReducer = (state = initialState, action) => {
             return {
                ...state,
                registerError: action.payload
+            };
+         case STAGE_EMAIL:
+            return {
+               ...state,
+               email: action.payload
+            };
+         case STAGE_PASSWORD:
+            return {
+               ...state,
+               password: action.payload
             }
          default:
             return state;
