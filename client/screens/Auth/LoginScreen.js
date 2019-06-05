@@ -74,7 +74,7 @@ class LoginScreen extends React.Component {
         const { loginError } = this.props;
         return (
             <FormDiv>
-                <Text>v1.0.1</Text>
+                <Text>v1.0.2</Text>
                 <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
                 <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
                 { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }

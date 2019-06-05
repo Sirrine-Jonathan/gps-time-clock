@@ -82,7 +82,7 @@ const register = (username, email, company, password) => async dispatch => {
    fetch("https://gps-time.herokuapp.com/api/addUser", {
       method: 'POST',
       headers: {
-          Accept: 'application/json',
+          "Content-Type": 'application/json',
       },
       body: JSON.stringify({
           "email": email,
