@@ -5,7 +5,7 @@ import FormDiv from '../../components/FormDiv';
 import CButton from '../../components/CButton';
 import { View, StyleSheet, Text } from "react-native";
 
-import { login } from '../../redux/actions/authActions'
+import { login, stageEmail, stagePassword } from '../../redux/actions/authActions'
 // link for deciding on ui kits
 // https://blog.bitsrc.io/11-react-native-component-libraries-you-should-know-in-2018-71d2a8e33312
 
@@ -13,8 +13,6 @@ class LoginScreen extends React.Component {
     
     state = {
         username: '',
-        email: '',
-        password: '',
         usernameErr: false,
         emailErr: false,
         passwordErr: false,
@@ -26,11 +24,9 @@ class LoginScreen extends React.Component {
     };
 
     _login = () => {
-      let { email, password } = this.state;
+      let { email, password } = this.props;
       if (this.state.emailErr || this.state.passwordErr)
          return false;
-
-      console.log('redux starting login');
       this.props.login(email, password);
     }
 
@@ -42,16 +38,16 @@ class LoginScreen extends React.Component {
     }
 
     _emailErr = (email) => {
-      //let regex = new RegExp(/^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-      //let emailErr = !regex.test(email);
       let emailErr = this._isEmptyStr(email);
-      this.setState({ emailErr, email });
+      this.setState({ emailErr });
+      this.props.stageEmail(email);
       return emailErr;
     }
 
    _passwordErr = (password) => {
       let passwordErr = this._isEmptyStr(password);
-      this.setState({ passwordErr, password });
+      this.setState({ passwordErr });
+      this.props.stagePassword(password);
       return passwordErr;
    }
 
@@ -78,8 +74,9 @@ class LoginScreen extends React.Component {
         const { loginError } = this.props;
         return (
             <FormDiv>
-                <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} />
-                <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} />
+                <Text>v1.0.2</Text>
+                <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
+                <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
                 { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
                 <CButton title="Sign in" onPress={this._login}/>
                 <CButton title="Register" onPress={this._navToRegister} />
@@ -92,12 +89,16 @@ class LoginScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     login: (email, password) => dispatch(login(email, password)),
+    stageEmail: (email) => dispatch(stageEmail(email)),
+    stagePassword: (password) => dispatch(stagePassword(password))
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     loginError: state.loginError,
+    email: state.email,
+    password: state.password
   }
 }
 

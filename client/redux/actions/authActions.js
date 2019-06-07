@@ -5,7 +5,9 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
-   USERID
+   USERID,
+   STAGE_EMAIL,
+   STAGE_PASSWORD
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -29,15 +31,27 @@ const registerSuccess = (payload) => ({
    payload: payload
 })
 
+const stageEmail = (payload) => ({
+   type: STAGE_EMAIL,
+   payload: payload
+})
+
+const stagePassword = (payload) => ({
+   type: STAGE_PASSWORD,
+   payload: payload
+})
+
 const login = (email, password) => async dispatch => { 
+  console.log('email', email);
+  console.log('password', password);
   fetch("https://gps-time.herokuapp.com/api/authenticate", {
       method: 'POST',
       headers: {
-          Accept: 'application/json',
+          "Content-Type": 'application/json',
       },
       body: JSON.stringify({
-          username: email,
-          password: password,
+          "username": email,
+          "password": password,
       })
   })
    .then((response) => response.json())
@@ -58,31 +72,23 @@ const login = (email, password) => async dispatch => {
 }
 
 const logout = () => async dispatch => {
-   console.log('logging out');
-   try {
-      await AsyncStorage.setItem('@gps_time_clock_id', null);
-      console.log('storing logged out state in phone');
-   } catch (e) {
-      console.log(e);
-   }
+   storeID(null);
    dispatch({
       type: LOGOUT
    })
 }
 
-
-
 const register = (username, email, company, password) => async dispatch => {
    fetch("https://gps-time.herokuapp.com/api/addUser", {
       method: 'POST',
       headers: {
-          Accept: 'application/json',
+          "Content-Type": 'application/json',
       },
       body: JSON.stringify({
-          email: email,
-          company: company,
-          username: username,
-          password: password,
+          "email": email,
+          "company": company,
+          "username": username,
+          "password": password,
       })
    })
    .then((response) => response.json())
@@ -106,6 +112,7 @@ const register = (username, email, company, password) => async dispatch => {
 const storeID = async (id) => {
    try {
       await AsyncStorage.setItem('@gps_time_clock_id', id);
+      console.log('login state stored in local storage');
    } catch (e) {
       console.log(e);
    }
@@ -114,5 +121,7 @@ const storeID = async (id) => {
 module.exports = {
    login, 
    logout,
-   register
+   register,
+   stageEmail,
+   stagePassword
 }

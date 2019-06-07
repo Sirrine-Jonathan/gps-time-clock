@@ -13,7 +13,7 @@ const AppStack = createDrawerNavigator({
    contentComponent: DrawerContents,
    drawerBackgroundColor: '#ffffff',
    drawerType: 'slide',
-   edgeWidth: 80,
+   edgeWidth: 90,
    initialRouteName: 'Home',
 });
 
