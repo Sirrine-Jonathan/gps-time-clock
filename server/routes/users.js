@@ -11,6 +11,9 @@ const saltRounds = 10;
 const uri = 'mongodb+srv://admin:admin123@gps-time-afto7.mongodb.net/test?retryWrites=true';
 
 router.get('/hello', function(req, res, next){
+   res.write('H');
+   res.write('I');
+   res.write('!');
    res.send("Hello World");
 })
 
@@ -19,7 +22,7 @@ router.post("/authenticate/", function(req, res, next){
    var password = req.body.password.toString();
 
    mongoClient.connect(uri, { useNewUrlParser: true },function(err, client){
-         if (err) throw err;
+         if (err) next(err);
 
          const collection = client.db("usersDb").collection("userInformation");
          collection.findOne({
@@ -28,20 +31,12 @@ router.post("/authenticate/", function(req, res, next){
                { "email": username }
             ]
          }, (error, user) => {
-            if (error) {
-                return res.status(400).send(error);
-            }
+            if (err) next(err);
             if (!user)
-               return res.send(false);
+               return res.send(user);
             if (!bcrypt.compareSync(password, user.password))
                return res.status(400).send(false);
-            res.send({
-               "id": user._id,
-               "username": user.username,
-               "email": user.email,
-               "company": user.company,
-               "isAdmin": false,
-            });
+            res.send(user);
         });
         client.close();
     });
@@ -52,20 +47,20 @@ router.post("/addUser", function(req, res){
    const email = req.body.email;
    const company = req.body.company;
    const password = bcrypt.hashSync(req.body.password, saltRounds);
-   let   isAdmin = false;
-   let myObject = { username, password, email, company, isAdmin};
+
+   let isAdmin = false;
+   let userObject = { username, password, email, company, isAdmin};
+   res.write(userObject);
 
    // connect to atlas
    mongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
-      if (err) throw err;
+      if (err) next(err);
 
       // determine if company already exists
       let companyExists;
       const companyInformation = client.db("userDb").collection("companyInformation");
       await companyInformation.findOne({ "name": company}, (error, company) => {
-            if (error) {
-                return res.status(400).send(error);
-            }
+            if (err) next(err);
             companyExists = !!company; // the bang! bang! should convert the company object to a boolean 
       });
 
@@ -74,14 +69,13 @@ router.post("/addUser", function(req, res){
 
          // first the new user should be admin
          isAdmin = true;
-         myObject = { username, password, email, company, isAdmin };
+         userObject = { username, password, email, company, isAdmin };
 
          // and add the new company to the company collection
          let name = company;
          let anotherObject = { name };
          companyInformation.insertOne(anotherObject, (error, result) => {
-            if (error) throw error;
-            console.log("added company: " + company);
+            if (err) next(err);
          })
       }
 
@@ -92,18 +86,16 @@ router.post("/addUser", function(req, res){
             { "email": username }
          ]
       }, (error, user) => {
-         if (error) {
-             return res.status(400).send(error);
-         }
+         if (err) next(err);
          if (!user){
-            userInformation.insertOne(myObject, function(error, result){
-               if (error) throw error;
+            userInformation.insertOne(userObject, function(error, result){
+               if (err) next(err);
                console.log("added the user");
                res.send(result.insertedId); // can we change this to return a user?
             });
          }
          else {
-             res.status(400).send(error);
+             if (err) next(err);
          }
       });
       client.close();
