@@ -34,12 +34,12 @@ router.post("/authenticate/", function(req, res, next){
             if (!user)
                return res.send(false);
             if (!bcrypt.compareSync(password, user.password))
-               return res.status(400).send(false)
+               return res.status(400).send(false);
             res.send({
                "id": user._id,
                "username": user.username,
                "email": user.email,
-               "company": user.company
+               "company": user.company,
                "isAdmin": false,
             });
         });
@@ -79,11 +79,10 @@ router.post("/addUser", function(req, res){
          // and add the new company to the company collection
          let name = company;
          let anotherObject = { name };
-         companyInformation.inserOne(anotherObject, (error, result) => {
+         companyInformation.insertOne(anotherObject, (error, result) => {
             if (error) throw error;
             console.log("added company: " + company);
          })
-         
       }
 
       const userInformation = client.db("usersDb").collection("userInformation");
@@ -102,6 +101,9 @@ router.post("/addUser", function(req, res){
                console.log("added the user");
                res.send(result.insertedId); // can we change this to return a user?
             });
+         }
+         else {
+             res.status(400).send(error);
          }
       });
       client.close();
