@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform } from "react-native";
 import { Constants, Location, Permissions, MapView } from 'expo';
+import Loading from '../../components/Loading';
 
 class HomeScreen extends React.Component {
    static navigationOptions = {
@@ -39,7 +40,7 @@ class HomeScreen extends React.Component {
          let { location } = this.state;
          console.log('location', location);
 
-         let content = (<Text>"Loading..."</Text>);
+         let content = (<Loading />);
          if (this.state.errorMessage)
             content = (<Text>{this.state.errorMessage}</Text>);
          else if (location){
