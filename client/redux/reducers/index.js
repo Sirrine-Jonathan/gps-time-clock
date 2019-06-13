@@ -5,14 +5,13 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
-   USERID,
    STAGE_EMAIL,
    STAGE_PASSWORD
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
 const initialState = {
-   userID: null,
+   user: null,
    loginError: null,
    logoutError: null,
    registerError: null,
@@ -22,8 +21,8 @@ const initialState = {
 
 const checkAuth = async () => {
    try {
-      let userID = await AsyncStorage.getItem('@gps_time_clock_id');
-      return userID;
+      let user = await AsyncStorage.getItem('@gps_time_clock_id');
+      return user;
    } catch (e) {
       return null;
    }
@@ -34,7 +33,7 @@ const rootReducer = (state = initialState, action) => {
          case LOGIN:
             return {
                 ...state,
-                userID: action.payload,
+                user: action.payload,
                 loginErr: null
             };
          case LOGIN_ERROR: 
@@ -45,7 +44,7 @@ const rootReducer = (state = initialState, action) => {
          case LOGOUT:
             return {
                 ...state,
-                userID: null,
+                user: null,
                 logoutError: null
             };
          case LOGOUT_ERROR:
@@ -56,7 +55,7 @@ const rootReducer = (state = initialState, action) => {
          case REGISTER: 
             return {
                 ...state,
-                userID: action.payload,
+                user: action.payload,
                 registerError: null
             };
          case REGISTER_ERROR: 

@@ -5,11 +5,15 @@ import { connect } from 'react-redux';
 
 class AppSwitch extends React.Component {
    render(){
-      let { userID } = this.props; console.log("switch userID: " + userID);
-      if (userID)
+      console.log('AppSwitch: ')
+      let { user } = this.props; console.log(user);
+      if (user){
+         console.log("App Navigator Starting");
          return (<AppNavigator />);
-      else 
+      } else { 
+         console.log("Auth Navigator Starting")
          return (<AuthNavigator />);
+      }
    }
 };
 
@@ -22,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    userID: state.userID,
+    user: state.user,
   }
 }
 

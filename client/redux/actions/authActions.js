@@ -5,7 +5,6 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
-   USERID,
    STAGE_EMAIL,
    STAGE_PASSWORD
 } from '../types';
@@ -59,6 +58,7 @@ const login = (email, password) => async dispatch => {
       console.log('responseJson');
       console.log(responseJson);
       if (responseJson){
+         console.log('login successful');
          res = responseJson;
          storeID(res);
          dispatch(loginSuccess(res));

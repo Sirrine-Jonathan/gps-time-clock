@@ -44,29 +44,29 @@ class LoginScreen extends React.Component {
       return emailErr;
     }
 
-   _passwordErr = (password) => {
+    _passwordErr = (password) => {
       let passwordErr = this._isEmptyStr(password);
       this.setState({ passwordErr });
       this.props.stagePassword(password);
       return passwordErr;
-   }
+    }
 
-   _isEmptyStr = (str) => {
+    _isEmptyStr = (str) => {
       let arr = str.split('');
       let empty = true;
       arr.forEach((each) => {
-         if (each != ' ')
-            empty = false;
+        if (each != ' ')
+          empty = false;
       });
       return empty;
-   }
+    }
 
     _navToRegister = () => {
-        this.props.navigation.navigate('Register');
+      this.props.navigation.navigate('Register');
     }
 
     _navToForgotPassword = () => {
-        this.props.navigation.navigate('ForgotPassword');
+      this.props.navigation.navigate('ForgotPassword');
     }
 
     render() {
@@ -74,13 +74,13 @@ class LoginScreen extends React.Component {
         const { loginError } = this.props;
         return (
             <FormDiv>
-                <Text>v1.0.4</Text>
-                <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
-                <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
+                <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email} />
+                <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password} />
                 { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
                 <CButton title="Sign in" onPress={this._login}/>
                 <CButton title="Register" onPress={this._navToRegister} />
                 <CButton title="Forgot Password" onPress={this._navToForgotPassword} />
+                <Text>v1.1.2</Text>
             </FormDiv>
         );
     }
