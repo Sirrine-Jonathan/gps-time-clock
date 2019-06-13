@@ -12,7 +12,7 @@ import { login, stageEmail, stagePassword } from '../../redux/actions/authAction
 class LoginScreen extends React.Component {
     
     state = {
-        username: '',
+        username: 'testUser',
         usernameErr: false,
         emailErr: false,
         passwordErr: false,
@@ -80,7 +80,7 @@ class LoginScreen extends React.Component {
                 <CButton title="Sign in" onPress={this._login}/>
                 <CButton title="Register" onPress={this._navToRegister} />
                 <CButton title="Forgot Password" onPress={this._navToForgotPassword} />
-                <Text>v1.1.2</Text>
+                <Text>v1.2.2</Text>
             </FormDiv>
         );
     }

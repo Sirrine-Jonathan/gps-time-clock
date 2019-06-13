@@ -15,8 +15,8 @@ const initialState = {
    loginError: null,
    logoutError: null,
    registerError: null,
-   email: "",
-   password: "",
+   email: "test@gmail.com",
+   password: "password",
 }
 
 const checkAuth = async () => {

@@ -2,7 +2,6 @@ import React from 'react';
 import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
-import DrawerContents from '../components/DrawerContents';
 import ScreenHOC from '../screens/ScreenHOC';
 
 const AppStack = createDrawerNavigator({ 
@@ -10,7 +9,7 @@ const AppStack = createDrawerNavigator({
    Settings: ScreenHOC(SettingsScreen)
 },
 {
-   contentComponent: DrawerContents,
+   //contentComponent: DrawerContents,
    drawerBackgroundColor: '#ffffff',
    drawerType: 'slide',
    edgeWidth: 90,

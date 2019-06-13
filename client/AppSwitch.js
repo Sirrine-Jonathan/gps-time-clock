@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 class AppSwitch extends React.Component {
    render(){
       console.log('AppSwitch: ')
-      let { user } = this.props; console.log(user);
+      let { user } = this.props;
       if (user){
          console.log("App Navigator Starting");
          return (<AppNavigator />);

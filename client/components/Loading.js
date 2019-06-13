@@ -1,5 +1,5 @@
 import React from 'react';
-import {ActivityIndicator, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 
 export default class Loading extends React.Component {
    render(){
@@ -12,9 +12,6 @@ export default class Loading extends React.Component {
    }
 }
 
-const styles = StyleSheet.create({
-   
-});
 
 /*
 <ActivityIndicator size="large" color="#0000ff" />
