@@ -10,8 +10,10 @@ import { register, stageEmail, stagePassword } from '../../redux/actions/authAct
 class RegisterScreen extends React.Component {
 
     state = {
-        company: '',
+        //email: '',     moved to redux
         username: '',
+        secret: '',
+        company: '',
         companyErr: false,
         usernameErr: false,
         emailErr: false,
@@ -64,6 +66,12 @@ class RegisterScreen extends React.Component {
       return passwordErr;
     }
 
+    _secretErr = (secret) => {
+      let secretErr = this._isEmptyStr(secret);
+      this.setState({ secretErr });
+      return secretErr;
+    }
+
     _isEmptyStr = (str) => {
         let arr = str.split('');
         let empty = true;
@@ -87,10 +95,11 @@ class RegisterScreen extends React.Component {
         const { registerError } = this.props;
         return (
             <FormDiv>
-                <Input placeholder="Company" error={companyErr} onChangeText={(company) => this._companyErr(company)} />
                 <Input placeholder="Username" error={usernameErr} onChangeText={(username) => this._usernameErr(username)} />
                 <Input placeholder="Email" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
                 <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
+                <Input placeholder="Company" error={companyErr} onChangeText={(company) => this._companyErr(company)} />
+                <Input placeholder="Secret" error={secretErr} onChangeText={(secret) => this._secretErr(secret)} />
                 { (registerError) ? <Text style={styles.error}>Register Failed</Text>:null }
                 <CButton title="Register" onPress={this._register} />
             </FormDiv>

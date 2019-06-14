@@ -13,11 +13,10 @@ class DrawerContents extends React.Component {
    }
 
    render() {
-      console.log('in drawerContents');
       return (
          <ScrollView>
             <SafeAreaView>
-               <Text>Fart</Text>
+               <Text>hey</Text>
             </SafeAreaView>
          </ScrollView>
       )

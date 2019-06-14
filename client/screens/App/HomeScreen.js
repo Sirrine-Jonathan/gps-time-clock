@@ -30,6 +30,7 @@ class HomeScreen extends React.Component {
       return (
         <View style={styles.content}>
           <Text>Welcome, { user.username }</Text>
+          <Text>{ (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
           <TouchableOpacity
             style={styles.punchBtn}
             onPress={this._stubTogglePunch}

@@ -4,7 +4,8 @@ import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import ScreenHOC from '../screens/ScreenHOC';
 
-const AppStack = createDrawerNavigator({ 
+
+let AppStack = createDrawerNavigator({ 
    Home: ScreenHOC(HomeScreen), 
    Settings: ScreenHOC(SettingsScreen)
 },
