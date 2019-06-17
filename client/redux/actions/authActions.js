@@ -30,6 +30,7 @@ const registerSuccess = (payload) => ({
    payload: payload
 })
 
+
 const stageEmail = (payload) => ({
    type: STAGE_EMAIL,
    payload: payload
@@ -59,7 +60,7 @@ const login = (email, password) => async dispatch => {
       console.log(responseJson);
       if (responseJson){
          console.log('login successful');
-         res = responseJson;
+         let res = responseJson;
          storeID(res);
          dispatch(loginSuccess(res));
       } else {

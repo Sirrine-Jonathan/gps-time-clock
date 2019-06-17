@@ -3,10 +3,12 @@ import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import ScreenHOC from '../screens/ScreenHOC';
+import ReportsScreen from "../screens/App/ReportsScreen";
 
 
 let AppStack = createDrawerNavigator({ 
-   Home: ScreenHOC(HomeScreen), 
+   Home: ScreenHOC(HomeScreen),
+   Reports: ScreenHOC(ReportsScreen),
    Settings: ScreenHOC(SettingsScreen)
 },
 {

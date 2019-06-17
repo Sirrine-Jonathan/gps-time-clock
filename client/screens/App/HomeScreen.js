@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { Constants, Location, Permissions } from 'expo';
+import { Constants, MapView, Location, Permissions } from 'expo';
 import Loading from '../../components/Loading';
+
 
 class HomeScreen extends React.Component {
 
@@ -11,17 +12,84 @@ class HomeScreen extends React.Component {
    };
 
    state = {
-    punchedIn: false,
+       punchedIn: false,
+       hasLocationPermissions: false,
+       locationResult: null,
+       lat: null,
+       long: null,
+       date: null,
+       time: null
+   };
+
+   addPunch() {
+       let url = null;
+       if (!this.state.punchedIn) {
+           url = 'http://gps-time.herokuapp.com/time/addpunchin';
+       } else {
+           url = 'http://gps-time.herokuapp.com/time/addpunchout'
+       }
+
+       fetch(url, {
+           method: 'POST',
+           headers: {
+               Accept: 'application/json',
+               'Content-Type': 'application/json',
+           },
+           body: {
+               email: this.props.user.email,
+               date: this.state.date,
+               location: this.state.lat + ", " + this.state.long,
+               time: this.state.time
+           },
+       })
    }
 
-   // this should be handled by a redux function at some point
+   componentDidMount() {
+       this._getLocationAsync();
+   }
+
+    _handleMapRegionChange = mapRegion => {
+        console.log(mapRegion);
+        this.setState({ mapRegion });
+    };
+
+   _getLocationAsync = async() => {
+       let { status } = await Permissions.askAsync(Permissions.LOCATION);
+       if (status !== 'granted') {
+           this.setState({
+               locationResult: 'Permission to access location was denied',
+           });
+       } else {
+           this.setState( {locationResult: JSON.stringify(location)});
+       }
+
+       let location = await Location.getCurrentPositionAsync({});
+       this.setState({ locationResult: JSON.stringify(location) });
+
+       this.setState({lat: JSON.stringify(location.coords.latitude)});
+       this.setState({long: JSON.stringify((location.coords.longitude))});
+
+       // center the map
+       this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
+       location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
+   };
+
+
+    // this should be handled by a redux function at some point
    // the function should update a last db variable so
    // we can keep a count even when the user is logged out
    _stubTogglePunch = () => {
-      this.setState({
-        punchedIn: !this.state.punchedIn,
-      })
-   }
+       let date = new Date();
+       this.setState({
+           punchedIn: !this.state.punchedIn,
+           date: JSON.stringify((date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear()),
+           time: JSON.stringify((date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds())),
+       }, () => {
+           console.log(this.state.date);
+           this.addPunch();
+       });
+   };
+
 
     render() {
       const user = this.props.user;
@@ -29,8 +97,10 @@ class HomeScreen extends React.Component {
       let buttonText = (punchedIn) ? "Punch Out":"Punch In";        
       return (
         <View style={styles.content}>
-          <Text>Welcome, { user.username }</Text>
-          <Text>{ (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
+          <Text> Welcome, { user.username }</Text>
+          <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
+
+            <Text> Location: {this.state.lat}, {this.state.long} </Text>
           <TouchableOpacity
             style={styles.punchBtn}
             onPress={this._stubTogglePunch}
