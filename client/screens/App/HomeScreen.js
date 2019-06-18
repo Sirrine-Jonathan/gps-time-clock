@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { Constants, MapView, Location, Permissions } from 'expo';
+import { Constants, Location, Permissions } from 'expo';
+import MapView from 'react-native-maps';
 import Loading from '../../components/Loading';
 
 
@@ -18,12 +19,12 @@ class HomeScreen extends React.Component {
        lat: null,
        long: null,
        date: null,
-       time: null
+       time: null,
    };
 
    addPunch() {
        let url = null;
-       if (!this.state.punchedIn) {
+       if (this.state.punchedIn) {
            url = 'http://gps-time.herokuapp.com/time/addpunchin';
        } else {
            url = 'http://gps-time.herokuapp.com/time/addpunchout'
@@ -35,33 +36,30 @@ class HomeScreen extends React.Component {
                Accept: 'application/json',
                'Content-Type': 'application/json',
            },
-           body: {
+           body: JSON.stringify({
                email: this.props.user.email,
                date: this.state.date,
                location: this.state.lat + ", " + this.state.long,
-               time: this.state.time
-           },
-       })
+               time: this.state.time,
+           }),
+       }).then((response) => {
+           console.log(response);
+       });
    }
 
    componentDidMount() {
        this._getLocationAsync();
    }
 
-    _handleMapRegionChange = mapRegion => {
-        console.log(mapRegion);
-        this.setState({ mapRegion });
-    };
-
-   _getLocationAsync = async() => {
-       let { status } = await Permissions.askAsync(Permissions.LOCATION);
-       if (status !== 'granted') {
+     _getLocationAsync = async() => {
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
            this.setState({
                locationResult: 'Permission to access location was denied',
            });
-       } else {
+        } else {
            this.setState( {locationResult: JSON.stringify(location)});
-       }
+        }
 
        let location = await Location.getCurrentPositionAsync({});
        this.setState({ locationResult: JSON.stringify(location) });
@@ -82,8 +80,8 @@ class HomeScreen extends React.Component {
        let date = new Date();
        this.setState({
            punchedIn: !this.state.punchedIn,
-           date: JSON.stringify((date.getMonth() + 1) + '-' + date.getDate() + '-' + date.getFullYear()),
-           time: JSON.stringify((date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds())),
+           date: date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear(),
+           time: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
        }, () => {
            console.log(this.state.date);
            this.addPunch();
@@ -97,16 +95,23 @@ class HomeScreen extends React.Component {
       let buttonText = (punchedIn) ? "Punch Out":"Punch In";        
       return (
         <View style={styles.content}>
-          <Text> Welcome, { user.username }</Text>
-          <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
-
+            <Text> Welcome, { user.username }</Text>
+            <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
             <Text> Location: {this.state.lat}, {this.state.long} </Text>
-          <TouchableOpacity
-            style={styles.punchBtn}
-            onPress={this._stubTogglePunch}
-          >
+            <MapView
+                initialRegion={{
+                    latitude: this.state.lat,
+                    longitude: this.state.long,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
+                }}
+            />
+            <TouchableOpacity
+               style={styles.punchBtn}
+               onPress={this._stubTogglePunch}
+            >
             <Text>{ buttonText }</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
         </View>
       );
     }
