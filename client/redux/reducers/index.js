@@ -6,7 +6,8 @@ import {
    REGISTER,
    REGISTER_ERROR,
    STAGE_EMAIL,
-   STAGE_PASSWORD
+   STAGE_PASSWORD,
+   PUNCH
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -15,6 +16,8 @@ const initialState = {
    loginError: null,
    logoutError: null,
    registerError: null,
+   punchedIn: null, // grab from db
+   lastPunch: null, // grab from db
    email: "test@gmail.com",
    password: "password",
 }
@@ -72,6 +75,18 @@ const rootReducer = (state = initialState, action) => {
             return {
                ...state,
                password: action.payload
+            }
+         case PUNCH:
+            return {
+              ...state,
+              punchedIn: !state.puchedIn,
+              lastPunch: action.payload
+            }
+         case INIT: 
+            return {
+              ...state,
+              punchedIn: payload.punchedIn,
+              lastPunch: payload.lastPunch
             }
          default:
             return state;

@@ -91,7 +91,7 @@ class RegisterScreen extends React.Component {
     }
 
     render() {
-        const { usernameErr, emailErr, passwordErr, companyErr } = this.state;
+        const { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
         const { registerError } = this.props;
         return (
             <FormDiv>

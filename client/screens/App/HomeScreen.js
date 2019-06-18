@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "
 import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Loading from '../../components/Loading';
+import { addPunch, initPunchedState } from '../../redux/actions/appActions';
 
 
 class HomeScreen extends React.Component {
@@ -12,8 +13,9 @@ class HomeScreen extends React.Component {
       drawerLabel: 'Home'
    };
 
+
+
    state = {
-       punchedIn: false,
        hasLocationPermissions: false,
        locationResult: null,
        lat: null,
@@ -22,77 +24,56 @@ class HomeScreen extends React.Component {
        time: null,
    };
 
-   addPunch() {
-       let url = null;
-       if (this.state.punchedIn) {
-           url = 'http://gps-time.herokuapp.com/time/addpunchin';
-       } else {
-           url = 'http://gps-time.herokuapp.com/time/addpunchout'
-       }
-
-       fetch(url, {
-           method: 'POST',
-           headers: {
-               Accept: 'application/json',
-               'Content-Type': 'application/json',
-           },
-           body: JSON.stringify({
-               email: this.props.user.email,
-               date: this.state.date,
-               location: this.state.lat + ", " + this.state.long,
-               time: this.state.time,
-           }),
-       }).then((response) => {
-           console.log(response);
-       });
-   }
-
    componentDidMount() {
        this._getLocationAsync();
+       this.props.initPunchedState();
    }
 
-     _getLocationAsync = async() => {
-        let { status } = await Permissions.askAsync(Permissions.LOCATION);
-        if (status !== 'granted') {
-           this.setState({
-               locationResult: 'Permission to access location was denied',
-           });
-        } else {
-           this.setState( {locationResult: JSON.stringify(location)});
-        }
+   _getLocationAsync = async() => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status !== 'granted') {
+         this.setState({
+            locationResult: 'Permission to access location was denied',
+         });
+      } else {
+         this.setState( {locationResult: JSON.stringify(location)});
+      }
 
-       let location = await Location.getCurrentPositionAsync({});
-       this.setState({ locationResult: JSON.stringify(location) });
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ locationResult: JSON.stringify(location) });
 
-       this.setState({lat: JSON.stringify(location.coords.latitude)});
-       this.setState({long: JSON.stringify((location.coords.longitude))});
+      this.setState({lat: JSON.stringify(location.coords.latitude)});
+      this.setState({long: JSON.stringify((location.coords.longitude))});
 
-       // center the map
-       this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
-       location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
+      // center the map
+      this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
+      location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
+
+      return {
+         lat: JSON.stringify(location.coords.latitude),
+         long: JSON.stringify(location.coords.longitude)
+      }
    };
 
-
-    // this should be handled by a redux function at some point
+   // this should be handled by a redux function at some point
    // the function should update a last db variable so
    // we can keep a count even when the user is logged out
-   _stubTogglePunch = () => {
+   _stubTogglePunch = async () => {
        let date = new Date();
        this.setState({
-           punchedIn: !this.state.punchedIn,
            date: date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear(),
            time: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
        }, () => {
            console.log(this.state.date);
-           this.addPunch();
+           let email = this.props.user.email;
+           let loc = await this._getLocationAsync();
+           this.props.addPunch(this.props.punchedIn, loc, email);
        });
    };
 
-
     render() {
       const user = this.props.user;
-      const { punchedIn } = this.state;
-      let buttonText = (punchedIn) ? "Punch Out":"Punch In";        
+      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";        
       return (
         <View style={styles.content}>
             <Text> Welcome, { user.username }</Text>
@@ -118,13 +99,18 @@ class HomeScreen extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {  
+      addPunch: (punchedIn) => dispatch(addPunch(punchedIn)), 
+      initPunchedState: () => dispatch(initPunchedState())
+  }
 }
 
 const mapStateToProps = (state) => {
   return {
-    logoutError: state.logoutError,
-    user: state.user,
+      logoutError: state.logoutError,
+      user: state.user,
+      punchedIn: state.punchedIn,
+      lastPunch: state.lastPunch
   }
 }
 

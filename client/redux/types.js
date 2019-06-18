@@ -11,3 +11,6 @@ export const REGISTER_ERROR = 'REGISTER_ERROR';
 // Input Staging
 export const STAGE_EMAIL = 'STAGE_EMAIL';
 export const STAGE_PASSWORD = 'STAGE_PASSWORD';
+
+export const PUNCH = 'PUNCH';
+export const INIT = 'INIT';
