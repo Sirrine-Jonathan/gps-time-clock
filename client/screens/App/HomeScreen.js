@@ -7,6 +7,7 @@ import Loading from '../../components/Loading';
 import CButton from '../../components/CButton';
 import FormDiv from '../../components/FormDiv';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
+import TimerStamp from './util/TimerStamp';
 
 
 class HomeScreen extends React.Component {

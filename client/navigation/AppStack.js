@@ -5,6 +5,7 @@ import SettingsScreen from '../screens/App/SettingsScreen';
 import ScreenHOC from '../screens/ScreenHOC';
 import ReportsScreen from "../screens/App/ReportsScreen";
 import AdminScreen from "../screens/App/AdminScreen";
+import DrawerContents from "../components/DrawerContents";
 
 
 let AppStack = createDrawerNavigator({ 
@@ -14,7 +15,7 @@ let AppStack = createDrawerNavigator({
    Settings: ScreenHOC(SettingsScreen)
 },
 {
-   //contentComponent: DrawerContents,
+   contentComponent: DrawerContents,
    drawerBackgroundColor: '#ffffff',
    drawerType: 'slide',
    edgeWidth: 90,

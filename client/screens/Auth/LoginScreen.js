@@ -77,10 +77,10 @@ class LoginScreen extends React.Component {
                 <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email} />
                 <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password} />
                 { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
-                <CButton title="Sign in" onPress={this._login}/>
+                <CButton title="Sign in" onPress={this._login} />
                 <CButton title="Register" onPress={this._navToRegister} />
                 <CButton title="Forgot Password" onPress={this._navToForgotPassword} />
-                <Text>v1.2.5</Text>
+                <Text>v1.3.1</Text>
             </FormDiv>
         );
     }
