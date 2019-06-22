@@ -13,7 +13,7 @@ class DrawerContents extends React.Component {
    }
 
    componentDidMount(){
-    console.log(this.props.navigation);
+    console.log(this.props.items);
     /*
     let links = {};
     let navLinks = this.props.navigation._childNavigation;
@@ -31,10 +31,23 @@ class DrawerContents extends React.Component {
    }
 
    render() {
+      const clonedProps = {
+        ...this.props,
+        items: this.props.items.filter((item) => {
+          if (this.props.user.isAdmin){
+            return true;
+          } else {
+            if (item.key == "Admin")
+              return false;
+            else 
+              return true;
+          }
+        })
+      }
       return (
-         <ScrollView>
+         <ScrollView style={styles.content}>
             <SafeAreaView>
-               <DrawerItems {...this.props} />
+               <DrawerItems {...clonedProps} />
             </SafeAreaView>
          </ScrollView>
       )
@@ -42,7 +55,9 @@ class DrawerContents extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  
+  content: {
+    marginTop: 25,
+  }
 });
 
 const mapDispatchToProps = (dispatch) => {

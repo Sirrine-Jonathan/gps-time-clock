@@ -80,7 +80,7 @@ class LoginScreen extends React.Component {
                 <CButton title="Sign in" onPress={this._login} />
                 <CButton title="Register" onPress={this._navToRegister} />
                 <CButton title="Forgot Password" onPress={this._navToForgotPassword} />
-                <Text>v1.3.1</Text>
+                <Text>v1.3.3</Text>
             </FormDiv>
         );
     }
