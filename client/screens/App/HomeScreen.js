@@ -4,6 +4,8 @@ import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "
 import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Loading from '../../components/Loading';
+import CButton from '../../components/CButton';
+import FormDiv from '../../components/FormDiv';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
 
 
@@ -12,8 +14,6 @@ class HomeScreen extends React.Component {
    static navigationOptions = {
       drawerLabel: 'Home'
    };
-
-
 
    state = {
        hasLocationPermissions: false,
@@ -55,30 +55,31 @@ class HomeScreen extends React.Component {
       }
    };
 
-   // this should be handled by a redux function at some point
-   // the function should update a last db variable so
-   // we can keep a count even when the user is logged out
-   _stubTogglePunch = async () => {
-       let date = new Date();
-       this.setState({
-           date: date.getMonth() + 1 + '-' + date.getDate() + '-' + date.getFullYear(),
-           time: date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds(),
-       }, () => {
-           console.log(this.state.date);
-           let email = this.props.user.email;
-           let loc = await this._getLocationAsync();
-           this.props.addPunch(this.props.punchedIn, loc, email);
-       });
+   _togglePunch = async () => {
+      let email = this.props.user.email;
+      let loc = await this._getLocationAsync();
+      this.props.addPunch(this.props.punchedIn, loc, email);
    };
 
     render() {
       const user = this.props.user;
-      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";        
+      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";    
+      let lastPunchTime = new Date(this.props.lastPunch).toLocaleString();    
       return (
         <View style={styles.content}>
-            <Text> Welcome, { user.username }</Text>
-            <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
-            <Text> Location: {this.state.lat}, {this.state.long} </Text>
+            <FormDiv>
+              <Text> Welcome, { user.username }</Text>
+              <Text> Email: { user.email }</Text>
+              <Text> LastPunch: { lastPunchTime }</Text>
+              <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
+              <Text> Location: {this.state.lat}, {this.state.long} </Text>
+              <TouchableOpacity
+                style={styles.punchBtn}
+                onPress={this._togglePunch}
+              >
+                <Text>{ buttonText }</Text>
+              </TouchableOpacity>
+            </FormDiv>
             <MapView
                 initialRegion={{
                     latitude: this.state.lat,
@@ -87,12 +88,6 @@ class HomeScreen extends React.Component {
                     longitudeDelta: 0.0421,
                 }}
             />
-            <TouchableOpacity
-               style={styles.punchBtn}
-               onPress={this._stubTogglePunch}
-            >
-            <Text>{ buttonText }</Text>
-            </TouchableOpacity>
         </View>
       );
     }

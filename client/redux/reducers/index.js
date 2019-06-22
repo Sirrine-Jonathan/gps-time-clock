@@ -7,7 +7,8 @@ import {
    REGISTER_ERROR,
    STAGE_EMAIL,
    STAGE_PASSWORD,
-   PUNCH
+   PUNCH,
+   INIT
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -23,12 +24,12 @@ const initialState = {
 }
 
 const checkAuth = async () => {
-   try {
-      let user = await AsyncStorage.getItem('@gps_time_clock_id');
-      return user;
-   } catch (e) {
-      return null;
-   }
+  try {
+    let user = await AsyncStorage.getItem('@gps_time_clock_id');
+    return user;
+  } catch (e) {
+    return null;
+  }
 }
 
 const rootReducer = (state = initialState, action) => {

@@ -18,7 +18,7 @@ const init = (payload) => ({
    payload: payload,
 })
 
-addPunch(punchedIn, loc, email) {
+const addPunch = (punchedIn, loc, email) => async (dispatch, getState) => {
    let url = null;
    if (punchedIn) {
       url = 'http://gps-time.herokuapp.com/time/addpunchin';
@@ -26,7 +26,7 @@ addPunch(punchedIn, loc, email) {
       url = 'http://gps-time.herokuapp.com/time/addpunchout'
    }
 
-   fetch(url, {
+   await fetch(url, {
      method: 'POST',
      headers: {
          Accept: 'application/json',
@@ -39,11 +39,11 @@ addPunch(punchedIn, loc, email) {
      }),
    }).then((response) => {
       dispatch(punch(Date.now()));
-      console.log(response);
    });
 }
 
-initPunchedState(){
+const initPunchedState = () => async (dispatch, getState) => {
+   const user = getState().user;
    fetch ('http://gps-time.herokuapp.com/time/getLastPunch', {
       method: 'GET',
       headers: {
@@ -51,20 +51,40 @@ initPunchedState(){
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-         email: this.props.user.email
-      }),
+         email: user.email
+      })
    }).then((res) => {
       dispatch(init({
          'punchedIn': res.punchedIn, 
-         'lastPunch': new Date(res.lastPunch).getTime()
+         'lastPunch': res.lastPunch
       }));
    })
 }
 
+const updateUser = (email, username, password) => {
+   const user = getState().user;
+   fetch('http://gps-time.herokuapp.com/api/updateUser', {
+      method: 'POST',
+      headers: {
+         Accept: 'application/json',
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         newEmail: email,
+         newUsername: username,
+         newPassword: password,
+         email: user.email,
+         company: user.company,
+         isAdmin: user.isAdmin
+      })
+   }).then((res) => {
+      console.log(res);
+   })
+}
 
 
 module.exports = {
    addPunch,
    initPunchedState,
-   initPunchedState,
+   updateUser
 }

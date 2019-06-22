@@ -4,9 +4,11 @@ import HomeScreen from '../screens/App/HomeScreen';
 import SettingsScreen from '../screens/App/SettingsScreen';
 import ScreenHOC from '../screens/ScreenHOC';
 import ReportsScreen from "../screens/App/ReportsScreen";
+import AdminScreen from "../screens/App/AdminScreen";
 
 
 let AppStack = createDrawerNavigator({ 
+   Admin: ScreenHOC(AdminScreen),
    Home: ScreenHOC(HomeScreen),
    Reports: ScreenHOC(ReportsScreen),
    Settings: ScreenHOC(SettingsScreen)
