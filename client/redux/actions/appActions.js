@@ -44,26 +44,24 @@ const addPunch = (loc, ) => async (dispatch, getState) => {
      },
      body: JSON.stringify(data)
    }).then((response) => {
+      console.log(response);
       dispatch(punch(stamp));
    });
 }
 
 const initPunchedState = () => async (dispatch, getState) => {
    const user = getState().user;
-   fetch ('http://gps-time.herokuapp.com/time/getLastPunch', {
-      method: 'GET',
-      headers: {
-         Accept: 'application/json',
-         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-         email: user.email
+   let url = "https://gps-time.herokuapp.com/time/getLastPunch?email=" + user.email;
+   fetch (url, {}).then((res) => {
+      res.json().then((data) => {
+         console.log(data);
+         console.log(data.punchedIn);
+         console.log(data.lastPunch);
+         dispatch(init({
+            'punchedIn': data.punchedIn, 
+            'lastPunch': data.lastPunch
+         }));
       })
-   }).then((res) => {
-      dispatch(init({
-         'punchedIn': res.punchedIn, 
-         'lastPunch': res.lastPunch
-      }));
    })
 }
 

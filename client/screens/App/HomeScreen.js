@@ -6,8 +6,9 @@ import MapView from 'react-native-maps';
 import Loading from '../../components/Loading';
 import CButton from '../../components/CButton';
 import FormDiv from '../../components/FormDiv';
+import Timer from '../../components/Timer';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
-import TimerStamp from './util/TimerStamp';
+
 
 
 class HomeScreen extends React.Component {
@@ -25,9 +26,14 @@ class HomeScreen extends React.Component {
        time: null,
    };
 
+   componentWillMount() {
+    this._getLocationAsync();
+    console.log('HomeScreen mounted');
+    console.log('calling initPunchedState');
+    this.props.initPunchedState(); 
+   }
    componentDidMount() {
-       this._getLocationAsync();
-       this.props.initPunchedState();
+
    }
 
    _getLocationAsync = async() => {
@@ -80,6 +86,7 @@ class HomeScreen extends React.Component {
               <Text> Last Punch: { lastPunchTime }</Text>
               <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
               <Text> Location: {this.state.lat}, {this.state.long} </Text>
+              <Timer />
               <TouchableOpacity
                 style={styles.punchBtn}
                 onPress={this._togglePunch}

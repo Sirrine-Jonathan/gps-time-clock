@@ -78,7 +78,7 @@ const rootReducer = (state = initialState, action) => {
                password: action.payload
             }
          case PUNCH:
-            console.log("Punched: " + new Date().toLocaleTimeString())
+            console.log("Punch Time: " + new Date().toLocaleTimeString())
             console.log("punchedIn: " + !state.punchedIn);
             console.log("lastPunch: " + action.payload);
             return {
@@ -88,12 +88,12 @@ const rootReducer = (state = initialState, action) => {
             }
          case INIT: 
             console.log('state init to:');
-            console.log('punchedIn: ' + payload.punchedIn);
-            console.log('lastPunch: ' + payload.lastPunch);
+            console.log('punchedIn: ' + action.payload.punchedIn);
+            console.log('lastPunch: ' + action.payload.lastPunch);
             return {
               ...state,
-              punchedIn: payload.punchedIn,
-              lastPunch: payload.lastPunch
+              punchedIn: action.payload.punchedIn,
+              lastPunch: action.payload.lastPunch
             }
          default:
             return state;

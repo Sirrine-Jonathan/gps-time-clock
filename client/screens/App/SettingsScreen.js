@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import FormDiv from '../../components/FormDiv';
-import {Text, View, StyleSheet} from "react-native";
+import CButton from '../../components/CButton';
+import {Text, View, StyleSheet, Input} from "react-native";
 
 class SettingsScreen extends React.Component {
     static navigationOptions = {
@@ -15,6 +16,7 @@ class SettingsScreen extends React.Component {
       usernameErr: false,
       emailErr: false,
       passwordErr: false,
+      updateError: false
     }
 
     _usernameErr = (username) => {
@@ -62,6 +64,7 @@ class SettingsScreen extends React.Component {
 
     render() {
         let { username, email, password } = this.state;
+        let { usernameErr, emailErr, passwordErr, updateError } = this.state;
         return (
             <View style={styles.content}>
                 <Text>Settings</Text>
@@ -70,7 +73,7 @@ class SettingsScreen extends React.Component {
                   <Input placeholder="Username" error={usernameErr} onChangeText={(username) => this._usernameErr(username)} value={username} />
                   <Input placeholder="Email" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={email} />
                   <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={password} />
-                  { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
+                  { (updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
                   <CButton title="Update" onPress={this._update}/>
                 </FormDiv>
             </View>
