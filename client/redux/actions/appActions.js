@@ -18,27 +18,33 @@ const init = (payload) => ({
    payload: payload,
 })
 
-const addPunch = (punchedIn, loc, email) => async (dispatch, getState) => {
+const addPunch = (loc, ) => async (dispatch, getState) => {
+   const user = getState().user;
+   const punchedIn = getState().punchedIn; console.log(punchedIn);
+   const stamp = Date.now();
+
+   let data = {
+      email: user.email,
+      timestamp: stamp,
+      location: loc.lat + ", " + loc.long,
+   };
+
    let url = null;
    if (punchedIn) {
-      url = 'http://gps-time.herokuapp.com/time/addpunchin';
+      url = 'https://gps-time.herokuapp.com/time/addPunchIn';
    } else {
-      url = 'http://gps-time.herokuapp.com/time/addpunchout'
+      url = 'https://gps-time.herokuapp.com/time/addPunchOut'
    }
 
-   await fetch(url, {
+   fetch(url, {
      method: 'POST',
      headers: {
          Accept: 'application/json',
          'Content-Type': 'application/json',
      },
-     body: JSON.stringify({
-         email: this.props.user.email,
-         timestamp: Date.now(),
-         location: loc.lat + ", " + loc.long,
-     }),
+     body: JSON.stringify(data)
    }).then((response) => {
-      dispatch(punch(Date.now()));
+      dispatch(punch(stamp));
    });
 }
 
@@ -61,7 +67,7 @@ const initPunchedState = () => async (dispatch, getState) => {
    })
 }
 
-const updateUser = (email, username, password) => {
+const updateUser = (email, username, password) => async (dispatch, getState) => {
    const user = getState().user;
    fetch('http://gps-time.herokuapp.com/api/updateUser', {
       method: 'POST',

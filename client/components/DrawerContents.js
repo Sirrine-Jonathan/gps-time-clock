@@ -12,24 +12,6 @@ class DrawerContents extends React.Component {
       this.props.logout();
    }
 
-   componentDidMount(){
-    console.log(this.props.items);
-    /*
-    let links = {};
-    let navLinks = this.props.navigation._childNavigation;
-    for (let link in navLinks){
-      if (link == "Admin"){
-        if (this.props.user.isAdmin)
-          links[link] = navLinks[link];
-      } else {
-        links[link] = navLinks[link];
-      }
-    }
-    this.fakeProps = this.props;
-    this.fakeProps.navigation.childNavigation = links;
-    */
-   }
-
    render() {
       const clonedProps = {
         ...this.props,

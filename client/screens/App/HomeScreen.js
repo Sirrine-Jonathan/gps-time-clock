@@ -57,21 +57,27 @@ class HomeScreen extends React.Component {
    };
 
    _togglePunch = async () => {
-      let email = this.props.user.email;
       let loc = await this._getLocationAsync();
-      this.props.addPunch(this.props.punchedIn, loc, email);
+      console.log('calling togglePunch in component');
+      this.props.addPunch(loc);
    };
 
     render() {
       const user = this.props.user;
       let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";    
-      let lastPunchTime = new Date(this.props.lastPunch).toLocaleString();    
+      let lastPunch = this.props.lastPunch;
+      let lastPunchTime = null;
+      if (lastPunch)
+        lastPunchTime = new Date(this.props.lastPunch).toLocaleString();
+      else    
+        lastPunchTime = "None found";
+
       return (
         <View style={styles.content}>
             <FormDiv>
               <Text> Welcome, { user.username }</Text>
               <Text> Email: { user.email }</Text>
-              <Text> LastPunch: { lastPunchTime }</Text>
+              <Text> Last Punch: { lastPunchTime }</Text>
               <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
               <Text> Location: {this.state.lat}, {this.state.long} </Text>
               <TouchableOpacity
