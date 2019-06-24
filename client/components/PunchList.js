@@ -22,21 +22,24 @@ class PunchList extends React.Component {
 
    _renderItem = ({ item, index }) => {
       return (
-         <SinglePunch punch={item} key={index} />
+         (<SinglePunch punch={item}/>)
       )
    }
 
    render() {
 
       let { punches } = this.state;
+      if (!punches || !punches.length)
+         punches = [];
+      console.log(punches);
 
       return (
-         <View style={styles.content}>
-            <FlatList
-               data={punches}
-               renderItem={this._renderItem}
-            />
-         </View>
+         <FlatList
+            style={{flex:1}}
+            data={punches}
+            renderItem={this._renderItem}
+            keyExtractor={(item, index) => index}
+         />
       );
    }
 
@@ -58,9 +61,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(PunchList);
 
 const styles = StyleSheet.create({
     content: {
-        marginTop: 20,
+        paddingTop: 20,
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
+        backgroundColor: '#fff',
     }
 });
