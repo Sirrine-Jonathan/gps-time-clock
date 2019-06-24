@@ -2,11 +2,13 @@ import React from "react";
 import { connect } from 'react-redux';
 import FormDiv from '../../components/FormDiv';
 import CButton from '../../components/CButton';
-import {Text, View, StyleSheet, Input} from "react-native";
+import Input from '../../components/Input';
+import {Text, View, StyleSheet} from "react-native";
 
 class SettingsScreen extends React.Component {
     static navigationOptions = {
-        drawerLabel: 'Settings'
+        drawerLabel: 'Settings',
+        title: 'Settings'
     };
 
     state = {
@@ -59,22 +61,22 @@ class SettingsScreen extends React.Component {
           return false;
       }
       let { email, username, password } = this.state;
-      this.props.register(email, username, password);
+      this.props.update(email, username, password);
     }
 
     render() {
         let { username, email, password } = this.state;
-        let { usernameErr, emailErr, passwordErr, updateError } = this.state;
+        let { usernameErr, emailErr, passwordErr } = this.state;
         return (
-            <View style={styles.content}>
+            <View>
                 <Text>Settings</Text>
                 <Text>Update Account Information</Text>
                 <FormDiv>
-                  <Input placeholder="Username" error={usernameErr} onChangeText={(username) => this._usernameErr(username)} value={username} />
-                  <Input placeholder="Email" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={email} />
-                  <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={password} />
-                  { (updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
-                  <CButton title="Update" onPress={this._update}/>
+                  <Input placeholder="New Username" error={usernameErr} onChangeText={(username) => this._usernameErr(username)} value={username} />
+                  <Input placeholder="New Email" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={email} />
+                  <Input placeholder="New Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={password} />
+                  { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
+                  <CButton title="Update" onPress={this._update} />
                 </FormDiv>
             </View>
         );
@@ -89,18 +91,16 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
   return {
-    loginError: state.loginError,
-    user: state.user
+    user: state.user,
+    updateError: state.updateError
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
 
 const styles = StyleSheet.create({
-   content: {
-      marginTop: 20,
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center"
-   }
+  error: {
+    textAlign: 'center',
+    color: '#8b0000',
+  }
 });

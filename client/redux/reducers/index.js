@@ -8,7 +8,8 @@ import {
    STAGE_EMAIL,
    STAGE_PASSWORD,
    PUNCH,
-   INIT
+   INIT,
+   UPDATE_ERROR
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -21,6 +22,7 @@ const initialState = {
    lastPunch: null, // grab from db
    email: "test@gmail.com",
    password: "password",
+   updateError: null,
 }
 
 const checkAuth = async () => {
@@ -94,6 +96,11 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               punchedIn: action.payload.punchedIn,
               lastPunch: action.payload.lastPunch
+            }
+         case UPDATE_ERROR:
+            return {
+              ...state,
+              updateError: action.payload
             }
          default:
             return state;

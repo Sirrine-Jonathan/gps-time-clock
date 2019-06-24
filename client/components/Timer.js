@@ -1,9 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import { connect } from 'react-redux';
 import TimerStamp from '../util/TimerStamp';
 
-class Timer extends React.Component {
+export default class Timer extends React.Component {
 
    state = {
       now: Date.now()
@@ -27,25 +26,10 @@ class Timer extends React.Component {
          lastPunchTime = new Date(lastPunch).toLocaleTimeString('en-US') + ' - ' + new Date().toLocaleTimeString('en-US');
       }
       return (
-         <View>
-            <Text>{ counter }</Text>
-            <Text>{ lastPunchTime }</Text>
+         <View style={this.props.timerStyle}>
+            <Text style={this.props.counterStyle}>{ counter }</Text>
+            <Text style={this.props.lastPunchStyle}>{ lastPunchTime }</Text>
          </View>
       )
    }
 }
-
-const mapDispatchToProps = (dispatch) => {
-  return {  
-
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-      lastPunch: state.lastPunch,
-      punchedIn: state.punchedIn,
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Timer);

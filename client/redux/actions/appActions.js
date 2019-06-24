@@ -1,6 +1,7 @@
 import {
    PUNCH,
-   INIT
+   INIT,
+   UPDATE_ERROR
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -9,13 +10,14 @@ const punch = (payload) => ({
    payload: payload,
 })
 
-/*
-   payload.punchedIn boolean
-   payload.lastPunch timestamp
-*/
 const init = (payload) => ({
    type: INIT, 
    payload: payload,
+})
+
+const updateFail = (payload) => ({
+   type: UPDATE_ERROR,
+   payload: payload
 })
 
 const addPunch = (loc, ) => async (dispatch, getState) => {
@@ -50,7 +52,25 @@ const addPunch = (loc, ) => async (dispatch, getState) => {
    .then((response) => {
       console.log(response);
       dispatch(punch(stamp));
-   });
+   }).catch((error) => {
+      console.log(error);
+   })
+}
+
+const getPunches = (email) => async (dispatch, getState) => {
+   if (!email)
+      email = getState().user.email;
+   let url = "https://gps-time.herokuapp.com/time/getPunches?email=" + email;
+   let punches = [];
+   await fetch (url, {}).then((res) => {
+      res.json().then((data) => {
+         punches = data.punches;
+      })
+   }).catch((error) => {
+      console.log(error);
+      punches = error;
+   })
+   return punches;
 }
 
 const initPunchedState = () => async (dispatch, getState) => {
@@ -86,12 +106,16 @@ const updateUser = (email, username, password) => async (dispatch, getState) => 
       })
    }).then((res) => {
       console.log(res);
-   })
+   }).catch((error) => {
+     console.error(error);
+     dispatch(updateFail(true));
+   });
 }
 
 
 module.exports = {
    addPunch,
    initPunchedState,
-   updateUser
+   updateUser,
+   getPunches
 }

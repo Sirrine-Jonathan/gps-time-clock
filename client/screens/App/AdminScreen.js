@@ -6,7 +6,8 @@ class AdminScreen extends React.Component {
     
 
     static navigationOptions = {
-        drawerLabel: 'Admin'
+        drawerLabel: 'Admin',
+        title: 'Admin'
     };
 
     render() {

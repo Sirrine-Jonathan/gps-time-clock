@@ -4,9 +4,7 @@ import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "
 import { Constants, Location, Permissions } from 'expo';
 import MapView from 'react-native-maps';
 import Loading from '../../components/Loading';
-import CButton from '../../components/CButton';
-import FormDiv from '../../components/FormDiv';
-import Timer from '../../components/Timer';
+import Puncher from '../../components/Puncher';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
 
 
@@ -14,7 +12,8 @@ import { addPunch, initPunchedState } from '../../redux/actions/appActions';
 class HomeScreen extends React.Component {
 
    static navigationOptions = {
-      drawerLabel: 'Home'
+      drawerLabel: 'Home',
+      title: 'GPS-Time-Clock'
    };
 
    state = {
@@ -71,29 +70,19 @@ class HomeScreen extends React.Component {
     render() {
       const user = this.props.user;
       let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";    
-      let lastPunch = this.props.lastPunch;
-      let lastPunchTime = null;
-      if (lastPunch)
-        lastPunchTime = new Date(this.props.lastPunch).toLocaleString();
-      else    
-        lastPunchTime = "None found";
 
       return (
         <View style={styles.content}>
-            <FormDiv>
-              <Text> Welcome, { user.username }</Text>
-              <Text> Email: { user.email }</Text>
-              <Text> Last Punch: { lastPunchTime }</Text>
-              <Text> { (user.isAdmin) ? "Employeer":"Employee"} at {user.company}</Text>
-              <Text> Location: {this.state.lat}, {this.state.long} </Text>
-              <Timer />
-              <TouchableOpacity
-                style={styles.punchBtn}
-                onPress={this._togglePunch}
-              >
-                <Text>{ buttonText }</Text>
-              </TouchableOpacity>
-            </FormDiv>
+            <Puncher 
+              togglePunch={this._togglePunch}
+              lastPunch={this.props.lastPunch}
+              punchedIn={this.props.punchedIn}
+              containerStyle={styles.puncher}
+              btnStyle={styles.btnStyle}
+              timerStyle={styles.timerStyle}
+              counterStyle={this.props.counterStyle}
+              lastPunchStyle={this.props.lastPunchStyle}
+            />
             <MapView
                 initialRegion={{
                     latitude: this.state.lat,
@@ -129,11 +118,23 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 25,
   },
-  punchBtn: {
-    fontSize: 3,
-    borderWidth: 2,
-    borderColor: "black",
-    alignItems: 'center',
-    padding: 10
+  puncher: {
+    backgroundColor: '#bbb',
+    padding: 5
+  },
+  btnStyle: {
+    backgroundColor: '#ffffff',
+    padding: 10,
+    textAlign: 'center'
+  },
+  timerStyle: {
+
+  },
+  counterStyle: {
+    textAlign: 'center',
+    fontSize: 15
+  },
+  lastPunchStyle: {
+
   }
 });
