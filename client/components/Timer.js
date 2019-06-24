@@ -20,11 +20,11 @@ class Timer extends React.Component {
    render(){
       let { now } = this.state;
       let { lastPunch, punchedIn } = this.props;
-      let lastPunchTime = new Date().toLocaleTimeString() + ' - ' + new Date().toLocaleTimeString();
+      let lastPunchTime = new Date().toLocaleTimeString('en-US') + ' - ' + new Date().toLocaleTimeString('en-US');
       let counter = "00:00";
       if (lastPunch && punchedIn){
          counter = TimerStamp.getCounter(now, lastPunch);
-         lastPunchTime = new Date(lastPunch).toLocaleTimeString() + ' - ' + new Date().toLocaleTimeString();
+         lastPunchTime = new Date(lastPunch).toLocaleTimeString('en-US') + ' - ' + new Date().toLocaleTimeString('en-US');
       }
       return (
          <View>

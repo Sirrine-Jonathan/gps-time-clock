@@ -20,30 +20,34 @@ const init = (payload) => ({
 
 const addPunch = (loc, ) => async (dispatch, getState) => {
    const user = getState().user;
-   const punchedIn = getState().punchedIn; console.log(punchedIn);
+   const punchedIn = getState().punchedIn;
    const stamp = Date.now();
 
    let data = {
       email: user.email,
       timestamp: stamp,
       location: loc.lat + ", " + loc.long,
-   };
+   }
+
+   console.log(data);
 
    let url = null;
    if (punchedIn) {
-      url = 'https://gps-time.herokuapp.com/time/addPunchIn';
+      url = 'https://gps-time.herokuapp.com/time/addPunchOut';
    } else {
-      url = 'https://gps-time.herokuapp.com/time/addPunchOut'
+      url = 'https://gps-time.herokuapp.com/time/addPunchIn';
    }
+
+   console.log(url);
 
    fetch(url, {
      method: 'POST',
      headers: {
-         Accept: 'application/json',
          'Content-Type': 'application/json',
      },
      body: JSON.stringify(data)
-   }).then((response) => {
+   })
+   .then((response) => {
       console.log(response);
       dispatch(punch(stamp));
    });
@@ -70,7 +74,6 @@ const updateUser = (email, username, password) => async (dispatch, getState) => 
    fetch('http://gps-time.herokuapp.com/api/updateUser', {
       method: 'POST',
       headers: {
-         Accept: 'application/json',
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
