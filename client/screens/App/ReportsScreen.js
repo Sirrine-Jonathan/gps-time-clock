@@ -37,8 +37,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
 const styles = StyleSheet.create({
     content: {
         marginTop: 20,
-        flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
     }
 });

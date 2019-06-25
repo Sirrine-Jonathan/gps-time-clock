@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {Text, View, StyleSheet, FlatList} from "react-native";
+import {Text, View, ScrollView, StyleSheet, FlatList} from "react-native";
 import { getPunches } from '../redux/actions/appActions';
 import SinglePunch from './SinglePunch';
 
@@ -20,26 +20,23 @@ class PunchList extends React.Component {
       this.setState({ punches });
    }
 
-   _renderItem = ({ item, index }) => {
-      return (
-         (<SinglePunch punch={item}/>)
-      )
-   }
-
    render() {
 
       let { punches } = this.state;
       if (!punches || !punches.length)
          punches = [];
-      console.log(punches);
+      const listItems = punches.map((punch) => 
+         (
+            <View style={styles.punchRow}>
+               <SinglePunch punch={punch} style={styles.punch}/>
+            </View>
+         )
+      );
 
       return (
-         <FlatList
-            style={{flex:1}}
-            data={punches}
-            renderItem={this._renderItem}
-            keyExtractor={(item, index) => index}
-         />
+         <ScrollView style={styles.punchList}>
+            { listItems }
+         </ScrollView>
       );
    }
 
@@ -60,9 +57,20 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(PunchList);
 
 const styles = StyleSheet.create({
-    content: {
-        paddingTop: 20,
-        flex: 1,
-        backgroundColor: '#fff',
+    punchList: {
+
+    },
+    punchRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'center', 
+      alignContent: 'stretch',
+    },
+    punch: {
+      margin: 10,
+      padding: 10,
+      flex: 1,
+      backgroundColor: '#e0e0e0',
+      borderRadius: 5
     }
 });
