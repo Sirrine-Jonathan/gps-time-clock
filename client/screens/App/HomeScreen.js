@@ -1,8 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { Constants, Location, Permissions } from 'expo';
-import MapView from 'react-native-maps';
+import { Constants, Location, Permissions, MapView } from 'expo';
 import Loading from '../../components/Loading';
 import Puncher from '../../components/Puncher';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
@@ -29,7 +28,7 @@ class HomeScreen extends React.Component {
     this._getLocationAsync();
     console.log('HomeScreen mounted');
     console.log('calling initPunchedState');
-    this.props.initPunchedState(); 
+    this.props.initPunchedState();
    }
    componentDidMount() {
 
@@ -48,8 +47,8 @@ class HomeScreen extends React.Component {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ locationResult: JSON.stringify(location) });
 
-      this.setState({lat: JSON.stringify(location.coords.latitude)});
-      this.setState({long: JSON.stringify((location.coords.longitude))});
+      this.setState({lat: parseFloat(JSON.stringify(location.coords.latitude))});
+      this.setState({long: parseFloat(JSON.stringify(location.coords.longitude))});
 
       // center the map
       this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
@@ -69,11 +68,20 @@ class HomeScreen extends React.Component {
 
     render() {
       const user = this.props.user;
-      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";    
+      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";
 
       return (
         <View style={styles.content}>
-            <Puncher 
+            <MapView style={
+                { alignSelf: 'stretch', height: 200 }}
+                     region={{
+                         latitude: this.state.lat,
+                         longitude: this.state.long,
+                         latitudeDelta: 0.0003,
+                         longitudeDelta: 0.00015, }}
+            >
+            </MapView>
+            <Puncher
               togglePunch={this._togglePunch}
               lastPunch={this.props.lastPunch}
               punchedIn={this.props.punchedIn}
@@ -82,14 +90,6 @@ class HomeScreen extends React.Component {
               timerStyle={styles.timerStyle}
               counterStyle={this.props.counterStyle}
               lastPunchStyle={this.props.lastPunchStyle}
-            />
-            <MapView
-                initialRegion={{
-                    latitude: this.state.lat,
-                    longitude: this.state.long,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
-                }}
             />
         </View>
       );
