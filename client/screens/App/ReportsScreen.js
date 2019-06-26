@@ -11,8 +11,10 @@ class ReportsScreen extends React.Component {
    };
 
    render() {
+
       return (
          <View style={styles.content}>
+            <Text>{this.props.user.email}</Text>
             <PunchList email={this.props.user.email} />
          </View>
       );

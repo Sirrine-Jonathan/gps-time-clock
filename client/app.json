@@ -30,11 +30,10 @@
     "android": {
       "package": "com.gps.time",
       "config": {
-        "googleMaps" : {
-          "apiKey" : "AIzaSyDx0nB7pwmDQ3psBGTcB-znD58wg6PQM28"
+        "googleMaps": {
+          "apiKey": "AIzaSyDx0nB7pwmDQ3psBGTcB-znD58wg6PQM28"
         }
       }
     }
   }
-
 }

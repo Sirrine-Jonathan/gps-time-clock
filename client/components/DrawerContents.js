@@ -26,10 +26,13 @@ class DrawerContents extends React.Component {
           }
         })
       }
+
+
       return (
          <ScrollView style={styles.content}>
             <SafeAreaView>
                <DrawerItems {...clonedProps} />
+               <CButton onPress={this._logout} title="Logout"/>
             </SafeAreaView>
          </ScrollView>
       )

@@ -16,3 +16,5 @@ export const PUNCH = 'PUNCH';
 export const INIT = 'INIT';
 
 export const UPDATE_ERROR = 'UPDATE_ERROR';
+
+export const UPDATE_USERS = 'UPDATE_USERS';

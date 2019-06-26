@@ -1,7 +1,8 @@
 import {
    PUNCH,
    INIT,
-   UPDATE_ERROR
+   UPDATE_ERROR,
+   UPDATE_USERS
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -20,7 +21,12 @@ const updateFail = (payload) => ({
    payload: payload
 })
 
-const addPunch = (loc, ) => async (dispatch, getState) => {
+const updateUsers = (payload) => ({
+   type: UPDATE_USERS,
+   payload: payload
+})
+
+const addPunch = (loc) => async (dispatch, getState) => {
    const user = getState().user;
    const punchedIn = getState().punchedIn;
    const stamp = Date.now();
@@ -91,7 +97,7 @@ const initPunchedState = () => async (dispatch, getState) => {
 
 const updateUser = (email, username, password) => async (dispatch, getState) => {
    const user = getState().user;
-   fetch('http://gps-time.herokuapp.com/api/updateUser', {
+   fetch('https://gps-time.herokuapp.com/api/updateUser', {
       method: 'POST',
       headers: {
          'Content-Type': 'application/json',
@@ -112,10 +118,20 @@ const updateUser = (email, username, password) => async (dispatch, getState) => 
    });
 }
 
+const getCompanyUsers = (company) => async (dispatch, getState) => {
+   const company = company || getState().user.company;
+   const url = 'https://gps-time.herokuapp.com/api/getCompanyUsers?company=' + company;
+   fetch(url, {}).then((res) => {
+      res.json().then((data) => {
+         dispatch(updateUsers(data));
+      })
+   })
+}
 
 module.exports = {
    addPunch,
    initPunchedState,
    updateUser,
-   getPunches
+   getPunches,
+   getCompanyUsers
 }

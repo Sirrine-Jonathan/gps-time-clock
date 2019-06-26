@@ -18,6 +18,7 @@ class RegisterScreen extends React.Component {
         usernameErr: false,
         emailErr: false,
         passwordErr: false,
+        secretErr: false,
     }
     
     static navigationOptions = {
@@ -29,14 +30,15 @@ class RegisterScreen extends React.Component {
         if (this.state.emailErr || 
             this.state.passwordErr ||
             this.state.usernameErr ||
-            this.state.companyErr)
+            this.state.companyErr ||
+            this.state.secretErr)
         {
             return false;
         }
-        console.log('redux starting register');
-        let { username, company} = this.state;
+        let { username, company, secret} = this.state;
         let { email, password } = this.props;
-        this.props.register(username, email, company, password);
+        console.log('calling redux register');
+        this.props.register(username, email, company, password, secret);
     }
 
     _companyErr = (company) => {
@@ -68,7 +70,8 @@ class RegisterScreen extends React.Component {
 
     _secretErr = (secret) => {
       let secretErr = this._isEmptyStr(secret);
-      this.setState({ secretErr });
+      this.setState({ secretErr, secret });
+      console.log('secret: ' + this.state.secret)
       return secretErr;
     }
 
@@ -109,7 +112,7 @@ class RegisterScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    register: (username, email, company, password) => dispatch(register(username, email, company, password)),
+    register: (username, email, company, password, secret) => dispatch(register(username, email, company, password, secret)),
     stageEmail: (email) => dispatch(stageEmail(email)),
     stagePassword: (password) => dispatch(stagePassword(password))
   }

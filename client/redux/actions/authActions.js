@@ -79,7 +79,15 @@ const logout = () => async dispatch => {
    })
 }
 
-const register = (username, email, company, password) => async dispatch => {
+const register = (username, email, company, password, secret) => async dispatch => {
+   console.log('arrived in redux register');
+   console.log({
+          "email": email,
+          "company": company,
+          "username": username,
+          "password": password,
+          "secret": secret
+   })
    fetch("https://gps-time.herokuapp.com/api/addUser", {
       method: 'POST',
       headers: {
@@ -90,16 +98,14 @@ const register = (username, email, company, password) => async dispatch => {
           "company": company,
           "username": username,
           "password": password,
+          "secret": secret
       })
-   })
-   .then((response) => response.json())
-   .then((responseJson) => {
-      console.log('responseJson');
-      console.log(responseJson);
-      if (responseJson){
-         res = responseJson;
-         storeID(res);
-         dispatch(registerSuccess(res));
+   }).then((response) => {
+      console.log('response');
+      console.log(response);
+      if (response){
+         //storeID(res);
+         dispatch(registerSuccess(response));
       } else {
          dispatch(registerFail(true));
       }
