@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Input from '../../components/Input';
 import FormDiv from '../../components/FormDiv';
 import CButton from '../../components/CButton';
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Image, TextInput, Button, TouchableHighlight, Alert } from "react-native";
 
 import { login, stageEmail, stagePassword } from '../../redux/actions/authActions'
 // link for deciding on ui kits
@@ -73,15 +73,40 @@ class LoginScreen extends React.Component {
         const { emailErr, passwordErr } = this.state;
         const { loginError } = this.props;
         return (
-            <FormDiv>
-                <Input placeholder="Email/Username" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={this.props.email} />
-                <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password} />
+            <View style={styles.container}>
+                <View style={styles.inputContainer}>
+                    <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
+                    <TextInput style={styles.inputs}
+                               placeholder="Email / Username"
+                               keyboardType="email-address"
+                               underlineColorAndroid='transparent'
+                               onChangeText={(email) => this._passwordErr(email)} value={this.props.email}/>
+                </View>
+
+                <View style={styles.inputContainer}>
+                    <Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db'}}/>
+                    <TextInput style={styles.inputs}
+                               placeholder="Password"
+                               secureTextEntry={true}
+                               underlineColorAndroid='transparent'
+                               onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
+                </View>
+
+                <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} onPress={this._login}>
+                    <Text style={styles.loginText}>Login</Text>
+                </TouchableHighlight>
+
                 { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
-                <CButton title="Sign in" onPress={this._login} />
-                <CButton title="Register" onPress={this._navToRegister} />
-                <CButton title="Forgot Password" onPress={this._navToForgotPassword} />
-                <Text>v1.7.4</Text>
-            </FormDiv>
+
+
+                <TouchableHighlight style={styles.buttonContainer} onPress={this._navToRegister}>
+                    <Text>Forgot your password?</Text>
+                </TouchableHighlight>
+
+                <TouchableHighlight style={styles.buttonContainer}onPress={this._navToForgotPassword} >
+                    <Text>Register</Text>
+                </TouchableHighlight>
+            </View>
         );
     }
 }
@@ -105,8 +130,53 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#DCDCDC',
+    },
+    inputContainer: {
+        borderBottomColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
+        borderRadius:30,
+        borderBottomWidth: 1,
+        width:250,
+        height:45,
+        marginBottom:20,
+        flexDirection: 'row',
+        alignItems:'center'
+    },
+    inputs:{
+        height:45,
+        marginLeft:16,
+        borderBottomColor: '#FFFFFF',
+        flex:1,
+    },
+    inputIcon:{
+        width:30,
+        height:30,
+        marginLeft:15,
+        justifyContent: 'center'
+    },
+    buttonContainer: {
+        height:45,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom:20,
+        width:250,
+        borderRadius:30,
+    },
+    loginButton: {
+        backgroundColor: "#00b5ec",
+    },
+    loginText: {
+        color: 'white',
+    },
     error: {
         textAlign: 'center',
         color: '#8b0000',
+        marginBottom:20,
     }
 });
