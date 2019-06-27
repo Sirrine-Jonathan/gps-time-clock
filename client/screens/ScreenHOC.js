@@ -3,14 +3,14 @@ import { View } from 'react-native';
 import { Header } from "react-native-elements";
 
 
-const ScreenHOC = (Screen) => {
+const ScreenHOC = (Screen, title) => {
    return class extends React.Component {
       render(){
          return (
             <View>
                <Header
                  placement="left"
-                 centerComponent={{ text: 'GPS-Time-Clock', style: { color: '#fff' } }}
+                 centerComponent={{ text: title, style: { color: '#fff' } }}
                  rightComponent={{ icon: 'menu', color: '#fff', onPress:
                   () => {
                     this.props.navigation.toggleDrawer();

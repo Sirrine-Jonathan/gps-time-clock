@@ -9,10 +9,10 @@ import DrawerContents from "../components/DrawerContents";
 
 
 let AppStack = createDrawerNavigator({ 
-   Admin: ScreenHOC(AdminScreen),
-   Home: ScreenHOC(HomeScreen),
-   Reports: ScreenHOC(ReportsScreen),
-   Settings: ScreenHOC(SettingsScreen)
+   Admin: ScreenHOC(AdminScreen, "Admin"),
+   Home: ScreenHOC(HomeScreen, "GPS-Time-Clock"),
+   Reports: ScreenHOC(ReportsScreen, "Reports"),
+   Settings: ScreenHOC(SettingsScreen, "Settings")
 },
 {
    contentComponent: DrawerContents,

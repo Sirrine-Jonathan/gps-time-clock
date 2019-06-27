@@ -26,8 +26,6 @@ class HomeScreen extends React.Component {
 
    componentWillMount() {
     this._getLocationAsync();
-    console.log('HomeScreen mounted');
-    console.log('calling initPunchedState');
     this.props.initPunchedState();
    }
    componentDidMount() {
@@ -62,7 +60,6 @@ class HomeScreen extends React.Component {
 
    _togglePunch = async () => {
       let loc = await this._getLocationAsync();
-      console.log('calling togglePunch in component');
       this.props.addPunch(loc);
    };
 

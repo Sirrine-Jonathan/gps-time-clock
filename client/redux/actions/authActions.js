@@ -55,20 +55,15 @@ const login = (email, password) => async dispatch => {
       })
   })
    .then((response) => response.json())
-   .then((responseJson) => {
-      console.log('responseJson');
-      console.log(responseJson);
-      if (responseJson){
-         console.log('login successful');
-         let res = responseJson;
-         storeID(res);
-         dispatch(loginSuccess(res));
+   .then((res) => {
+      if (res.error){
+         dispatch(loginFail(res.error));
       } else {
-         dispatch(loginFail(true));
+         dispatch(loginSuccess(res));
       }
    })
    .catch((error) => {
-      dispatch(loginFail(true))
+      dispatch(loginFail(error))
    });
 }
 
@@ -100,19 +95,17 @@ const register = (username, email, company, password, secret) => async dispatch 
           "password": password,
           "secret": secret
       })
-   }).then((response) => {
-      console.log('response');
-      console.log(response);
-      if (response){
-         //storeID(res);
-         dispatch(registerSuccess(response));
+   })
+   .then((response) => response.json())
+   .then((res) => {
+      if (res.error){
+         dispatch(registerFail(res.error));
       } else {
-         dispatch(registerFail(true));
+         dispatch(registerSuccess(res));
       }
    })
    .catch((error) => {
-     console.error(error);
-     dispatch(registerFail(true));
+     dispatch(registerFail(error));
    });
 }
 

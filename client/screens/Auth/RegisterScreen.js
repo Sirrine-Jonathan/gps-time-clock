@@ -103,7 +103,7 @@ class RegisterScreen extends React.Component {
                 <Input placeholder="Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
                 <Input placeholder="Company" error={companyErr} onChangeText={(company) => this._companyErr(company)} />
                 <Input placeholder="Secret" error={secretErr} onChangeText={(secret) => this._secretErr(secret)} />
-                { (registerError) ? <Text style={styles.error}>Register Failed</Text>:null }
+                <Text style={styles.error}>{ registerError }</Text>
                 <CButton title="Register" onPress={this._register} />
             </FormDiv>
         );

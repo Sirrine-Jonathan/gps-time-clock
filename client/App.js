@@ -14,7 +14,6 @@ export default class App extends React.Component {
    render(){
       // remove true and uncomment line after to restore production state
       let isAuthenticated = store.getState().user;
-      console.log(isAuthenticated);
       return (
          <Provider store={store}>
             <AppSwitch />

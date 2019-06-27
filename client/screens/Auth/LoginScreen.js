@@ -72,6 +72,7 @@ class LoginScreen extends React.Component {
     render() {
         const { emailErr, passwordErr } = this.state;
         const { loginError } = this.props;
+        console.log(loginError);
         return (
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
@@ -96,14 +97,14 @@ class LoginScreen extends React.Component {
                     <Text style={styles.loginText}>Login</Text>
                 </TouchableHighlight>
 
-                { (loginError) ? <Text style={styles.error}>Login Failed</Text>:null }
+                <Text style={styles.error}>{ loginError }</Text>
 
 
-                <TouchableHighlight style={styles.buttonContainer} onPress={this._navToRegister}>
+                <TouchableHighlight style={styles.buttonContainer} onPress={this._navToForgotPassword}>
                     <Text>Forgot your password?</Text>
                 </TouchableHighlight>
 
-                <TouchableHighlight style={styles.buttonContainer}onPress={this._navToForgotPassword} >
+                <TouchableHighlight style={styles.buttonContainer}onPress={this._navToRegister} >
                     <Text>Register</Text>
                 </TouchableHighlight>
             </View>
