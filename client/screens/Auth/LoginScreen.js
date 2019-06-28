@@ -72,7 +72,6 @@ class LoginScreen extends React.Component {
     render() {
         const { emailErr, passwordErr } = this.state;
         const { loginError } = this.props;
-        console.log(loginError);
         return (
             <View style={styles.container}>
                 <View style={styles.inputContainer}>
@@ -81,7 +80,7 @@ class LoginScreen extends React.Component {
                                placeholder="Email / Username"
                                keyboardType="email-address"
                                underlineColorAndroid='transparent'
-                               onChangeText={(email) => this._passwordErr(email)} value={this.props.email}/>
+                               onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
                 </View>
 
                 <View style={styles.inputContainer}>
