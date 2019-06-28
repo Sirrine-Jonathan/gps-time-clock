@@ -85,8 +85,8 @@ class HomeScreen extends React.Component {
               containerStyle={styles.puncher}
               btnStyle={styles.btnStyle}
               timerStyle={styles.timerStyle}
-              counterStyle={this.props.counterStyle}
-              lastPunchStyle={this.props.lastPunchStyle}
+              counterStyle={styles.counterStyle}
+              lastPunchStyle={styles.lastPunchStyle}
             />
         </View>
       );
@@ -116,7 +116,8 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   puncher: {
-    backgroundColor: '#bbb',
+    backgroundColor: '#DCDCDC',
+      alignSelf: 'stretch',
     padding: 5
   },
   btnStyle: {
@@ -125,13 +126,16 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   timerStyle: {
-
+    alignSelf: 'stretch'
   },
   counterStyle: {
     textAlign: 'center',
-    fontSize: 15
+    fontSize: 50,
+      paddingBottom: 30,
   },
   lastPunchStyle: {
-
+    textAlign: 'center',
+      fontSize: 30,
+      paddingBottom: 15,
   }
 });

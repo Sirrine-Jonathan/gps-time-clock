@@ -81,7 +81,7 @@ class LoginScreen extends React.Component {
                                placeholder="Email / Username"
                                keyboardType="email-address"
                                underlineColorAndroid='transparent'
-                               onChangeText={(email) => this._passwordErr(email)} value={this.props.email}/>
+                               onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
                 </View>
 
                 <View style={styles.inputContainer}>
@@ -107,6 +107,7 @@ class LoginScreen extends React.Component {
                 <TouchableHighlight style={styles.buttonContainer}onPress={this._navToRegister} >
                     <Text>Register</Text>
                 </TouchableHighlight>
+                <Text>v1.8.3</Text>
             </View>
         );
     }
