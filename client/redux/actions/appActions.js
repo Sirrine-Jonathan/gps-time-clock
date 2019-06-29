@@ -96,6 +96,7 @@ const getPunches = (email) => async (dispatch, getState) => {
    let punches = [];
    await fetch (url, {}).then((res) => {
       res.json().then((data) => {
+         console.log("DATA: " + data);
          punches = data.punches;
       })
    }).catch((error) => {

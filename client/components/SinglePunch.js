@@ -1,22 +1,45 @@
 import React from "react";
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 import TimerStamp from '../util/TimerStamp';
+import Map from './Map';
 
 
 export default class SinglePunch extends React.Component {
 
    state = {
-      showMap: false
-   }
+      showMapIn: false,
+      showMapOut: false,
+   };
+
+   _toggleMapIn = () => {
+         this.setState({showMapIn: !this.state.showMapIn});
+   };
+
+   _toggleMapOut = () => {
+         // only show one map if the user is currently clocked in
+         let { punch } = this.props;
+         if (TimerStamp.getPrettyTime(punch.timestampOut) != 'Invalid Date'){
+            this.setState({showMapOut: !this.state.showMapOut})
+         }
+   };
 
    _toggleMap = () => {
-      this.setState({ showMap: !this.state.showMap });
-   }
+      this._toggleMapIn();
+      this._toggleMapOut();
+   };
 
    render() {
       let { punch } = this.props;
+      let timeOut = TimerStamp.getPrettyTime(punch.timestampOut);
+
+      if (timeOut == 'Invalid Date') {
+         timeOut =  '';
+      }
+
       return (
          <TouchableOpacity style={this.props.style} onPress={this._toggleMap}>
+            {(this.state.showMapIn) ? <Map coords={punch.locationIn}/> :null}
+            {(this.state.showMapOut) ? <Map coords={punch.locationOut}/> :null}
             <View style={styles.punchInfoBox}>
                <View style={styles.textRow}>
                   <Text>In:</Text>
@@ -24,11 +47,8 @@ export default class SinglePunch extends React.Component {
                </View>
                <View style={styles.textRow}>
                   <Text>Out:</Text>
-                  <Text>{ TimerStamp.getPrettyTime(punch.timestampOut) }</Text>
+                  <Text>{ timeOut }</Text>
                </View>
-            </View>
-            <View style={styles.mapContainer}>
-             {(this.state.showMap) ? <Text>-Map Component Here-</Text>:null}
             </View>
          </TouchableOpacity>
       );
