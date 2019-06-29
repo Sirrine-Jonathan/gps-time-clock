@@ -106,6 +106,7 @@ class LoginScreen extends React.Component {
                 <TouchableHighlight style={styles.buttonContainer}onPress={this._navToRegister} >
                     <Text>Register</Text>
                 </TouchableHighlight>
+                <Text>v1.8.3</Text>
             </View>
         );
     }
