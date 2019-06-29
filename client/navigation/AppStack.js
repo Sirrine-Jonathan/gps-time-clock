@@ -5,13 +5,15 @@ import SettingsScreen from '../screens/App/SettingsScreen';
 import ScreenHOC from '../screens/ScreenHOC';
 import ReportsScreen from "../screens/App/ReportsScreen";
 import AdminScreen from "../screens/App/AdminScreen";
+import EmployeeReportScreen from '../screens/App/EmployeeReportScreen';
 import DrawerContents from "../components/DrawerContents";
 
 
 let AppStack = createDrawerNavigator({ 
-   Admin: ScreenHOC(AdminScreen, "Admin"),
    Home: ScreenHOC(HomeScreen, "GPS-Time-Clock"),
-   Reports: ScreenHOC(ReportsScreen, "Reports"),
+   History: ScreenHOC(ReportsScreen, "History"),
+   Employees: ScreenHOC(AdminScreen, "Employees"),
+   EmployeeHistory: ScreenHOC(EmployeeReportScreen, "Employee History"),
    Settings: ScreenHOC(SettingsScreen, "Settings")
 },
 {

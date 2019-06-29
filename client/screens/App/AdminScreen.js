@@ -12,7 +12,7 @@ class AdminScreen extends React.Component {
    };
 
    componentWillMount(){
-      //this.props.getCompanyUsers();
+      this.props.getCompanyUsers();
    }
 
    render() {

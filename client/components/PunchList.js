@@ -25,6 +25,7 @@ class PunchList extends React.Component {
       let { punches } = this.state;
       if (!punches || !punches.length)
          punches = [];
+      punches.reverse();
       const listItems = punches.map((punch) => 
          (
             <View style={styles.punchRow}>
@@ -58,7 +59,8 @@ export default connect(mapStateToProps, mapDispatchToProps)(PunchList);
 
 const styles = StyleSheet.create({
     punchList: {
-
+      marginTop: 40,
+      marginBottom: 60
     },
     punchRow: {
       display: 'flex',

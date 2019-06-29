@@ -15,6 +15,12 @@ export const STAGE_PASSWORD = 'STAGE_PASSWORD';
 export const PUNCH = 'PUNCH';
 export const INIT = 'INIT';
 
-export const UPDATE_ERROR = 'UPDATE_ERROR';
+// updates in settings
+export const UPDATE_USER = "UPDATE_USER";
+export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
+export const UPDATE_COMPANY = "UPDATE_COMPANY";
+export const UPDATE_COMPANY_ERROR = "UPDATE_COMPANY_ERROR";
 
+// update users from get company employees call
+export const UPDATE_ERROR = 'UPDATE_ERROR';
 export const UPDATE_USERS = 'UPDATE_USERS';

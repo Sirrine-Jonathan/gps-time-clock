@@ -16,7 +16,9 @@ class DrawerContents extends React.Component {
       const clonedProps = {
         ...this.props,
         items: this.props.items.filter((item) => {
-          if (this.props.user.isAdmin){
+          if (item.key == "EmployeeHistory"){
+            return false;
+          } else if (this.props.user.isAdmin){
             return true;
           } else {
             if (item.key == "Admin")

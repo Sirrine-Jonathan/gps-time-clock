@@ -2,12 +2,12 @@ import React from "react";
 import { connect } from 'react-redux';
 import {Text, View, StyleSheet} from "react-native";
 import PunchList from '../../components/PunchList';
+import ScreenHOC from '../ScreenHOC'
 
-class ReportsScreen extends React.Component {
+class EmployeeReportScreen extends React.Component {
    
    static navigationOptions = {
-      drawerLabel: 'Reports',
-      title: 'Reports'
+      drawerLabel: 'Employee Reports'
    };
 
    render() {
@@ -30,11 +30,11 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
    return {
-      user: state.user,
+      
    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(EmployeeReportScreen);
 
 const styles = StyleSheet.create({
    content: {

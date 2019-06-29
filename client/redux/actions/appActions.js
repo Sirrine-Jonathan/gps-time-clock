@@ -2,7 +2,11 @@ import {
    PUNCH,
    INIT,
    UPDATE_ERROR,
-   UPDATE_USERS
+   UPDATE_USERS,
+   UPDATE_USER,
+   UPDATE_USER_ERROR,
+   UPDATE_COMPANY,
+   UPDATE_COMPANY_ERROR
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -16,7 +20,7 @@ const init = (payload) => ({
    payload: payload,
 })
 
-const updateFail = (payload) => ({
+const updateUsersFail = (payload) => ({
    type: UPDATE_ERROR,
    payload: payload
 })
@@ -25,6 +29,28 @@ const updateUsers = (payload) => ({
    type: UPDATE_USERS,
    payload: payload
 })
+
+const updateUser = (payload) => ({
+   type: UPDATE_USER,
+   payload: payload
+})
+
+const updateUserFail = (payload) => ({
+   type: UPDATE_USER_ERROR,
+   payload: payload
+})
+
+const updateCompany = (payload) => ({
+   type: UPDATE_COMPANY,
+   payload: payload
+})
+
+const updateCompanyFail = (payload) => ({
+   type: UPDATE_COMPANY_ERROR,
+   payload: payload
+})
+
+
 
 const addPunch = (loc) => async (dispatch, getState) => {
    const user = getState().user;
@@ -95,7 +121,7 @@ const initPunchedState = () => async (dispatch, getState) => {
    })
 }
 
-const updateUser = (email, username, password) => async (dispatch, getState) => {
+const updateUserInfo = (email, username, password) => async (dispatch, getState) => {
    const user = getState().user;
    fetch('https://gps-time.herokuapp.com/api/updateUser', {
       method: 'POST',
@@ -103,35 +129,61 @@ const updateUser = (email, username, password) => async (dispatch, getState) => 
          'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-         newEmail: email,
-         newUsername: username,
-         newPassword: password,
-         email: user.email,
+         oldEmail: user.email,
          company: user.company,
-         isAdmin: user.isAdmin
+         isAdmin: user.isAdmin,
+         email: email,
+         username: username,
+         password: password,
       })
    }).then((res) => {
       console.log(res);
    }).catch((error) => {
      console.error(error);
-     dispatch(updateFail(true));
+     dispatch(updateUserFail(true));
    });
+}
+
+const updateCompanyInfo = (company, secret) => async (dispatch, getState) => {
+   const user = getState().user;
+   fetch('https://gps-time.herokuapp.com/api/updateCompany', {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         oldCompany: user.company,
+         company: company,
+         secret: secret,
+      })
+   }).then((res) => {
+      console.log(res);
+      dispatch(updateCompany(res));
+   }).catch((error) => {
+      console.log(error);
+      dispatch(updateCompanyFail(error));
+   })
 }
 
 const getCompanyUsers = (company) => async (dispatch, getState) => {
    const company = company || getState().user.company;
+   const current_user = getState().user;
    const url = 'https://gps-time.herokuapp.com/api/getCompanyUsers?company=' + company;
    fetch(url, {}).then((res) => {
       res.json().then((data) => {
-         dispatch(updateUsers(data));
+         let employees = data.filter((user) => user.email != current_user.email);
+         dispatch(updateUsers(employees));
       })
+   }).catch((error) => {
+      console.log(error);
    })
 }
 
 module.exports = {
    addPunch,
    initPunchedState,
-   updateUser,
+   updateUserInfo,
+   updateCompanyInfo,
    getPunches,
    getCompanyUsers
 }
