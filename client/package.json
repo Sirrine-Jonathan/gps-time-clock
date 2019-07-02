@@ -16,6 +16,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-elements": "1.1.0",
     "react-native-maps": "^0.24.2",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal-datetime-picker": "^7.5.0",
     "react-native-really-awesome-button": "^1.4.2",
     "react-navigation": "latest",
     "react-navigation-stack": "1.4.0",

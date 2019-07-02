@@ -16,13 +16,17 @@ export default class CButton extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#DDDDDD',
-    padding: 15,
-    margin: 5,
-    marginTop: 10,
+      backgroundColor: "#00b5ec",
+      height:45,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom:20,
+      width:250,
+      borderRadius:30,
   },
   text: {
-    fontSize: 24,
-    textAlign: 'center',
+      fontSize: 24,
+      color: 'white',
   }
 });
