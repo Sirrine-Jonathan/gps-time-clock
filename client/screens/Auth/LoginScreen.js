@@ -106,26 +106,26 @@ class LoginScreen extends React.Component {
                 <TouchableHighlight style={styles.buttonContainer}onPress={this._navToRegister} >
                     <Text>Register</Text>
                 </TouchableHighlight>
-                <Text>v1.2.8</Text>
+                <Text>v1.3.1</Text>
             </View>
         );
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (email, password) => dispatch(login(email, password)),
-    stageEmail: (email) => dispatch(stageEmail(email)),
-    stagePassword: (password) => dispatch(stagePassword(password))
-  }
+   return {
+      login: (email, password) => dispatch(login(email, password)),
+      stageEmail: (email) => dispatch(stageEmail(email)),
+      stagePassword: (password) => dispatch(stagePassword(password))
+   }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    loginError: state.loginError,
-    email: state.email,
-    password: state.password
-  }
+   return {
+      loginError: state.loginError,
+      email: state.email,
+      password: state.password
+   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);

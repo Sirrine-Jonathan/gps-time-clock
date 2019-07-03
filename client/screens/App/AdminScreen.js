@@ -23,7 +23,7 @@ class AdminScreen extends React.Component {
       const employees = users.map((user) => 
          (
             <View style={styles.punchRow}>
-               <SingleUser user={user} style={styles.user}/>
+               <SingleUser user={user} style={styles.user} navigation={this.props.navigation}/>
             </View>
          )
       );

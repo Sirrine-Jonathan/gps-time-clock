@@ -1,16 +1,20 @@
 import React from "react";
+import { connect } from 'react-redux';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 import TimerStamp from '../util/TimerStamp';
+import { getLastPunch } from '../redux/actions/appActions';
 
-
-export default class SingleUser extends React.Component {
+class SingleUser extends React.Component {
 
    _viewUser = () => {
-      console.log(this.props.user);
+      let { user } = this.props;
+      this.props.navigation.navigate('EmployeeHistory', { user: user })
    }
 
    render() {
       let { user } = this.props;
+      let { lastPunch, punchedIn } = this.props.getLastPunch(user.email);
+      
       return (
          <TouchableOpacity style={this.props.style} onPress={this._viewUser}>
             <View style={styles.userInfoBox}>
@@ -22,12 +26,33 @@ export default class SingleUser extends React.Component {
                   <Text>email:</Text>
                   <Text>{ user.email }</Text>
                </View>
+               {
+                  (lastPunch) ? (
+                     <View>
+                        <Text>Last Punch</Text>
+                        <Text>{ lastPunch }</Text>
+                     </View>
+                  ):null
+               }
             </View>
          </TouchableOpacity>
       );
    }
-
 }
+
+const mapDispatchToProps = (dispatch) => {
+   return {
+      getLastPunch: (email) => dispatch(getLastPunch(email))
+   }
+}
+
+const mapStateToProps = (state) => {
+   return {
+
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SingleUser);
 
 const styles = StyleSheet.create({
    userInfoBox: {

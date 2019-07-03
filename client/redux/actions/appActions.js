@@ -111,15 +111,31 @@ const initPunchedState = () => async (dispatch, getState) => {
    let url = "https://gps-time.herokuapp.com/time/getLastPunch?email=" + user.email;
    fetch (url, {}).then((res) => {
       res.json().then((data) => {
-         console.log(data);
-         console.log(data.punchedIn);
-         console.log(data.lastPunch);
          dispatch(init({
             'punchedIn': data.punchedIn, 
             'lastPunch': data.lastPunch
          }));
       })
+   }).catch((err) => {
+      console.log(err);
    })
+}
+
+const getLastPunch = (email) => async (dispatch, getState) => {
+   console.log("getLastPunch");
+   console.log(email);
+   let punchInfo = null;
+   let url = "https://gps-time.herokuapp.com/time/getLastPunch?email=" + email;
+   fetch (url, {}).then((res) => {
+      res.json().then((data) => {
+         if (!data.error)
+            punchInfo = data;
+      })
+   }).catch((err) => {
+      console.log('error');
+      console.log(err);
+   })
+   return punchInfo;
 }
 
 const updateUserInfo = (email, username, password) => async (dispatch, getState) => {
@@ -186,5 +202,6 @@ module.exports = {
    updateUserInfo,
    updateCompanyInfo,
    getPunches,
-   getCompanyUsers
+   getCompanyUsers,
+   getLastPunch
 }

@@ -11,11 +11,12 @@ class EmployeeReportScreen extends React.Component {
    };
 
    render() {
-
+      console.log('EmployeeReportsScreen render');
+      const user = this.props.navigation.getParam("user");
       return (
          <View style={styles.content}>
-            <Text style={styles.title}>{ this.props.user.username }</Text>
-            <PunchList email={this.props.user.email} />
+            <Text style={styles.title}>{ user.username }</Text>
+            <PunchList email={user.email} />
          </View>
       );
    }
