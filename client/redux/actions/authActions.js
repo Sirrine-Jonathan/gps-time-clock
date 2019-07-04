@@ -11,34 +11,34 @@ import {
 import { AsyncStorage } from 'react-native';
 
 const loginFail = (payload) => ({
-   type: LOGIN_ERROR,
-   payload: payload,
+  type: LOGIN_ERROR,
+  payload: payload,
 })
 
 const loginSuccess = (payload) => ({
-   type: LOGIN,
-   payload: payload
+  type: LOGIN,
+  payload: payload
 })
 
 const registerFail = (payload) => ({
-   type: REGISTER_ERROR,
-   payload: payload
+  type: REGISTER_ERROR,
+  payload: payload
 })
 
 const registerSuccess = (payload) => ({
-   type: REGISTER,
-   payload: payload
+  type: REGISTER,
+  payload: payload
 })
 
 
 const stageEmail = (payload) => ({
-   type: STAGE_EMAIL,
-   payload: payload
+  type: STAGE_EMAIL,
+  payload: payload
 })
 
 const stagePassword = (payload) => ({
-   type: STAGE_PASSWORD,
-   payload: payload
+  type: STAGE_PASSWORD,
+  payload: payload
 })
 
 const login = (email, password) => async dispatch => { 
