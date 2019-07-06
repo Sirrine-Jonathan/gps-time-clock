@@ -196,6 +196,27 @@ const getCompanyUsers = (company) => async (dispatch, getState) => {
    })
 }
 
+const toggleAdmin = (user) => async (dispatch, getState) => {
+   const url = 'https://gps-time.herokuapp.com/api/toggleAdmin';
+   let returnObj = null;
+   await fetch(url, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         user: user
+      })
+   }).then((res) => { 
+      res.json().then((data) => {
+         returnObj = data;
+      })
+   }).catch((error) => {
+      returnObj = error;
+   })
+   return returnObj;
+}
+
 module.exports = {
    addPunch,
    initPunchedState,
@@ -203,5 +224,6 @@ module.exports = {
    updateCompanyInfo,
    getPunches,
    getCompanyUsers,
-   getLastPunch
+   getLastPunch,
+   toggleAdmin
 }

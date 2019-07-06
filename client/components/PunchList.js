@@ -21,14 +21,13 @@ class PunchList extends React.Component {
    }
 
    render() {
-
       let { punches } = this.state;
       if (!punches || !punches.length)
          punches = [];
       punches.reverse();
       const listItems = punches.map((punch) => 
          (
-            <View style={styles.punchRow}>
+            <View style={styles.row}>
                <SinglePunch punch={punch} style={styles.punch}/>
             </View>
          )
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
       marginTop: 40,
       marginBottom: 60
     },
-    punchRow: {
+    row: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'center', 

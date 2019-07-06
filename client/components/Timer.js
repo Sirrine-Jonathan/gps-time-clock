@@ -19,16 +19,19 @@ export default class Timer extends React.Component {
    render(){
       let { now } = this.state;
       let { lastPunch, punchedIn } = this.props;
-      let lastPunchTime = "Current Time: " + new Date().toLocaleTimeString('en-US') ;
-      let counter = "00:00";
+      let counter;
+      let timeDisplay;
       if (lastPunch && punchedIn){
          counter = TimerStamp.getCounter(now, lastPunch);
-         lastPunchTime = "Time In: " + new Date(lastPunch).toLocaleTimeString('en-US');
+         timeDisplay = TimerStamp.getPrettyTimeTimmed(lastPunch) + " - " + TimerStamp.getPrettyTimeTrimmed(now);
+      } else {
+         counter = "00:00";
+         timeDisplay = TimerStamp.getPrettyTimeTrimmed(now);
       }
       return (
          <View style={this.props.timerStyle}>
             <Text style={this.props.counterStyle}>{ counter }</Text>
-            <Text style={this.props.lastPunchStyle}>{ lastPunchTime }</Text>
+            <Text style={this.props.lastPunchStyle}>{ timeDisplay }</Text>
          </View>
       )
    }

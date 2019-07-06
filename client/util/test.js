@@ -1,10 +1,4 @@
-const moment = require('moment');
-
 const TimerStamp = {
-
-   now: () => {
-      return moment();
-   },
    getHours: () => {
       return 'test';
    },
@@ -72,4 +66,9 @@ const twoDigits = (num) => {
    return num;
 }
 
-export default TimerStamp;
+let date = Date.now();
+console.log(TimerStamp.getPrettyTime(date));
+console.log(TimerStamp.getPrettyDate(date));
+console.log(TimerStamp.getPrettyTimeTrimmed(date));
+console.log(TimerStamp.getPrettyDateTime(date));
+console.log(TimerStamp.getPrettyDateTimeTrimmed(date));

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "react-native";
-import { Constants, Location, Permissions, MapView } from 'expo';
+import { Constants, Location, Permissions, MapView, Marker } from 'expo';
 import Loading from '../../components/Loading';
 import Puncher from '../../components/Puncher';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
@@ -27,9 +27,6 @@ class HomeScreen extends React.Component {
    componentWillMount() {
     this._getLocationAsync();
     this.props.initPunchedState();
-   }
-   componentDidMount() {
-
    }
 
    _getLocationAsync = async() => {
@@ -69,14 +66,22 @@ class HomeScreen extends React.Component {
 
       return (
         <View style={styles.content}>
-            <MapView style={
-                { alignSelf: 'stretch', height: 200 }}
-                     region={{
-                         latitude: this.state.lat,
-                         longitude: this.state.long,
-                         latitudeDelta: 0.0003,
-                         longitudeDelta: 0.00015, }}
+            <Text></Text>
+            <MapView 
+              style={{ 
+                alignSelf: 'stretch', 
+                height: 200 
+              }}
+              region={{
+                latitude: this.state.lat,
+                longitude: this.state.long,
+                latitudeDelta: 0.0003,
+                longitudeDelta: 0.00015, 
+              }}
             >
+              <Marker 
+
+              />
             </MapView>
             <Puncher
               togglePunch={this._togglePunch}
@@ -112,9 +117,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
-  content: {
-    marginTop: 25,
-  },
   puncher: {
     backgroundColor: '#DCDCDC',
       alignSelf: 'stretch',

@@ -25,7 +25,7 @@ class EmployeeReportScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {  
-
+      toggleAdmin: () => {dispatch()}
   }
 }
 
