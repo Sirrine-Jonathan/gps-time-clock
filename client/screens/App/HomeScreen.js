@@ -10,134 +10,103 @@ import { addPunch, initPunchedState } from '../../redux/actions/appActions';
 
 class HomeScreen extends React.Component {
 
-   static navigationOptions = {
-      drawerLabel: 'Home',
-      title: 'GPS-Time-Clock'
-   };
+	state = {
+		hasLocationPermissions: false,
+		locationResult: null,
+		lat: null,
+		long: null,
+		date: null,
+		time: null,
+	};
 
-   state = {
-       hasLocationPermissions: false,
-       locationResult: null,
-       lat: null,
-       long: null,
-       date: null,
-       time: null,
-   };
+	componentWillMount() {
+		this._getLocationAsync();
+		this.props.initPunchedState();
+	}
 
-   componentWillMount() {
-    this._getLocationAsync();
-    this.props.initPunchedState();
-   }
+	_getLocationAsync = async() => {
+		let { status } = await Permissions.askAsync(Permissions.LOCATION);
+		if (status !== 'granted') {
+			this.setState({
+				locationResult: 'Permission to access location was denied',
+			});
+		} else {
+			this.setState({
+				locationResult: JSON.stringify(location)
+			});
+		}
 
-   _getLocationAsync = async() => {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status !== 'granted') {
-         this.setState({
-            locationResult: 'Permission to access location was denied',
-         });
-      } else {
-         this.setState( {locationResult: JSON.stringify(location)});
-      }
+		let location = await Location.getCurrentPositionAsync({});
+		this.setState({ locationResult: JSON.stringify(location) });
 
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ locationResult: JSON.stringify(location) });
+		this.setState({lat: parseFloat(JSON.stringify(location.coords.latitude))});
+		this.setState({long: parseFloat(JSON.stringify(location.coords.longitude))});
 
-      this.setState({lat: parseFloat(JSON.stringify(location.coords.latitude))});
-      this.setState({long: parseFloat(JSON.stringify(location.coords.longitude))});
+		// center the map
+		this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
+		location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
 
-      // center the map
-      this.setState({mapRegion: { latitude: location.coords.latitude , longitude:
-      location.coords.longitude, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }});
+		return {
+			lat: JSON.stringify(location.coords.latitude),
+			long: JSON.stringify(location.coords.longitude)
+		}
+	};
 
-      return {
-         lat: JSON.stringify(location.coords.latitude),
-         long: JSON.stringify(location.coords.longitude)
-      }
-   };
+	_togglePunch = async () => {
+		let loc = await this._getLocationAsync();
+		this.props.addPunch(loc);
+	};
 
-   _togglePunch = async () => {
-      let loc = await this._getLocationAsync();
-      this.props.addPunch(loc);
-   };
+	render() {
+		const user = this.props.user;
+		let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";
 
-    render() {
-      const user = this.props.user;
-      let buttonText = (this.props.punchedIn) ? "Punch Out":"Punch In";
-
-      return (
-        <View style={styles.content}>
-            <Text></Text>
-            <MapView 
-              style={{ 
-                alignSelf: 'stretch', 
-                height: 200 
-              }}
-              region={{
-                latitude: this.state.lat,
-                longitude: this.state.long,
-                latitudeDelta: 0.0003,
-                longitudeDelta: 0.00015, 
-              }}
-            >
-              <Marker 
-
-              />
-            </MapView>
-            <Puncher
-              togglePunch={this._togglePunch}
-              lastPunch={this.props.lastPunch}
-              punchedIn={this.props.punchedIn}
-              containerStyle={styles.puncher}
-              btnStyle={styles.btnStyle}
-              timerStyle={styles.timerStyle}
-              counterStyle={styles.counterStyle}
-              lastPunchStyle={styles.lastPunchStyle}
-            />
-        </View>
-      );
-    }
+		return (
+			<View style={{flex: 1}}>
+				<MapView 
+					style={{ 
+						alignSelf: 'stretch', 
+						height: 200 
+					}}
+					region={{
+						latitude: this.state.lat,
+						longitude: this.state.long,
+						latitudeDelta: 0.0003,
+						longitudeDelta: 0.00015, 
+					}}
+				>
+				</MapView>
+				<Puncher
+					togglePunch={this._togglePunch}
+					lastPunch={this.props.lastPunch}
+					punchedIn={this.props.punchedIn}
+					style={styles.puncherStyle}
+				/>
+			</View>
+		);
+	}
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {  
-      addPunch: (punchedIn) => dispatch(addPunch(punchedIn)), 
-      initPunchedState: () => dispatch(initPunchedState())
-  }
+	return {  
+		addPunch: (punchedIn) => dispatch(addPunch(punchedIn)), 
+		initPunchedState: () => dispatch(initPunchedState())
+	}
 }
 
 const mapStateToProps = (state) => {
-  return {
-      logoutError: state.logoutError,
-      user: state.user,
-      punchedIn: state.punchedIn,
-      lastPunch: state.lastPunch
-  }
+	return {
+		logoutError: state.logoutError,
+		user: state.user,
+		punchedIn: state.punchedIn,
+		lastPunch: state.lastPunch
+	}
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
-  puncher: {
-    backgroundColor: '#DCDCDC',
-      alignSelf: 'stretch',
-    padding: 5
-  },
-  btnStyle: {
-    backgroundColor: '#ffffff',
-    padding: 10,
-    textAlign: 'center'
-  },
-  timerStyle: {
-    alignSelf: 'stretch'
-  },
-  counterStyle: {
-    textAlign: 'center',
-    fontSize: 50,
-      paddingBottom: 30,
-  },
-  lastPunchStyle: {
-    textAlign: 'center',
-      fontSize: 30,
-      paddingBottom: 15,
-  }
+	puncherStyle: {
+
+	}
 });

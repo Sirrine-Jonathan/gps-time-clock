@@ -7,17 +7,15 @@ const initialState = {};
 
 export default class App extends React.Component {
 
-   constructor(props){
-      super(props);
-   }
+	constructor(props){
+		super(props);
+	}
 
-   render(){
-      // remove true and uncomment line after to restore production state
-      let isAuthenticated = store.getState().user;
-      return (
-         <Provider store={store}>
-            <AppSwitch />
-         </Provider>
-      )
-   }
+	render(){
+		return (
+			<Provider store={store}>
+				<AppSwitch />
+			</Provider>
+		)
+	}
 }

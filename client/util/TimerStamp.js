@@ -1,10 +1,9 @@
-const moment = require('moment');
-
 const TimerStamp = {
 
    now: () => {
-      return moment();
+      return Date.now()
    },
+
    getHours: () => {
       return 'test';
    },

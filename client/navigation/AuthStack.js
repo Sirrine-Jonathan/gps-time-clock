@@ -5,9 +5,9 @@ import RegisterScreen from '../screens/Auth/RegisterScreen';
 import ForgotPasswordScreen from '../screens/Auth/ForgotPasswordScreen';
 
 const AuthStack = createStackNavigator({ 
-   Login: LoginScreen, 
-   Register: RegisterScreen, 
-   ForgotPassword: ForgotPasswordScreen 
+	Login: LoginScreen,
+	Register: RegisterScreen,
+	ForgotPassword: ForgotPasswordScreen 
 });
 
 const AuthNavigator = createAppContainer(AuthStack);
