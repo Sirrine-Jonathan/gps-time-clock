@@ -42,8 +42,6 @@ const stagePassword = (payload) => ({
 })
 
 const login = (email, password) => async dispatch => { 
-  console.log('email', email);
-  console.log('password', password);
   fetch("https://gps-time.herokuapp.com/api/authenticate", {
       method: 'POST',
       headers: {
@@ -75,14 +73,6 @@ const logout = () => async dispatch => {
 }
 
 const register = (username, email, company, password, secret) => async dispatch => {
-   console.log('arrived in redux register');
-   console.log({
-          "email": email,
-          "company": company,
-          "username": username,
-          "password": password,
-          "secret": secret
-   })
    fetch("https://gps-time.herokuapp.com/api/addUser", {
       method: 'POST',
       headers: {

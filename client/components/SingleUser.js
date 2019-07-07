@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import TimerStamp from '../util/TimerStamp';
 import { getLastPunch } from '../redux/actions/appActions';
 
 class SingleUser extends React.Component {

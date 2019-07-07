@@ -1,6 +1,6 @@
 import React from "react";
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import TimerStamp from '../util/TimerStamp';
+import FormatStamp from '../util/FormatStamp';
 import Map from './Map';
 
 
@@ -18,7 +18,7 @@ export default class SinglePunch extends React.Component {
    _toggleMapOut = () => {
          // only show one map if the user is currently clocked in
          let { punch } = this.props;
-         if (TimerStamp.getPrettyTime(punch.timestampOut) != 'Invalid Date'){
+         if (FormatStamp.getTime(punch.timestampOut) != 'Invalid Date'){
             this.setState({showMapOut: !this.state.showMapOut})
          }
    };
@@ -30,7 +30,7 @@ export default class SinglePunch extends React.Component {
 
    render() {
       let { punch } = this.props;
-      let timeOut = TimerStamp.getPrettyTime(punch.timestampOut);
+      let timeOut = FormatStamp.getTime(punch.timestampOut);
 
       if (timeOut == 'Invalid Date') {
          timeOut =  '';
@@ -43,7 +43,7 @@ export default class SinglePunch extends React.Component {
             <View style={styles.punchInfoBox}>
                <View style={styles.textRow}>
                   <Text>In:</Text>
-                  <Text>{ TimerStamp.getPrettyTime(punch.timestampIn) }</Text>
+                  <Text>{ FormatStamp.getTime(punch.timestampIn) }</Text>
                </View>
                <View style={styles.textRow}>
                   <Text>Out:</Text>

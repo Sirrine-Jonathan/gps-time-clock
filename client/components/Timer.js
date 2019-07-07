@@ -1,35 +1,54 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import TimerStamp from '../util/TimerStamp';
+import FormatStamp from '../util/FormatStamp';
 
 export default class Timer extends React.Component {
 
-   state = {
-      now: Date.now()
-   }
+	state = {
+		now: Date.now()
+	}
 
-   componentDidMount(){
-      this.interval = setInterval(() => this.setState({ now: Date.now() }), 1000);
-   }
+	componentDidMount(){
+		this.interval = setInterval(() => this.setState({ now: Date.now() }), 1000);
+	}
 
-   componentWillUnmount(){
-      clearInterval(this.interval);
-   }
+	componentWillUnmount(){
+		clearInterval(this.interval);
+	}
 
-   render(){
-      let { now } = this.state;
-      let { lastPunch, punchedIn } = this.props;
-      let lastPunchTime = "Current Time: " + new Date().toLocaleTimeString('en-US') ;
-      let counter = "00:00";
-      if (lastPunch && punchedIn){
-         counter = TimerStamp.getCounter(now, lastPunch);
-         lastPunchTime = "Time In: " + new Date(lastPunch).toLocaleTimeString('en-US');
-      }
-      return (
-         <View style={this.props.timerStyle}>
-            <Text style={this.props.counterStyle}>{ counter }</Text>
-            <Text style={this.props.lastPunchStyle}>{ lastPunchTime }</Text>
-         </View>
-      )
-   }
+	render(){
+		let { now } = this.state;
+		let { lastPunch, punchedIn } = this.props;
+		let counter;
+		let timeDisplay;
+		if (lastPunch && punchedIn){
+			counter = FormatStamp.getCounter(now, lastPunch);
+			timeDisplay = FormatStamp.getTime(lastPunch) + " - " + FormatStamp.getTime(now);
+		} else {
+			counter = "00:00";
+			timeDisplay = FormatStamp.getTime(now);
+		}
+		console.log("counter: " + counter);
+		console.log("timeDisplay: " + timeDisplay);
+		return (
+			<View style={styles.timer}>
+				<Text style={styles.counter}>{ counter }</Text>
+				<Text style={styles.timeDispay}>{ timeDisplay }</Text>
+			</View>
+		)
+	}
 }
+
+const styles = StyleSheet.create({
+	timer: {
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	counter: {
+		fontSize: 40
+	},
+	timeDisplay: {
+		fontSize: 30
+	}
+});
