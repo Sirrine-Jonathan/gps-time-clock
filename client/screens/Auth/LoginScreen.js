@@ -1,9 +1,9 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
-import { View, StyleSheet, Text, Image, TextInput, Button, TouchableHighlight, Alert } from "react-native";
 import { login, stageEmail, stagePassword } from '../../redux/actions/authActions'
 
 class LoginScreen extends React.Component {
@@ -70,32 +70,30 @@ class LoginScreen extends React.Component {
 				const { emailErr, passwordErr } = this.state;
 				const { loginError } = this.props;
 				return (
-						<View style={styles.container}>
-								<View style={styles.inputContainer}>
-										<Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/message/ultraviolet/50/3498db'}}/>
-										<TextInput style={styles.inputs}
-															 placeholder="Email / Username"
-															 keyboardType="email-address"
-															 underlineColorAndroid='transparent'
-															 onChangeText={(email) => this._emailErr(email)} value={this.props.email}/>
-								</View>
+					<View style={styles.container}>
+						<Input 
+							imageSrc="msg"
+							placeholder="Username / Email"
+							keyboardType="email-address"
+							containsError={emailErr}
+							onChangeText={(email) => this._emailErr(email)}
+							value={this.props.email}
+						/>
+						<Input 
+							imageSrc="key"
+							placeholder="Password"
+							secureTextEntry={true}
+							containsError={passwordErr}
+							onChangeText={(password) => this._passwordErr(password)}
+						/>
 
-								<View style={styles.inputContainer}>
-										<Image style={styles.inputIcon} source={{uri: 'https://png.icons8.com/key-2/ultraviolet/50/3498db'}}/>
-										<TextInput style={styles.inputs}
-															 placeholder="Password"
-															 secureTextEntry={true}
-															 underlineColorAndroid='transparent'
-															 onChangeText={(password) => this._passwordErr(password)} value={this.props.password}/>
-								</View>
+						<Text style={styles.error}>{ loginError }</Text>
 
-								<Text style={styles.error}>{ loginError }</Text>
-
-								<CButton title="Login" onPress={this._login} />
-								<CLink title="Register" onPress={this._navToRegister} />
-								<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-								<Text>v1.4.9</Text>
-						</View>
+						<CButton title="Login" onPress={this._login} />
+						<CLink title="Register" onPress={this._navToRegister} />
+						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
+						<CLink title="v1.5.8" />
+					</View>
 				);
 		}
 }

@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import Input from '../../components/Input';
 import CButton from '../../components/CButton';
-import FormDiv from '../../components/FormDiv';
 import { View, StyleSheet, Text } from "react-native";
 
 import { register, stageEmail, stagePassword } from '../../redux/actions/authActions'
@@ -101,28 +100,33 @@ class RegisterScreen extends React.Component {
         return (
             <View style={styles.container}>
               <Input 
+                imageSrc="msg"
                 placeholder="Username"
                 containsError={usernameErr}
                 onChangeText={(username) => this._usernameErr(username)}
               />
               <Input 
+                imageSrc="msg"
                 placeholder="Email"
                 keyboardType="email-address"
                 containsError={emailErr}
                 onChangeText={(email) => this._emailErr(email)} 
               />
               <Input 
+                imageSrc="key"
                 placeholder="Password"
                 secureTextEntry={true}
                 containsError={passwordErr}
-                onChangeText={(username) => this._usernameErr(username)}
+                onChangeText={(password) => this._passwordErr(password)}
               />
               <Input 
+                imageSrc="msg"
                 placeholder="Company"
                 containsError={companyErr}
                 onChangeText={(company) => this._companyErr(company)}
               />
               <Input 
+                imageSrc="key"
                 placeholder="Secret"
                 secureTextEntry={true}
                 containsError={secretErr}

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {TouchableHighlight, Text, StyleSheet} from 'react-native';
 
 export default class CLink extends React.Component {
@@ -14,11 +15,22 @@ export default class CLink extends React.Component {
 const styles = StyleSheet.create({
 	container: {
 		height: 45,
-		marginBottom:20,
-		width:250,
-		borderRadius:30
+		width: 250,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'center'
 	},
 	text: {
 		color: '#333'
 	}
 });
+
+CLink.propTypes = {
+	title: PropTypes.string,
+	onPress: PropTypes.func.isRequired,
+}
+
+CLink.defaultProps = {
+	title: "Link",
+	onPress: () => {console.log('empty link')}
+}
