@@ -3,53 +3,44 @@ import PropTypes from 'prop-types';
 import { View, StyleSheet, Image, TextInput } from "react-native";
 
 const icons = {
-	"key": {
-		"hosted": "https://png.icons8.com/key-2/ultraviolet/50/3498db",
-		"local": require("../assets/key.png")
-	},
-	"msg": {
-		"hosted": "https://png.icons8.com/message/ultraviolet/50/3498db",
-		"local": require("../assets/msg.png")
-	}
+	"key": require("../assets/key.png"),
+	"msg": require("../assets/msg.png"),
+	"at": require("../assets/at.png"),
+	"building": require("../assets/building.png"),
+	"idcard": require("../assets/idcard.png"),
+	"letter": require("../assets/letter.png"),
+	"letter_box": require("../assets/letter_box.png"),
+	"locked_quote": require("../assets/locked_quote.png")
 }
+
+const iconColor = "#dff0fe";
+const warningColor = "#feeddf";
 
 
 export default class Input extends React.Component {
 
-	_mapImage = (src, type) => {
-		if (icons[src] && icons[src][type])
-			return icons[src][type];
-		else 
-			return "https://png.icons8.com/message/ultraviolet/50/3498db"
-	}
-
-	/*
-		Param 'type' can be 'hosted' or 'local'
-	*/
-	_getImageSource = (type) => {
-		let key = this.props.imageSrc;
-		let url = this._mapImage(key, type);
-		if (type == "local"){
-			return url;
-		} else {
-			return { uri: url };
-		}
+	_mapImage = (src) => {
+		return (icons[src]) ? icons[src]:icons["msg"];
 	}
 
    render(){
-   	const TYPE = "hosted";
-   	console.log("images are being served by: " + TYPE);
+   	const { imageSrc, containsError } = this.props;
+   	let borderColor = { "borderColor": iconColor }
+   	if (containsError){
+   		borderColor = { "borderColor": warningColor }
+   	}
+   	console.log(containsError);
       return (
-        <View style={styles.inputContainer}>
-            <Image style={styles.inputIcon} source={this._getImageSource(TYPE)}/>
+        <View style={[styles.inputContainer, borderColor]}>
+            <Image style={styles.inputIcon} source={this._mapImage(imageSrc)}/>
             <TextInput
-				style={styles.input}
-				placeholder={this.props.placeholder}
-				keyboardType={this.props.keyboardType}
-				secureTextEntry={this.props.secureTextEntry}
-				onChangeText={this.props.onChangeText}
-				underlineColorAndroid='transparent'
-				value={this.props.value}
+					style={styles.input}
+					placeholder={this.props.placeholder}
+					keyboardType={this.props.keyboardType}
+					secureTextEntry={this.props.secureTextEntry}
+					onChangeText={this.props.onChangeText}
+					underlineColorAndroid='transparent'
+					value={this.props.value}
             />
         </View>
       );
@@ -66,7 +57,9 @@ const styles = StyleSheet.create({
     height: 45,
     marginBottom: 20,
     flexDirection: 'row',
-    alignItems:'center'
+    alignItems:'center',
+    borderWidth: 3,
+    borderBottomWidth: 3,
   },
   inputIcon: {
     width:30,

@@ -1,22 +1,29 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { connect } from 'react-redux';
+import { View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import Input from '../../components/Input';
+import { sendRecoveryEmail, stageEmail } from '../../redux/actions/authActions'
 
-
-export default class ForgotPasswordScreen extends React.Component {
+class ForgotPasswordScreen extends React.Component {
 
     state = {
-        email: '',
-        emailErr: false
+        emailErr: false,
+        messageFromServer: { message: "" }
     }
 
     static navigationOptions = {
         title: 'Forgot Password'
     };
 
-    _sendEmail = () => {
-        console.log(this.state.email);
+    _sendEmail = async () => {
+		let { email } = this.props;
+		if (this.state.emailErr)
+			 return false;
+		let note = await this.props.sendRecoveryEmail(email);
+		this.setState({
+			messageFromServer: note
+		})
     }
 
 	_emailErr = (email) => {
@@ -26,26 +33,61 @@ export default class ForgotPasswordScreen extends React.Component {
 		return emailErr;
 	}
 
+    _isEmptyStr = (str) => {
+        let arr = str.split('');
+        let empty = true;
+        arr.forEach((each) => {
+        if (each != ' ')
+            empty = false;
+        });
+        return empty;
+    }
+
     render() {
-    	let { emailErr } = this.state;
+    	let { emailErr, messageFromServer } = this.state;
+    	let { email } = this.props;
         return (
             <View style={styles.container}>
 				<Input 
+					imageSrc="letter_box"
 					placeholder="Email"
 					containsError={emailErr}
-					onChangeText={(email) => this._emailErr(secret)}
+					onChangeText={(email) => this._emailErr(email)}
+					value={email}
 				/>
+				<Text style={styles.error}>{ messageFromServer.message }</Text>
                 <CButton title="Send Email" onPress={this._sendEmail} />
             </View>
         );
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+	 return {
+		sendRecoveryEmail: (email) => dispatch(sendRecoveryEmail(email)),
+		stageEmail: (email) => dispatch(stageEmail(email)),
+	 }
+}
+
+const mapStateToProps = (state) => {
+	 return {
+		email: state.email,
+		recoveryError: state.recoveryError
+	 }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordScreen);
+
 const styles = StyleSheet.create({
 	container: {
-			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
-			backgroundColor: '#DCDCDC',
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#DCDCDC',
+	},
+	error: {
+		textAlign: 'center',
+		color: '#8b0000',
+		marginBottom:20,
 	}
 })

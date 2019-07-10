@@ -3,31 +3,30 @@ import { connect } from 'react-redux';
 import Input from '../../components/Input';
 import CButton from '../../components/CButton';
 import { View, StyleSheet, Text } from "react-native";
-
-import { register, stageEmail, stagePassword } from '../../redux/actions/authActions'
+import { 
+	register, 
+	stageUsername,
+	stageEmail, 
+	stagePassword,
+	stageCompany,
+	stageSecret
+} from '../../redux/actions/authActions';
 
 class RegisterScreen extends React.Component {
+
+    state = {
+        usernameErr: false,
+        secretErr: false,
+        companyErr: false,
+        emailErr: false,
+        passwordErr: false,
+    }
 
     static navigationOptions = {
       title: 'Register',
     };
 
-    state = {
-        username: '',
-        usernameErr: false,
-        
-        secret: '',
-        secretErr: false,
-
-        company: '',
-        companyErr: false,
-
-        emailErr: false,
-        passwordErr: false,
-    }
-
     _register = () => {
-      console.log('_register checking for errors before calling redux fn');
       if (this.state.emailErr || 
           this.state.passwordErr ||
           this.state.usernameErr ||
@@ -36,21 +35,22 @@ class RegisterScreen extends React.Component {
       {
           return false;
       }
-      let { username, company, secret} = this.state;
-      let { email, password } = this.props;
+      let { username, email, password, company, secret} = this.props;
       console.log('calling redux register');
       this.props.register(username, email, company, password, secret);
     }
 
     _companyErr = (company) => {
       let companyErr = this._isEmptyStr(company);
-      this.setState({ companyErr, company });
+      this.setState({ companyErr });
+      this.props.stageCompany(company);
       return companyErr;
     }
 
     _usernameErr = (username) => {
       let usernameErr = this._isEmptyStr(username);
-      this.setState({ usernameErr, username });
+      this.setState({ usernameErr });
+      this.props.stageUsername(username);
       return usernameErr;
     }
 
@@ -71,8 +71,8 @@ class RegisterScreen extends React.Component {
 
     _secretErr = (secret) => {
       let secretErr = this._isEmptyStr(secret);
-      this.setState({ secretErr, secret });
-      console.log('secret: ' + this.state.secret)
+      this.setState({ secretErr });
+      this.props.stageSecret(secret);
       return secretErr;
     }
 
@@ -96,21 +96,23 @@ class RegisterScreen extends React.Component {
 
     render() {
         const { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
-        const { registerErr } = this.props;
+        const { registerErr, username, email, password, company, secret } = this.props;
         return (
             <View style={styles.container}>
               <Input 
-                imageSrc="msg"
+                imageSrc="idcard"
                 placeholder="Username"
                 containsError={usernameErr}
                 onChangeText={(username) => this._usernameErr(username)}
+                value={username}
               />
               <Input 
-                imageSrc="msg"
+                imageSrc="at"
                 placeholder="Email"
                 keyboardType="email-address"
                 containsError={emailErr}
                 onChangeText={(email) => this._emailErr(email)} 
+                value={email}
               />
               <Input 
                 imageSrc="key"
@@ -118,19 +120,22 @@ class RegisterScreen extends React.Component {
                 secureTextEntry={true}
                 containsError={passwordErr}
                 onChangeText={(password) => this._passwordErr(password)}
+                value={password}
               />
               <Input 
-                imageSrc="msg"
+                imageSrc="building"
                 placeholder="Company"
                 containsError={companyErr}
                 onChangeText={(company) => this._companyErr(company)}
+                value={company}
               />
               <Input 
-                imageSrc="key"
+                imageSrc="locked_quote"
                 placeholder="Secret"
                 secureTextEntry={true}
                 containsError={secretErr}
                 onChangeText={(secret) => this._secretErr(secret)}
+                value={secret}
               />
               <Text style={styles.error}>{ registerErr }</Text>
               <CButton title="Register" onPress={this._register} />
@@ -142,16 +147,22 @@ class RegisterScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
   return {
     register: (username, email, company, password, secret) => dispatch(register(username, email, company, password, secret)),
+    stageUsername: (username) => dispatch(stageUsername(username)),
     stageEmail: (email) => dispatch(stageEmail(email)),
-    stagePassword: (password) => dispatch(stagePassword(password))
+    stagePassword: (password) => dispatch(stagePassword(password)),
+    stageCompany: (company) => dispatch(stageCompany(company)),
+    stageSecret: (secret) => dispatch(stageSecret(secret))
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     registerErr: state.registerError,
+    username: state.username,
     email: state.email,
-    password: state.password
+    password: state.password,
+    company: state.company,
+    secret: state.secret
   }
 }
 

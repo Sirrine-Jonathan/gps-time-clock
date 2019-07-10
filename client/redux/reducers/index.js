@@ -5,8 +5,11 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
+   STAGE_USERNAME,
    STAGE_EMAIL,
    STAGE_PASSWORD,
+   STAGE_COMPANY,
+   STAGE_SECRET,
    PUNCH,
    INIT,
    UPDATE_ERROR,
@@ -21,8 +24,11 @@ const initialState = {
    registerError: null,
    punchedIn: null, // grab from db
    lastPunch: null, // grab from db
+   username: "",
    email: "test@gmail.com",
    password: "password",
+   company: "",
+   secret: "",
    updateError: null,
    users: null
 }
@@ -71,6 +77,11 @@ const rootReducer = (state = initialState, action) => {
                ...state,
                registerError: action.payload
             };
+         case STAGE_USERNAME: 
+            return {
+               ...state,
+               username: action.payload
+            };
          case STAGE_EMAIL:
             return {
                ...state,
@@ -80,29 +91,39 @@ const rootReducer = (state = initialState, action) => {
             return {
                ...state,
                password: action.payload
-            }
+            };
+         case STAGE_COMPANY:
+            return {
+               ...state,
+               company: action.payload
+            };
+         case STAGE_SECRET:
+            return {
+               ...state,
+               secret: action.payload
+            };
          case PUNCH:
             return {
               ...state,
               punchedIn: !state.punchedIn,
               lastPunch: action.payload
-            }
+            };
          case INIT: 
             return {
               ...state,
               punchedIn: action.payload.punchedIn,
               lastPunch: action.payload.lastPunch
-            }
+            };
          case UPDATE_ERROR:
             return {
               ...state,
               updateError: action.payload
-            }
+            };
          case UPDATE_USERS:
             return {
               ...state,
               users: action.payload
-            }
+            };
          default:
             return state;
     }

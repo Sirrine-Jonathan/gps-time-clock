@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { View, StyleSheet, Text } from "react-native";
+import { ScrollView, View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
@@ -9,15 +9,14 @@ import { login, stageEmail, stagePassword } from '../../redux/actions/authAction
 class LoginScreen extends React.Component {
 		
 		state = {
-				username: 'testUser',
-				usernameErr: false,
-				emailErr: false,
-				passwordErr: false,
-				loginErr: false,
+			usernameErr: false,
+			emailErr: false,
+			passwordErr: false,
+			loginErr: false,
 		}
 
 		static navigationOptions = {
-				title: 'Login',
+			title: 'Login',
 		};
 
 		_login = () => {
@@ -25,13 +24,6 @@ class LoginScreen extends React.Component {
 			if (this.state.emailErr || this.state.passwordErr)
 				 return false;
 			this.props.login(email, password);
-		}
-
-
-		_usernameErr = (username) => {
-			let usernameErr = this._isEmptyStr(username);
-			this.setState({ usernameErr, username });
-			return usernameErr;
 		}
 
 		_emailErr = (email) => {
@@ -68,16 +60,16 @@ class LoginScreen extends React.Component {
 
 		render() {
 				const { emailErr, passwordErr } = this.state;
-				const { loginError } = this.props;
+				const { loginError, email, password } = this.props;
 				return (
-					<View style={styles.container}>
+					<ScrollView style={styles.container}>
 						<Input 
 							imageSrc="msg"
 							placeholder="Username / Email"
 							keyboardType="email-address"
 							containsError={emailErr}
 							onChangeText={(email) => this._emailErr(email)}
-							value={this.props.email}
+							value={email}
 						/>
 						<Input 
 							imageSrc="key"
@@ -85,6 +77,7 @@ class LoginScreen extends React.Component {
 							secureTextEntry={true}
 							containsError={passwordErr}
 							onChangeText={(password) => this._passwordErr(password)}
+							value={password}
 						/>
 
 						<Text style={styles.error}>{ loginError }</Text>
@@ -92,8 +85,8 @@ class LoginScreen extends React.Component {
 						<CButton title="Login" onPress={this._login} />
 						<CLink title="Register" onPress={this._navToRegister} />
 						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-						<CLink title="v1.5.8" />
-					</View>
+						<CLink title="v1.6.5" />
+					</ScrollView>
 				);
 		}
 }
@@ -162,8 +155,8 @@ const styles = StyleSheet.create({
 				color: 'white',
 		},
 		error: {
-				textAlign: 'center',
-				color: '#8b0000',
-				marginBottom:20,
+			textAlign: 'center',
+			color: '#8b0000',
+			marginBottom:20,
 		}
 });

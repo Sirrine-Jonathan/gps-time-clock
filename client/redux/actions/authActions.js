@@ -5,8 +5,11 @@ import {
    LOGOUT_ERROR,
    REGISTER,
    REGISTER_ERROR,
+   STAGE_USERNAME,
    STAGE_EMAIL,
-   STAGE_PASSWORD
+   STAGE_PASSWORD,
+   STAGE_COMPANY,
+   STAGE_SECRET,
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -30,6 +33,10 @@ const registerSuccess = (payload) => ({
    payload: payload
 })
 
+const stageUsername = (payload) => ({
+   type: STAGE_USERNAME,
+   payload: payload
+})
 
 const stageEmail = (payload) => ({
    type: STAGE_EMAIL,
@@ -40,6 +47,39 @@ const stagePassword = (payload) => ({
    type: STAGE_PASSWORD,
    payload: payload
 })
+
+const stageCompany = (payload) => ({
+   type: STAGE_COMPANY,
+   payload: payload
+})
+
+const stageSecret = (payload) => ({
+   type: STAGE_SECRET,
+   payload: payload
+})
+
+const sendRecoveryEmail = (email) => async dispatch => {
+	console.log('redux sendRecoveryEmail');
+	console.log('email', email);
+	let msg = null;
+	await fetch("https://gps-time.herokuapp.com/reset/forgotPassword", {
+		method: 'POST',
+		headers: {
+		  "Content-Type": 'application/json',
+		},
+		body: JSON.stringify({
+			"email": email,
+		})
+	})
+	.then((response) => response.json())
+	.then((res) => {
+		msg = res;
+	})
+	.catch((error) => {
+		msg = error;
+	});
+	return msg;
+};
 
 const login = (email, password) => async dispatch => { 
   fetch("https://gps-time.herokuapp.com/api/authenticate", {
@@ -112,6 +152,10 @@ module.exports = {
    login, 
    logout,
    register,
+   stageUsername,
    stageEmail,
-   stagePassword
+   stagePassword,
+   stageCompany,
+   stageSecret,
+   sendRecoveryEmail
 }
