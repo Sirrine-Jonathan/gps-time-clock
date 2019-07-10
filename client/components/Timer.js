@@ -28,8 +28,6 @@ export default class Timer extends React.Component {
 			counter = "00:00";
 			timeDisplay = FormatStamp.getTime(now);
 		}
-		console.log("counter: " + counter);
-		console.log("timeDisplay: " + timeDisplay);
 		return (
 			<View style={styles.timer}>
 				<Text style={styles.counter}>{ counter }</Text>

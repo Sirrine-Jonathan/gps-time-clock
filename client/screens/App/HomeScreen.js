@@ -60,7 +60,7 @@ class HomeScreen extends React.Component {
 
 	render() {
 		return (
-			<View>
+			<View style={styles.container}>
 				{(this.state.long && this.state.lat) ? (
 				<MapView 
 					style={{ 
@@ -109,6 +109,12 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#DCDCDC',
+	},
 	puncherStyle: {
 
 	},

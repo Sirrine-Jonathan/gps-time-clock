@@ -29,7 +29,6 @@ export default class Input extends React.Component {
    	if (containsError){
    		borderColor = { "borderColor": warningColor }
    	}
-   	console.log(containsError);
       return (
         <View style={[styles.inputContainer, borderColor]}>
             <Image style={styles.inputIcon} source={this._mapImage(imageSrc)}/>
