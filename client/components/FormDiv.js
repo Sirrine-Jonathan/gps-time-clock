@@ -4,7 +4,7 @@ import {View, StyleSheet} from 'react-native';
 export default class FormDiv extends React.Component {
    render(){
       return (
-        <View style={styles}>
+        <View style={styles.container}>
           {this.props.children}
         </View>
       );
@@ -12,8 +12,10 @@ export default class FormDiv extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  flexDirection: "column",
-  alignItems: "stretch",
-  justifyContent: "center",
-  padding: 5,
+  container: {
+      flexDirection: 'column',
+      alignItems: 'stretch',
+      justifyContent: 'center',
+      padding: 5,
+  }
 });
