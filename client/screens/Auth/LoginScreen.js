@@ -85,7 +85,7 @@ class LoginScreen extends React.Component {
 						<CButton title="Login" onPress={this._login} />
 						<CLink title="Register" onPress={this._navToRegister} />
 						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-						<CLink title="v1.6.5" />
+						<CLink title="v1.6.7" />
 					</ScrollView>
 				);
 		}
@@ -115,44 +115,6 @@ const styles = StyleSheet.create({
 				justifyContent: 'center',
 				alignItems: 'center',
 				backgroundColor: '#DCDCDC',
-		},
-		inputContainer: {
-				borderBottomColor: '#F5FCFF',
-				backgroundColor: '#FFFFFF',
-				borderRadius:30,
-				borderBottomWidth: 1,
-				width:250,
-				height:45,
-				marginBottom:20,
-				flexDirection: 'row',
-				alignItems:'center'
-		},
-		inputs:{
-				height:45,
-				marginLeft:16,
-				borderBottomColor: '#FFFFFF',
-				flex:1,
-		},
-		inputIcon:{
-				width:30,
-				height:30,
-				marginLeft:15,
-				justifyContent: 'center'
-		},
-		buttonContainer: {
-				height:45,
-				flexDirection: 'row',
-				justifyContent: 'center',
-				alignItems: 'center',
-				marginBottom:20,
-				width:250,
-				borderRadius:30,
-		},
-		loginButton: {
-				backgroundColor: "#00b5ec",
-		},
-		loginText: {
-				color: 'white',
 		},
 		error: {
 			textAlign: 'center',
