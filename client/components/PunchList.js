@@ -8,8 +8,9 @@ import SinglePunch from './SinglePunch';
 class PunchList extends React.Component {
 
    state = {
-      punches: null
-   }
+       punches: null,
+       punchList: null,
+   };
 
    componentWillMount(){
       this._getPunches(this.props.email);
@@ -18,15 +19,28 @@ class PunchList extends React.Component {
    _getPunches = async (email) => {
       let punches = await this.props.getPunches(email);
       this.setState({ punches });
-   }
+   };
+
+   _getPunchList = (date1, date2) => {
+       console.log(this.state.punches);
+       let punchArray = [];
+       if(this.state.punchList == null) return;
+       this.state.punches.forEach(function(element) {
+           console.log('here');
+           if (date1 >= element.timestampIn && date2 <= element.timestampOut) {
+               punchArray.push(element);
+           }
+       });
+       this.setState({punchList: punchArray});
+   };
 
    render() {
-
-      let { punches } = this.state;
-      if (!punches || !punches.length)
-         punches = [];
-      punches.reverse();
-      const listItems = punches.map((punch) => 
+       this._getPunchList(this.props.firstDate, this.props.secondDate);
+      let { punchList } = this.state;
+      if (!punchList || !punchList.length)
+         punchList = [];
+      punchList.reverse();
+      const listItems = punchList.map((punch) =>
          (
             <View style={styles.punchRow}>
                <SinglePunch punch={punch} style={styles.punch}/>
