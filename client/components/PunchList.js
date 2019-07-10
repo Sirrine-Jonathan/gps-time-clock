@@ -35,17 +35,16 @@ class PunchList extends React.Component {
    };
 
    render() {
-       this._getPunchList(this.props.firstDate, this.props.secondDate);
-      let { punchList } = this.state;
-      if (!punchList || !punchList.length)
-         punchList = [];
-      punchList.reverse();
-      const listItems = punchList.map((punch) =>
-         (
+        this._getPunchList(this.props.firstDate, this.props.secondDate);
+        let { punchList } = this.state;
+        if (!punchList || !punchList.length)
+            punchList = [];
+        punchList.reverse();
+        const listItems = punchList.map((punch) => (
             <View style={styles.punchRow}>
                <SinglePunch punch={punch} style={styles.punch}/>
             </View>
-         )
+        )
       );
 
       return (

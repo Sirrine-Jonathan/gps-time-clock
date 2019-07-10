@@ -62,7 +62,7 @@ class LoginScreen extends React.Component {
 				const { emailErr, passwordErr } = this.state;
 				const { loginError, email, password } = this.props;
 				return (
-					<ScrollView style={styles.container}>
+					<View style={styles.container}>
 						<Input 
 							imageSrc="msg"
 							placeholder="Username / Email"
@@ -86,7 +86,7 @@ class LoginScreen extends React.Component {
 						<CLink title="Register" onPress={this._navToRegister} />
 						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
 						<CLink title="v1.6.5" />
-					</ScrollView>
+					</View>
 				);
 		}
 }
