@@ -7,7 +7,7 @@ class SingleUser extends React.Component {
 
    _viewUser = () => {
       let { user } = this.props;
-      this.props.navigation.navigate('EmployeeHistory', { user: user })
+      this.props.navigation.navigate("History", { user: user })
    }
 
    render() {

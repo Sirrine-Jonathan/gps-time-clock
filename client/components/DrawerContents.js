@@ -35,8 +35,10 @@ class DrawerContents extends React.Component {
       return (
          <ScrollView style={styles.content}>
             <SafeAreaView>
-               <Text>{ user.username }</Text>
-               <Text>{ user.company }</Text>
+               <View style={styles.userInfo}>
+	               <Text style={styles.username}>{ user.username }</Text>
+	               <Text style={styles.company}>{ user.company }</Text>
+               </View>
                <DrawerItems {...clonedProps} />
                <View style={styles.buttonDiv}>
                		<CButton onPress={this._logout} title="Logout"/>
@@ -54,7 +56,19 @@ const styles = StyleSheet.create({
   buttonDiv: {
   	flex: 1,
   	flexDirection: 'row',
-  	justifyContent: 'center'
+  	justifyContent: 'center',
+  },
+  userInfo: {
+  	flex: 1,
+  	alignItems: 'center',
+  	paddingTop: 10,
+  	padding: 5,
+  },
+  username: {
+  	fontSize: 25,
+  },
+  company: {
+  	fontSize: 20,
   }
 });
 

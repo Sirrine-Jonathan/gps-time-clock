@@ -30,10 +30,15 @@ export default class SinglePunch extends React.Component {
 
    render() {
       let { punch } = this.props;
-      let timeOut = FormatStamp.getTime(punch.timestampOut);
+      let timeOut = FormatStamp.getDateTime(punch.timestampOut);
+      let timeIn = FormatStamp.getDateTime(punch.timestampIn);
 
       if (timeOut == 'Invalid Date') {
          timeOut =  '';
+      }
+
+      if (timeIn == 'Invalid Date'){
+      	timeIn = '';
       }
 
       return (
@@ -43,7 +48,7 @@ export default class SinglePunch extends React.Component {
             <View style={styles.punchInfoBox}>
                <View style={styles.textRow}>
                   <Text>In:</Text>
-                  <Text>{ FormatStamp.getTime(punch.timestampIn) }</Text>
+                  <Text>{ timeIn }</Text>
                </View>
                <View style={styles.textRow}>
                   <Text>Out:</Text>

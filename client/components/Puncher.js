@@ -10,10 +10,10 @@ export default class Puncher extends React.Component {
    	  let src = "";
    	  if (this.props.punchedIn){
    	  	src = punchOut;
-   	  	buttonText ="Punch In";
+   	  	buttonText ="Punch Out";
    	  } else {
    	  	src = punchIn;
-   	  	buttonText = "Punch Out";
+   	  	buttonText = "Punch In";
    	  }
 
    	  

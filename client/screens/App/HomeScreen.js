@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
 
 	},
 	timerView: {
-		padding: 15
+		padding: 15,
+		paddingBottom: 25
 	}
 });

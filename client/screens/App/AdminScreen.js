@@ -22,14 +22,14 @@ class AdminScreen extends React.Component {
          users = [];
       const employees = users.map((user) => 
          (
-            <View style={styles.punchRow}>
+            <View style={styles.row}>
                <SingleUser user={user} style={styles.user} navigation={this.props.navigation}/>
             </View>
          )
       );
 
       return (
-         <ScrollView style={styles.punchList}>
+         <ScrollView style={styles.list}>
             { employees }
          </ScrollView>
       );
@@ -51,17 +51,14 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(AdminScreen);
 
 const styles = StyleSheet.create({
-   content: {
-      marginTop: 20,
-      flex: 1,
-      alignItems: "center",
-      justifyContent: "center"
+   list: {
+      marginTop: 10,
    },
-   punch: {
+   user: {
       margin: 10,
       padding: 10,
       flex: 1,
-      backgroundColor: '#e0e0e0',
+      backgroundColor: '#ffffff',
       borderRadius: 5
    }
 });

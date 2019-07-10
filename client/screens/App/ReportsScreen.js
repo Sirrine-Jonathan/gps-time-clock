@@ -4,6 +4,7 @@ import {Text, View, StyleSheet} from "react-native";
 import PunchList from '../../components/PunchList';
 import RangeButton from '../../components/RangeButton';
 import DateTimePicker from "react-native-modal-datetime-picker";
+import { getPunches } from '../../redux/actions/appActions';
 
 class ReportsScreen extends React.Component {
 
@@ -13,12 +14,28 @@ class ReportsScreen extends React.Component {
       firstDate: null,
       secondDate: null,
       firstDateDisplay: 'Select Date',
-      secondDateDisplay: 'Select Date'
+      secondDateDisplay: 'Select Date',
+      puches: [],
+      user: null,
    };
 
    static navigationOptions = {
       drawerLabel: 'Reports',
       title: 'Reports'
+   };
+
+
+   componentWillMount(){
+   	console.log(this.props.navigation.getParam("user"));
+      let user = this.props.navigation.getParam("user", this.props.user);
+      this._getPunches(user.email);
+      this.setState({user});
+   }
+
+   _getPunches = async (email) => {
+      let punches = await this.props.getPunches(email);
+      await this.setState({ punches });
+      this._handleDateChange();
    };
 
    _firstButtonActions = () => {
@@ -48,23 +65,52 @@ class ReportsScreen extends React.Component {
          this.setState({secondDate: date})
       }
       this._hideDateTimePicker();
+      this._handleDateChange();
+   };
+
+   _handleDateChange = () => {
+   	   let date1 = this.state.firstDate;
+   	   let date2 = this.state.secondDate;
+   	   let { punches } = this.state;
+       let punchArray = [];
+
+       if (punches == null) return;
+       console.log("_getPunchList called");
+       punches = punches.filter((element) => {
+         if (!date1 && !date2){
+            return true;
+         } else if (!date1 && date2){
+         	return (date2 <= element.timestampOut);
+         } else if (date1 && !date2){
+         	return (date1 >= element.timestampIn);
+         } else {
+         	return (date1 >= element.timestampIn && date2 <= element.timestampOut);
+         }
+       });
+       this.setState({punches});
    };
 
    render() {
-
+   	let { punches, user } = this.state;
       return (
          <View style={styles.content}>
-            <View style={styles.range}>
-               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
-               <Text style={styles.text}> - </Text>
-               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
+         	<View style={styles.header}>
+	            <View style={styles.userInfo}>
+	               <Text style={styles.username}>{ user.username }</Text>
+	               <Text style={styles.company}>{ user.company }</Text>
+	            </View>
+	            <View style={styles.range}>
+	               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
+	               <Text style={styles.text}> - </Text>
+	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
+	            </View>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this._handleDatePicked}
                 onCancel={this._hideDateTimePicker}
             />
-            <PunchList email={this.props.user.email} firstDate={this.state.firstDate} secondDate={this.state.secondDate}/>
+            <PunchList punches={punches}/>
          </View>
       );
    }
@@ -73,7 +119,7 @@ class ReportsScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {  
-
+	getPunches: (email) => dispatch(getPunches(email)), 
   }
 }
 
@@ -86,8 +132,13 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
 
 const styles = StyleSheet.create({
-   content: {
-      marginTop: 20,
+   header: {
+   	paddingTop: 15,
+   },
+   userInfo: {
+   	alignItems: 'center',
+   	paddingTop: 10,
+   	padding: 5,
    },
    title: {
       fontSize: 20,
@@ -96,9 +147,17 @@ const styles = StyleSheet.create({
    range: {
       flexDirection: 'row',
       width: '100%',
-      padding: 20,
+      paddingTop: 20,
+      paddingLeft: 10,
+      paddingRight: 10,
    },
    text: {
       fontSize: 24,
+   },
+   username: {
+   	fontSize: 25,
+   },
+   company: {
+   	fontSize: 20,
    }
 });
