@@ -31,7 +31,7 @@ export default class Timer extends React.Component {
 		return (
 			<View style={styles.timer}>
 				<Text style={styles.counter}>{ counter }</Text>
-				<Text style={styles.timeDispay}>{ timeDisplay }</Text>
+				<Text style={styles.timeDisplay}>{ timeDisplay }</Text>
 			</View>
 		)
 	}
@@ -42,9 +42,10 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'center',
+		padding: 5
 	},
 	counter: {
-		fontSize: 40
+		fontSize: 60
 	},
 	timeDisplay: {
 		fontSize: 30

@@ -111,14 +111,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
+		justifyContent: 'space-between',
+		alignItems: 'stretch',
 		backgroundColor: '#DCDCDC',
 	},
 	puncherStyle: {
 
 	},
 	timerView: {
-		padding: 5
+		padding: 15
 	}
 });
