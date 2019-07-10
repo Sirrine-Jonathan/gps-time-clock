@@ -10,8 +10,10 @@ class ReportsScreen extends React.Component {
    state = {
       isDatePickerVisible: false,
       isFirstButton: null,
-      firstDate: 'Select Date',
-      secondDate: 'Select Date'
+      firstDate: null,
+      secondDate: null,
+      firstDateDisplay: 'Select Date',
+      secondDateDisplay: 'Select Date'
    };
 
    static navigationOptions = {
@@ -38,10 +40,12 @@ class ReportsScreen extends React.Component {
       console.log("A date has been picked: ", date);
       // make sure a button is actually selected and not null
       if (this.state.isFirstButton) {
-         this.setState({firstDate: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
+         this.setState({firstDateDisplay: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
+         this.setState({firstDate: date});
       }
       if (!this.state.isFirstButton) {
-         this.setState({secondDate: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
+         this.setState({secondDateDisplay: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
+         this.setState({secondDate: date})
       }
       this._hideDateTimePicker();
    };
@@ -51,16 +55,16 @@ class ReportsScreen extends React.Component {
       return (
          <View style={styles.content}>
             <View style={styles.range}>
-               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDate}/>
+               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
                <Text style={styles.text}> - </Text>
-               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDate}/>
+               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this._handleDatePicked}
                 onCancel={this._hideDateTimePicker}
             />
-            <PunchList email={this.props.user.email} />
+            <PunchList email={this.props.user.email} firstDate={this.state.firstDate} secondDate={this.state.secondDate}/>
          </View>
       );
    }
