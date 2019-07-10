@@ -7,12 +7,22 @@ import ReportsScreen from "../screens/App/ReportsScreen";
 import AdminScreen from "../screens/App/AdminScreen";
 import EmployeeReportScreen from '../screens/App/EmployeeReportScreen';
 import DrawerContents from "../components/DrawerContents";
+import { store } from '../redux/createStore';
 
+
+const getCompany = () => {
+	const user = store.getState().user;
+	let company = "Employees";
+	if (user){
+		company = user.company;
+	}
+	return company;
+}
 
 let AppStack = createDrawerNavigator({ 
    Home: ScreenHOC(HomeScreen, "GPS-Time-Clock"),
    History: ScreenHOC(ReportsScreen, "History"),
-   Employees: ScreenHOC(AdminScreen, "Employees"),
+   Employees: ScreenHOC(AdminScreen, getCompany()),
    EmployeeHistory: ScreenHOC(EmployeeReportScreen, "Employee History"),
    Settings: ScreenHOC(SettingsScreen, "Settings")
 },

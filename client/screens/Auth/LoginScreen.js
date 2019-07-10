@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { ScrollView, View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
@@ -62,7 +62,7 @@ class LoginScreen extends React.Component {
 				const { emailErr, passwordErr } = this.state;
 				const { loginError, email, password } = this.props;
 				return (
-					<ScrollView style={styles.container}>
+					<View style={styles.container}>
 						<Input 
 							imageSrc="msg"
 							placeholder="Username / Email"
@@ -85,8 +85,8 @@ class LoginScreen extends React.Component {
 						<CButton title="Login" onPress={this._login} />
 						<CLink title="Register" onPress={this._navToRegister} />
 						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-						<CLink title="v1.6.7" />
-					</ScrollView>
+						<CLink title="v1.6.9" />
+					</View>
 				);
 		}
 }
@@ -111,10 +111,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
 		container: {
-				flex: 1,
-				justifyContent: 'center',
-				alignItems: 'center',
-				backgroundColor: '#DCDCDC',
+			flex: 1,
+			justifyContent: 'center',
+			alignItems: 'center',
+			backgroundColor: '#DCDCDC',
 		},
 		error: {
 			textAlign: 'center',

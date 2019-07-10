@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Header } from "react-native-elements";
 
 
@@ -7,7 +7,7 @@ const ScreenHOC = (Screen, title) => {
    return class extends React.Component {
       render(){
          return (
-            <View>
+            <View style={styles.container}>
                <Header
                  placement="left"
                  centerComponent={{ text: title, style: { color: '#fff' } }}
@@ -25,3 +25,10 @@ const ScreenHOC = (Screen, title) => {
 }
 
 export default ScreenHOC;
+
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: '#DCDCDC',
+	}
+});
