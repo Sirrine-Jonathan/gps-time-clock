@@ -40,10 +40,24 @@ const FormatStamp = {
 		if (hours == 0)
 			hours = 12;
 		return hours + ":" + mins + " " + AMorPM;
-	}
+	},
 
 	getDateTime: (stamp) => {
-		return this.getTime(stamp) + " " + new Date(stamp).toLocaleDateString();
+		let str = new Date(stamp).toTimeString();
+		let digits = str.split(' ')[0];
+		let digitsArr = digits.split(':');
+		digitsArr.pop();
+		let hours = digitsArr[0];
+		let mins = digitsArr[1];
+		let AMorPM = 'AM';
+		
+		if (hours > 12){
+			AMorPM = 'PM';
+			hours %= 12;
+		} 
+		if (hours == 0)
+			hours = 12;
+		return hours + ":" + mins + " " + AMorPM + " " + new Date(stamp).toLocaleDateString();
 	}
 }
 
