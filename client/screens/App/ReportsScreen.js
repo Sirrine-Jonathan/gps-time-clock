@@ -8,34 +8,35 @@ import { getPunches } from '../../redux/actions/appActions';
 
 class ReportsScreen extends React.Component {
 
-   state = {
-      isDatePickerVisible: false,
-      isFirstButton: null,
-      firstDate: null,
-      secondDate: null,
-      firstDateDisplay: 'Select Date',
-      secondDateDisplay: 'Select Date',
-      puches: [],
-      user: null,
-      totalHours: 0,
-   };
-
    static navigationOptions = {
       drawerLabel: 'Reports',
       title: 'Reports'
    };
 
-
-   componentWillMount(){
+   constructor(props){
+      super(props);
       let user = this.props.navigation.getParam("user", this.props.user);
-      this._getPunches(user.email);
-      this.setState({user});
+      this.state = {
+        isDatePickerVisible: false,
+        isFirstButton: null,
+        firstDate: null,
+        secondDate: null,
+        firstDateDisplay: 'Select Date',
+        secondDateDisplay: 'Select Date',
+        punches: [],
+        user: user,
+        totalHours: 0,
+     };
+     this._getPunches();
+     this._handleDateChange();
    }
 
-   _getPunches = async (email) => {
-      let punches = await this.props.getPunches(email);
-      await this.setState({ punches });
-      this._handleDateChange();
+
+   _getPunches = async () => {
+      let { user} = this.state;
+      const result = await this.props.getPunches(user.email);
+      console.log(result);
+      this.setState({ punches: result });
    };
 
    _firstButtonActions = () => {
@@ -71,11 +72,9 @@ class ReportsScreen extends React.Component {
    _handleDateChange = () => {
    	   let date1 = this.state.firstDate;
    	   let date2 = this.state.secondDate;
-   	   let { punches } = this.state;
-       let punchArray = [];
-
+       let { punches } = this.state;
        if (punches == null) return;
-       console.log("_getPunchList called");
+       let punchArray = [];
        punches = punches.filter((element) => {
          if (!date1 && !date2){
             return true;
@@ -89,6 +88,7 @@ class ReportsScreen extends React.Component {
        });
        this.setState({punches});
        this._getTotal();
+       console.log("totalHours: " + this.state.totalHours);
    };
 
    _getTotal = () => {
@@ -109,18 +109,18 @@ class ReportsScreen extends React.Component {
       return (
          <View style={styles.content}>
             <View>
+               <View style={styles.userInfo}>
+                 <Text style={styles.username}>{ user.username }</Text>
+                 <Text style={styles.company}>{ user.company }</Text>
+               </View>
                <View style={styles.range}>
-                  <View style={styles.userInfo}>
-                     <Text style={styles.username}>{ user.username }</Text>
-                     <Text style={styles.company}>{ user.company }</Text>
-                  </View>
                   <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
                   <Text style={styles.text}> - </Text>
                   <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
-                 <View style={styles.total}>
-                     <Text>Total Hours: { this.state.totalHours }</Text>
-                 </View>
                </View>
+            </View>
+            <View style={styles.total}>
+               <Text>Total Hours: { this.state.totalHours }</Text>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
@@ -136,7 +136,7 @@ class ReportsScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {  
-	getPunches: (email) => dispatch(getPunches(email)), 
+	   getPunches: (email) => dispatch(getPunches(email)), 
   }
 }
 
