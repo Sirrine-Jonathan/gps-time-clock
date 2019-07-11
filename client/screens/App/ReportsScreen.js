@@ -17,6 +17,7 @@ class ReportsScreen extends React.Component {
       secondDateDisplay: 'Select Date',
       puches: [],
       user: null,
+      totalHours: 0,
    };
 
    static navigationOptions = {
@@ -87,10 +88,26 @@ class ReportsScreen extends React.Component {
          }
        });
        this.setState({punches});
+       this._getTotal();
    };
+
+   _getTotal = () => {
+      let  { punches } = this.state;
+      let totalHours = 0;
+      punches.forEach((punch) => {
+           let punchHours = FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+           if (!isNaN(punchHours)) {
+               totalHours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+           }
+      });
+      totalHours = totalHours.toFixed(2)
+      this.setState({ totalHours });
+   }
 
    render() {
    	let { punches, user } = this.state;
+      if (punches)
+         console.log('punches length: ' + punches.length);
       return (
          <View style={styles.content}>
          	<View style={styles.header}>
@@ -103,6 +120,9 @@ class ReportsScreen extends React.Component {
 	               <Text style={styles.text}> - </Text>
 	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
 	            </View>
+               <View style={styles.total}>
+                  <Text>Total Hours: { this.state.totalHours }</Text>
+               </View>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
@@ -131,6 +151,9 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
 
 const styles = StyleSheet.create({
+   total: {
+      padding: 10,
+   },
    header: {
    	paddingTop: 15,
    },

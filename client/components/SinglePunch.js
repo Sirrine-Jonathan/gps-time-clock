@@ -11,6 +11,9 @@ export default class SinglePunch extends React.Component {
       showMapOut: false,
    };
 
+   componentWillMount(){
+      console.log('component will mount');
+   }
    _toggleMapIn = () => {
          this.setState({showMapIn: !this.state.showMapIn});
    };
@@ -29,23 +32,25 @@ export default class SinglePunch extends React.Component {
    };
 
    render() {
+
       let { punch } = this.props;
-      let timeOut = FormatStamp.getDateTime(punch.timestampOut);
-      let timeIn = FormatStamp.getDateTime(punch.timestampIn);
-
-      if (timeOut == 'Invalid Date') {
-         timeOut =  '';
-      }
-
-      if (timeIn == 'Invalid Date'){
-      	timeIn = '';
-      }
-
+      let timeOut = FormatStamp.getTime(punch.timestampOut);
+      console.log('in', timeOut);
+      let timeIn = FormatStamp.getTime(punch.timestampIn);
+      console.log('out', timeIn);
+      let hours = FormatStamp.getHours(punch.timestampIn, punch.timestampOut);
+      console.log('hours', hours);
+      let dayString = FormatStamp.getDateString(punch.timestampIn);
+      console.log('dayString', dayString);
+      console.log('singlePunch renderr');
       return (
          <TouchableOpacity style={this.props.style} onPress={this._toggleMap}>
             {(this.state.showMapIn) ? <Map coords={punch.locationIn}/> :null}
             {(this.state.showMapOut) ? <Map coords={punch.locationOut}/> :null}
             <View style={styles.punchInfoBox}>
+               <View style={styles.dateRow}>
+                  <Text>{ dayString }</Text>
+               </View>
                <View style={styles.textRow}>
                   <Text>In:</Text>
                   <Text>{ timeIn }</Text>
@@ -53,6 +58,10 @@ export default class SinglePunch extends React.Component {
                <View style={styles.textRow}>
                   <Text>Out:</Text>
                   <Text>{ timeOut }</Text>
+               </View>
+               <View style={styles.textRow}>
+                  <Text>Total Hours:</Text>
+                  <Text>{ hours }</Text>
                </View>
             </View>
          </TouchableOpacity>
@@ -66,13 +75,26 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       alignContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      shadowColor: "#000000",
+      shadowOpacity: 0.5,
+      shadowRadius: 2,
+      shadowOffset: {
+         height: 2,
+         width: 2
+      }
    },
    textRow: {
       display: 'flex',
       flexDirection: 'row',
       width: '70%',
       justifyContent: 'space-between' 
+   },
+   dateRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '70%',
+      justifyContent: 'center'
    },
    mapContainer: {
       display: 'flex',
