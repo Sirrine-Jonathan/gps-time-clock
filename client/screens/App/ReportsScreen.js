@@ -26,7 +26,6 @@ class ReportsScreen extends React.Component {
 
 
    componentWillMount(){
-   	console.log(this.props.navigation.getParam("user"));
       let user = this.props.navigation.getParam("user", this.props.user);
       this._getPunches(user.email);
       this.setState({user});
