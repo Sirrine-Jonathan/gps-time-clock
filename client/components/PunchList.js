@@ -36,7 +36,11 @@ class PunchList extends React.Component {
             if (this.props.firstDate != null && this.props.secondDate != null) {
                 let timeIn =  punch.timestampIn;
                 if (timeIn >= this.props.firstDate.getTime() && timeIn <= this.props.secondDate.getTime()) {
-                    hours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+                    // used to add the total hours
+                    let punchHours = FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+                    if (!isNaN(punchHours)) {
+                        hours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+                    }
                    return (
                        <View style={styles.punchRow}>
                         <SinglePunch punch={punch} style={styles.punch}/>
