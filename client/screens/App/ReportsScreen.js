@@ -17,6 +17,7 @@ class ReportsScreen extends React.Component {
       secondDateDisplay: 'Select Date',
       puches: [],
       user: null,
+      totalHours: 0,
    };
 
    static navigationOptions = {
@@ -87,22 +88,39 @@ class ReportsScreen extends React.Component {
          }
        });
        this.setState({punches});
+       this._getTotal();
    };
+
+   _getTotal = () => {
+      let  { punches } = this.state;
+      let totalHours = 0;
+      punches.forEach((punch) => {
+           let punchHours = FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+           if (!isNaN(punchHours)) {
+               totalHours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+           }
+      });
+      totalHours = totalHours.toFixed(2)
+      this.setState({ totalHours });
+   }
 
    render() {
    	let { punches, user } = this.state;
       return (
          <View style={styles.content}>
-         	<View style={styles.header}>
-	            <View style={styles.userInfo}>
-	               <Text style={styles.username}>{ user.username }</Text>
-	               <Text style={styles.company}>{ user.company }</Text>
-	            </View>
-	            <View style={styles.range}>
-	               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
-	               <Text style={styles.text}> - </Text>
-	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
-	            </View>
+            <View>
+               <View style={styles.range}>
+                  <View style={styles.userInfo}>
+                     <Text style={styles.username}>{ user.username }</Text>
+                     <Text style={styles.company}>{ user.company }</Text>
+                  </View>
+                  <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
+                  <Text style={styles.text}> - </Text>
+                  <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
+                 <View style={styles.total}>
+                     <Text>Total Hours: { this.state.totalHours }</Text>
+                 </View>
+               </View>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
@@ -131,6 +149,9 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
 
 const styles = StyleSheet.create({
+   total: {
+      padding: 10,
+   },
    header: {
    	paddingTop: 15,
    },
@@ -138,6 +159,9 @@ const styles = StyleSheet.create({
    	alignItems: 'center',
    	paddingTop: 10,
    	padding: 5,
+   },
+   content: {
+
    },
    title: {
       fontSize: 20,
@@ -149,6 +173,7 @@ const styles = StyleSheet.create({
       paddingTop: 20,
       paddingLeft: 10,
       paddingRight: 10,
+      padding: 10,
    },
    text: {
       fontSize: 24,
