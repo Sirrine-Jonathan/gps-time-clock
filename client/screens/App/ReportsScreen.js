@@ -54,10 +54,12 @@ class ReportsScreen extends React.Component {
 
       return (
          <View style={styles.content}>
-            <View style={styles.range}>
-               <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
-               <Text style={styles.text}> - </Text>
-               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
+            <View>
+               <View style={styles.range}>
+                  <RangeButton onPress={this._firstButtonActions} title={this.state.firstDateDisplay}/>
+                  <Text style={styles.text}> - </Text>
+                  <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
+               </View>
             </View>
             <DateTimePicker
                 isVisible={this.state.isDateTimePickerVisible}
@@ -87,7 +89,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);
 
 const styles = StyleSheet.create({
    content: {
-      marginTop: 20,
+
    },
    title: {
       fontSize: 20,
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
    range: {
       flexDirection: 'row',
       width: '100%',
-      padding: 20,
+      padding: 10,
    },
    text: {
       fontSize: 24,

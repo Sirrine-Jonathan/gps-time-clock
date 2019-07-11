@@ -4,9 +4,39 @@ const FormatStamp = {
 		return Date.now()
 	},
 
-	getHours: () => {
-		return 'test';
+	getDateString: (miliseconds) => {
+		let date = new Date(miliseconds);
+		let week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+		let months = [
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+		];
+		let day = week[date.getDay()];
+		let month = months[date.getMonth()];
+		let year = date.getFullYear();
+		// etc Monday: January 26, 2019
+		return (day + ': ' + month + ' ' + date.getDate() + ', ' + year);
 	},
+
+	getHours: (stampOne, stampTwo) => {
+		let hours =  stampTwo - stampOne;
+		return (hours/1000/3600).toFixed(2);
+	},
+
+	getHoursUnformatted: (stampOne, stampTwo) => {
+	let hours =  stampTwo - stampOne;
+	return (hours/1000/3600);
+},
 
 	getDifference: (stampOne, stampTwo) => {
 		return Math.abs(stampOne - stampTwo);

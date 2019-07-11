@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import {Text, View, ScrollView, StyleSheet, FlatList} from "react-native";
 import { getPunches } from '../redux/actions/appActions';
 import SinglePunch from './SinglePunch';
-
+import FormatStamp from '../util/FormatStamp';
 
 class PunchList extends React.Component {
 
    state = {
-       punches: null,
        punchList: null,
+       totalHours: 'Select Dates',
    };
 
    componentWillMount(){
@@ -17,40 +17,55 @@ class PunchList extends React.Component {
    }
 
    _getPunches = async (email) => {
-      let punches = await this.props.getPunches(email);
-      this.setState({ punches });
+      let punchList = await this.props.getPunches(email);
+      punchList.reverse();
+      this.setState({ punchList });
    };
 
-   _getPunchList = (date1, date2) => {
-       console.log(this.state.punches);
-       let punchArray = [];
-       if(this.state.punchList == null) return;
-       this.state.punches.forEach(function(element) {
-           console.log('here');
-           if (date1 >= element.timestampIn && date2 <= element.timestampOut) {
-               punchArray.push(element);
-           }
-       });
-       this.setState({punchList: punchArray});
-   };
+
 
    render() {
-        this._getPunchList(this.props.firstDate, this.props.secondDate);
         let { punchList } = this.state;
+        let displayHour = this.state.totalHours;
+        let hours = 0;
         if (!punchList || !punchList.length)
             punchList = [];
-        punchList.reverse();
-        const listItems = punchList.map((punch) => (
-            <View style={styles.punchRow}>
-               <SinglePunch punch={punch} style={styles.punch}/>
-            </View>
-        )
+
+        const listItems = punchList.map((punch) => {
+
+            if (this.props.firstDate != null && this.props.secondDate != null) {
+                let timeIn =  punch.timestampIn;
+                if (timeIn >= this.props.firstDate.getTime() && timeIn <= this.props.secondDate.getTime()) {
+                    hours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
+                   return (
+                       <View style={styles.punchRow}>
+                        <SinglePunch punch={punch} style={styles.punch}/>
+                    </View>
+                   )
+                }
+
+            } else {
+                return (
+                    <View style={styles.punchRow}>
+                        <SinglePunch punch={punch} style={styles.punch}/>
+                    </View>
+                )
+            }
+        }
       );
+        if (hours > 0) {
+            displayHour = hours.toFixed(2);
+        }
 
       return (
-         <ScrollView style={styles.punchList}>
-            { listItems }
-         </ScrollView>
+          <View style={styles.container}>
+              <View style={styles.total}>
+                  <Text>Total Hours: { displayHour }</Text>
+              </View>
+              <ScrollView style={styles.punchList}>
+                  { listItems }
+              </ScrollView>
+          </View>
       );
    }
 
@@ -71,6 +86,12 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(PunchList);
 
 const styles = StyleSheet.create({
+    container: {
+        paddingBottom: 20,
+    },
+    total: {
+        padding: 10
+    },
     punchList: {
       marginTop: 40,
       marginBottom: 60
@@ -85,7 +106,7 @@ const styles = StyleSheet.create({
       margin: 10,
       padding: 10,
       flex: 1,
-      backgroundColor: '#e0e0e0',
+      backgroundColor: '#f2f2f2',
       borderRadius: 5
     }
 });

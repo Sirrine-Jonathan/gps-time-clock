@@ -18,7 +18,8 @@ export default class SinglePunch extends React.Component {
    _toggleMapOut = () => {
          // only show one map if the user is currently clocked in
          let { punch } = this.props;
-         if (FormatStamp.getTime(punch.timestampOut) != 'Invalid Date'){
+         console.log(FormatStamp.getTime(punch.timestampOut));
+         if (FormatStamp.getTime(punch.timestampOut) != 'undefined:undefined AM'){
             this.setState({showMapOut: !this.state.showMapOut})
          }
    };
@@ -31,16 +32,21 @@ export default class SinglePunch extends React.Component {
    render() {
       let { punch } = this.props;
       let timeOut = FormatStamp.getTime(punch.timestampOut);
-
-      if (timeOut == 'Invalid Date') {
+      let hours = FormatStamp.getHours(punch.timestampIn, punch.timestampOut);
+      let dayString = FormatStamp.getDateString(punch.timestampIn);
+      if (timeOut === 'undefined:undefined AM') {
          timeOut =  '';
       }
+
 
       return (
          <TouchableOpacity style={this.props.style} onPress={this._toggleMap}>
             {(this.state.showMapIn) ? <Map coords={punch.locationIn}/> :null}
             {(this.state.showMapOut) ? <Map coords={punch.locationOut}/> :null}
             <View style={styles.punchInfoBox}>
+               <View style={styles.dateRow}>
+                  <Text>{ dayString }</Text>
+               </View>
                <View style={styles.textRow}>
                   <Text>In:</Text>
                   <Text>{ FormatStamp.getTime(punch.timestampIn) }</Text>
@@ -48,6 +54,10 @@ export default class SinglePunch extends React.Component {
                <View style={styles.textRow}>
                   <Text>Out:</Text>
                   <Text>{ timeOut }</Text>
+               </View>
+               <View style={styles.textRow}>
+                  <Text>Total Hours:</Text>
+                  <Text>{ hours }</Text>
                </View>
             </View>
          </TouchableOpacity>
@@ -61,13 +71,26 @@ const styles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'column',
       alignContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      shadowColor: "#000000",
+      shadowOpacity: 0.5,
+      shadowRadius: 2,
+      shadowOffset: {
+         height: 2,
+         width: 2
+      }
    },
    textRow: {
       display: 'flex',
       flexDirection: 'row',
       width: '70%',
       justifyContent: 'space-between' 
+   },
+   dateRow: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '70%',
+      justifyContent: 'center'
    },
    mapContainer: {
       display: 'flex',
