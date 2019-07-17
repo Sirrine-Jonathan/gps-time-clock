@@ -14,7 +14,7 @@ class SingleUser extends React.Component {
    render() {
       let { user } = this.props;
       let { lastPunch, punchedIn } = this.props.getLastPunch(user.email);
-      
+      console.log(user);
       return (
          <TouchableOpacity style={this.props.style} onPress={this._viewUser}>
             <View style={styles.userInfoBox}>

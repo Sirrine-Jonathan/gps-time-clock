@@ -227,6 +227,17 @@ const getCompanyUsers = (company) => async (dispatch, getState) => {
    })
 }
 
+const isWorking = (email) => {
+   const url = 'https://gps-time.herokuapp.com/api/isWorking?email=' + email;
+   let isWorking = false;
+   fetch(url, {}).then((res) => {
+      isWorking = res;
+   }).catch((error) => {
+      console.log(error);
+   })
+   return isWorking;
+}
+
 module.exports = {
    addPunch,
    initPunchedState,
@@ -235,5 +246,6 @@ module.exports = {
    getPunches,
    getCompanyUsers,
    getLastPunch,
-   setReportsUser
+   setReportsUser,
+   isWorking
 }
