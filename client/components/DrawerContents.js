@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, View, StyleSheet } from 'react-native';
-import { DrawerItems, SafeAreaView} from 'react-navigation';
+import { DrawerItems, SafeAreaView, NavigationEvents } from 'react-navigation';
+import { getPunches } from '../redux/actions/appActions';
 import CButton from './CButton';
 
 import { logout } from '../redux/actions/authActions'
@@ -21,7 +22,7 @@ class DrawerContents extends React.Component {
           } else if (this.props.user.isAdmin){
             return true;
           } else {
-            if (item.key == "Admin")
+            if (item.key == "Employees")
               return false;
             else 
               return true;
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = (dispatch) => {
   return {
     logout: () => dispatch(logout()),
+    setReportsUser: (user) => dispatch(setReportsUser(user))
   }
 }
 

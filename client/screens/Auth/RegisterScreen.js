@@ -9,7 +9,8 @@ import {
 	stageEmail, 
 	stagePassword,
 	stageCompany,
-	stageSecret
+	stageSecret,
+  updateRegisterLoading
 } from '../../redux/actions/authActions';
 
 class RegisterScreen extends React.Component {
@@ -96,50 +97,52 @@ class RegisterScreen extends React.Component {
 
     render() {
         const { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
-        const { registerErr, username, email, password, company, secret } = this.props;
+        const { registerErr, username, email, password, company, secret, loading } = this.props;
         return (
-            <View style={styles.container}>
-              <Input 
-                imageSrc="idcard"
-                placeholder="Username"
-                containsError={usernameErr}
-                onChangeText={(username) => this._usernameErr(username)}
-                value={username}
-              />
-              <Input 
-                imageSrc="at"
-                placeholder="Email"
-                keyboardType="email-address"
-                containsError={emailErr}
-                onChangeText={(email) => this._emailErr(email)} 
-                value={email}
-              />
-              <Input 
-                imageSrc="key"
-                placeholder="Password"
-                secureTextEntry={true}
-                containsError={passwordErr}
-                onChangeText={(password) => this._passwordErr(password)}
-                value={password}
-              />
-              <Input 
-                imageSrc="building"
-                placeholder="Company"
-                containsError={companyErr}
-                onChangeText={(company) => this._companyErr(company)}
-                value={company}
-              />
-              <Input 
-                imageSrc="locked_quote"
-                placeholder="Secret"
-                secureTextEntry={true}
-                containsError={secretErr}
-                onChangeText={(secret) => this._secretErr(secret)}
-                value={secret}
-              />
-              <Text style={styles.error}>{ registerErr }</Text>
-              <CButton title="Register" onPress={this._register} />
-            </View>
+          <View style={styles.container}>
+            <Input 
+              imageSrc="idcard"
+              placeholder="Username"
+              containsError={usernameErr}
+              onChangeText={(username) => this._usernameErr(username)}
+              value={username}
+            />
+            <Input 
+              imageSrc="at"
+              placeholder="Email"
+              keyboardType="email-address"
+              containsError={emailErr}
+              onChangeText={(email) => this._emailErr(email)} 
+              value={email}
+            />
+            <Input 
+              imageSrc="key"
+              placeholder="Password"
+              secureTextEntry={true}
+              containsError={passwordErr}
+              onChangeText={(password) => this._passwordErr(password)}
+              value={password}
+            />
+            <Input 
+              imageSrc="building"
+              placeholder="Company"
+              containsError={companyErr}
+              onChangeText={(company) => this._companyErr(company)}
+              value={company}
+            />
+            <Input 
+              imageSrc="locked_quote"
+              placeholder="Secret"
+              secureTextEntry={true}
+              containsError={secretErr}
+              onChangeText={(secret) => this._secretErr(secret)}
+              value={secret}
+            />
+
+            <Text style={styles.error}>{ registerErr }</Text>
+
+            <CButton title="Register" onPress={this._register} loading={loading} />
+          </View>
         );
     }
 }
@@ -151,7 +154,8 @@ const mapDispatchToProps = (dispatch) => {
     stageEmail: (email) => dispatch(stageEmail(email)),
     stagePassword: (password) => dispatch(stagePassword(password)),
     stageCompany: (company) => dispatch(stageCompany(company)),
-    stageSecret: (secret) => dispatch(stageSecret(secret))
+    stageSecret: (secret) => dispatch(stageSecret(secret)),
+    updateLoading: (isLoading) => dispatch(updateRegisterLoading(isLoading))
   }
 }
 
@@ -162,32 +166,23 @@ const mapStateToProps = (state) => {
     email: state.email,
     password: state.password,
     company: state.company,
-    secret: state.secret
+    secret: state.secret,
+    loading: state.registerLoading
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#DCDCDC',
-    },
-    inputContainer: {
-        borderBottomColor: '#F5FCFF',
-        backgroundColor: '#FFFFFF',
-        borderRadius:30,
-        borderBottomWidth: 1,
-        width:250,
-        height:45,
-        marginBottom:20,
-        flexDirection: 'row',
-        alignItems:'center'
-    },
-    error: {
-        textAlign: 'center',
-        color: '#8b0000',
-    }
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#DCDCDC',
+  },
+  error: {
+    textAlign: 'center',
+    color: '#8b0000',
+    marginBottom:20,
+  }
 });

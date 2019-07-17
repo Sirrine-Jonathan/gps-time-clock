@@ -28,6 +28,11 @@ const FormatStamp = {
 		return (day + ': ' + month + ' ' + date.getDate() + ', ' + year);
 	},
 
+	getHoursUnformatted: (stampOne, stampTwo) => {
+		let hours =  stampTwo - stampOne;
+		return (hours/1000/3600);
+	},
+
 	getHours: (stampOne, stampTwo) => {
 		let hours =  stampTwo - stampOne;
 		return (hours/1000/3600).toFixed(2);

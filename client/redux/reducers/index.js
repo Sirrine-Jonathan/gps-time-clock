@@ -13,7 +13,10 @@ import {
    PUNCH,
    INIT,
    UPDATE_ERROR,
-   UPDATE_USERS
+   UPDATE_USERS,
+   REGISTER_LOADING,
+   LOGIN_LOADING,
+   SET_REPORTS_USER
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -30,7 +33,11 @@ const initialState = {
    company: "",
    secret: "",
    updateError: null,
-   users: null
+   users: null,
+   registerLoading: false,
+   loginLoading: false,
+   reportsUser: null,
+   reportsUsersPunches: []
 }
 
 const checkAuth = async () => {
@@ -48,12 +55,15 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                loginErr: null
+                reportsUser: action.payload,
+                loginErr: null,
+                loginLoading: false
             };
          case LOGIN_ERROR: 
             return {
                ...state,
                loginError: action.payload,
+               loginLoading: false,
             };
          case LOGOUT:
             return {
@@ -70,12 +80,14 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 user: action.payload,
-                registerError: null
+                registerError: null,
+                registerLoading: false
             };
          case REGISTER_ERROR: 
             return {
                ...state,
-               registerError: action.payload
+               registerError: action.payload,
+               registerLoading: false
             };
          case STAGE_USERNAME: 
             return {
@@ -124,6 +136,22 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               users: action.payload
             };
+         case REGISTER_LOADING:
+            return {
+              ...state,
+              registerLoading: action.payload
+            };
+         case LOGIN_LOADING:
+            return {
+              ...state,
+              loginLoading: action.payload
+            }
+         case SET_REPORTS_USER:
+            return {
+              ...state,
+              reportsUser: action.payload.user,
+              reportsUsersPunches: action.payload.punches
+            }
          default:
             return state;
     }

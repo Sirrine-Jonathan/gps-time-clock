@@ -27,3 +27,8 @@ export const UPDATE_COMPANY_ERROR = "UPDATE_COMPANY_ERROR";
 // update users from get company employees call
 export const UPDATE_ERROR = 'UPDATE_ERROR';
 export const UPDATE_USERS = 'UPDATE_USERS';
+
+export const REGISTER_LOADING = "REGISTER_LOADING";
+export const LOGIN_LOADING = "LOGIN_LOADING";
+
+export const SET_REPORTS_USER = "SET_REPORTS_USER";

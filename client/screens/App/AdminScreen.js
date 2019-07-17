@@ -5,11 +5,6 @@ import { getCompanyUsers } from '../../redux/actions/appActions';;
 import SingleUser from '../../components/SingleUser';
 
 class AdminScreen extends React.Component {
-   
-   static navigationOptions = {
-      drawerLabel: 'Admin',
-      title: 'Admin'
-   };
 
    componentWillMount(){
       this.props.getCompanyUsers();

@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from 'react-redux';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
-import { getLastPunch } from '../redux/actions/appActions';
+import { getLastPunch, setReportsUser } from '../redux/actions/appActions';
 
 class SingleUser extends React.Component {
 
    _viewUser = () => {
       let { user } = this.props;
+      this.props.setReportsUser(user);
       this.props.navigation.navigate("History", { user: user })
    }
 
@@ -41,7 +42,8 @@ class SingleUser extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      getLastPunch: (email) => dispatch(getLastPunch(email))
+      getLastPunch: (email) => dispatch(getLastPunch(email)),
+      setReportsUser: (user) => dispatch(setReportsUser(user))
    }
 }
 

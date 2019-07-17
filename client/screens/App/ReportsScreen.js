@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from 'react-redux';
 import {Text, View, StyleSheet} from "react-native";
+import { NavigationEvents } from "react-navigation";
 import PunchList from '../../components/PunchList';
 import RangeButton from '../../components/RangeButton';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { getPunches } from '../../redux/actions/appActions';
+import FormatStamp from "../../util/FormatStamp";
+import { getPunches, setReportsUser } from '../../redux/actions/appActions';
 
 class ReportsScreen extends React.Component {
 
@@ -15,27 +17,12 @@ class ReportsScreen extends React.Component {
       secondDate: null,
       firstDateDisplay: 'Select Date',
       secondDateDisplay: 'Select Date',
-      puches: [],
-      user: null,
       totalHours: 0,
    };
 
    static navigationOptions = {
       drawerLabel: 'Reports',
       title: 'Reports'
-   };
-
-
-   componentWillMount(){
-      let user = this.props.navigation.getParam("user", this.props.user);
-      this._getPunches(user.email);
-      this.setState({user});
-   }
-
-   _getPunches = async (email) => {
-      let punches = await this.props.getPunches(email);
-      await this.setState({ punches });
-      this._handleDateChange();
    };
 
    _firstButtonActions = () => {
@@ -65,51 +52,70 @@ class ReportsScreen extends React.Component {
          this.setState({secondDate: date})
       }
       this._hideDateTimePicker();
-      this._handleDateChange();
    };
 
-   _handleDateChange = () => {
+   _filterPunches = (punches) => {
    	   let date1 = this.state.firstDate;
    	   let date2 = this.state.secondDate;
-   	   let { punches } = this.state;
-       let punchArray = [];
+       if (punches == null){
+          punches = this.props.getPunches(this.props.globalUser.email);
+       };
+       if (punches == null){
+          return [];
+       };
 
-       if (punches == null) return;
-       console.log("_getPunchList called");
        punches = punches.filter((element) => {
-         if (!date1 && !date2){
-            return true;
-         } else if (!date1 && date2){
-         	return (date2 <= element.timestampOut);
-         } else if (date1 && !date2){
-         	return (date1 >= element.timestampIn);
-         } else {
-         	return (date1 >= element.timestampIn && date2 <= element.timestampOut);
-         }
+          if (!date1 && !date2){
+              return true;
+          } else if (!date1 && date2){
+          	  return (date2 <= element.timestampOut);
+          } else if (date1 && !date2){
+          	  return (date1 >= element.timestampIn);
+          } else {
+          	  return (date1 >= element.timestampIn && date2 <= element.timestampOut);
+          }
        });
-       this.setState({punches});
-       this._getTotal();
+       return punches;
    };
 
-   _getTotal = () => {
-      let  { punches } = this.state;
+   _getTotal = (punches) => {
       let totalHours = 0;
+      if (!punches){ 
+         return 0;
+      }
+
       punches.forEach((punch) => {
            let punchHours = FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
            if (!isNaN(punchHours)) {
                totalHours += FormatStamp.getHoursUnformatted(punch.timestampIn, punch.timestampOut);
            }
       });
-      totalHours = totalHours.toFixed(2)
-      this.setState({ totalHours });
+
+      return totalHours.toFixed(2);
+   }
+
+   // this is just a paranoia check
+   _filterUser = (user) => {
+      if (user){
+        return user; 
+      } else {
+        return this.props.globalUser;
+      }
    }
 
    render() {
-   	let { punches, user } = this.state;
-      if (punches)
-         console.log('punches length: ' + punches.length);
+   	let { user, punches, setReportsUser } = this.props;
+    user =this._filterUser(user);
+    punches = this._filterPunches(punches);
+    let total = this._getTotal(punches);
       return (
          <View style={styles.content}>
+           <NavigationEvents 
+            onWillBlur={() => {
+              console.log('didBlur');
+              setReportsUser(this.props.globalUser)
+            }}
+          />
          	<View style={styles.header}>
 	            <View style={styles.userInfo}>
 	               <Text style={styles.username}>{ user.username }</Text>
@@ -121,7 +127,7 @@ class ReportsScreen extends React.Component {
 	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
 	            </View>
                <View style={styles.total}>
-                  <Text>Total Hours: { this.state.totalHours }</Text>
+                  <Text>Total Hours: { total }</Text>
                </View>
             </View>
             <DateTimePicker
@@ -138,14 +144,17 @@ class ReportsScreen extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {  
-	getPunches: (email) => dispatch(getPunches(email)), 
+    getPunches: (email) => dispatch(getPunches(email)), 
+    setReportsUser: (user) => dispatch(setReportsUser(user))
   }
 }
 
 const mapStateToProps = (state) => {
-   return {
-      user: state.user,
-   }
+  return {
+    globalUser: state.user,
+    user: state.reportsUser,
+    punches: state.reportsUsersPunches
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReportsScreen);

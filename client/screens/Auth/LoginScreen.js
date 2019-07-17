@@ -4,7 +4,12 @@ import { View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
-import { login, stageEmail, stagePassword } from '../../redux/actions/authActions'
+import { 
+	login, 
+	stageEmail, 
+	stagePassword, 
+	updateLoginLoading 
+} from '../../redux/actions/authActions'
 
 class LoginScreen extends React.Component {
 		
@@ -59,35 +64,35 @@ class LoginScreen extends React.Component {
 		}
 
 		render() {
-				const { emailErr, passwordErr } = this.state;
-				const { loginError, email, password } = this.props;
-				return (
-					<View style={styles.container}>
-						<Input 
-							imageSrc="msg"
-							placeholder="Username / Email"
-							keyboardType="email-address"
-							containsError={emailErr}
-							onChangeText={(email) => this._emailErr(email)}
-							value={email}
-						/>
-						<Input 
-							imageSrc="key"
-							placeholder="Password"
-							secureTextEntry={true}
-							containsError={passwordErr}
-							onChangeText={(password) => this._passwordErr(password)}
-							value={password}
-						/>
+			const { emailErr, passwordErr } = this.state;
+			const { loginError, email, password, loading } = this.props;
+			return (
+				<View style={styles.container}>
+					<Input 
+						imageSrc="msg"
+						placeholder="Username / Email"
+						keyboardType="email-address"
+						containsError={emailErr}
+						onChangeText={(email) => this._emailErr(email)}
+						value={email}
+					/>
+					<Input 
+						imageSrc="key"
+						placeholder="Password"
+						secureTextEntry={true}
+						containsError={passwordErr}
+						onChangeText={(password) => this._passwordErr(password)}
+						value={password}
+					/>
 
-						<Text style={styles.error}>{ loginError }</Text>
+					<Text style={styles.error}>{ loginError }</Text>
 
-						<CButton title="Login" onPress={this._login} />
-						<CLink title="Register" onPress={this._navToRegister} />
-						<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-						<CLink title="v1.7.6" />
-					</View>
-				);
+					<CButton title="Login" onPress={this._login} loading={loading}/>
+					<CLink title="Register" onPress={this._navToRegister} />
+					<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
+					<CLink title="v1.0.8" />
+				</View>
+			);
 		}
 }
 
@@ -95,7 +100,8 @@ const mapDispatchToProps = (dispatch) => {
 	 return {
 			login: (email, password) => dispatch(login(email, password)),
 			stageEmail: (email) => dispatch(stageEmail(email)),
-			stagePassword: (password) => dispatch(stagePassword(password))
+			stagePassword: (password) => dispatch(stagePassword(password)),
+			updateLoading: (isLoading) => dispatch(updateLoginLoading(isLoading))
 	 }
 }
 
@@ -103,22 +109,23 @@ const mapStateToProps = (state) => {
 	 return {
 			loginError: state.loginError,
 			email: state.email,
-			password: state.password
+			password: state.password,
+			loading: state.loginLoading
 	 }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
 
 const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
-			backgroundColor: '#DCDCDC',
-		},
-		error: {
-			textAlign: 'center',
-			color: '#8b0000',
-			marginBottom:20,
-		}
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#DCDCDC',
+	},
+	error: {
+		textAlign: 'center',
+		color: '#8b0000',
+		marginBottom:20,
+	}
 });

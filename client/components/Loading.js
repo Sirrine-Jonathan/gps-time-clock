@@ -1,18 +1,12 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
 
 export default class Loading extends React.Component {
    render(){
-      console.log('in loading');
       return (
          <View>
-            <Text>Loading...</Text>
+            <ActivityIndicator size="large" color="#00b5ec" />
          </View>
       );
    }
 }
-
-
-/*
-<ActivityIndicator size="large" color="#0000ff" />
-*/

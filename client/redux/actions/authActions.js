@@ -10,6 +10,8 @@ import {
    STAGE_PASSWORD,
    STAGE_COMPANY,
    STAGE_SECRET,
+   LOGIN_LOADING,
+   REGISTER_LOADING,
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -58,6 +60,24 @@ const stageSecret = (payload) => ({
    payload: payload
 })
 
+const loginLoading = (payload) => ({
+   type: LOGIN_LOADING,
+   payload: payload
+})
+
+const registerLoading = (payload) => ({
+   type: REGISTER_LOADING,
+   payload: payload
+})
+
+const updateRegisterLoading = (isLoading) => {
+  dispatch(registerLoading(isLoading));
+}
+
+const updateLoginLoading = (isLoading) => {
+  dispatch(loginLoading(isLoading));
+}
+
 const sendRecoveryEmail = (email) => async dispatch => {
 	console.log('redux sendRecoveryEmail');
 	console.log('email', email);
@@ -82,6 +102,7 @@ const sendRecoveryEmail = (email) => async dispatch => {
 };
 
 const login = (email, password) => async dispatch => { 
+  dispatch(loginLoading(true));
   fetch("https://gps-time.herokuapp.com/api/authenticate", {
       method: 'POST',
       headers: {
@@ -113,6 +134,7 @@ const logout = () => async dispatch => {
 }
 
 const register = (username, email, company, password, secret) => async dispatch => {
+   dispatch(registerLoading(true));
    fetch("https://gps-time.herokuapp.com/api/addUser", {
       method: 'POST',
       headers: {
@@ -133,6 +155,7 @@ const register = (username, email, company, password, secret) => async dispatch 
       } else {
          dispatch(registerSuccess(res));
       }
+
    })
    .catch((error) => {
      dispatch(registerFail(error));
@@ -157,5 +180,7 @@ module.exports = {
    stagePassword,
    stageCompany,
    stageSecret,
-   sendRecoveryEmail
+   sendRecoveryEmail,
+   updateRegisterLoading,
+   updateLoginLoading
 }

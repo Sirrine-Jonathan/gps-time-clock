@@ -6,9 +6,15 @@ import {
    UPDATE_USER,
    UPDATE_USER_ERROR,
    UPDATE_COMPANY,
-   UPDATE_COMPANY_ERROR
+   UPDATE_COMPANY_ERROR,
+   SET_REPORTS_USER
 } from '../types';
 import { AsyncStorage } from 'react-native';
+
+const passReportsUser = (payload) => ({
+   type: SET_REPORTS_USER,
+   payload: payload,
+})
 
 const punch = (payload) => ({
    type: PUNCH,
@@ -50,6 +56,16 @@ const updateCompanyFail = (payload) => ({
    payload: payload
 })
 
+const setReportsUser = (user) => async (dispatch) => {
+   let punches = [];
+   if (user.email){
+      punches = await localGetPunches(user.email);
+   }
+   dispatch(passReportsUser({
+      user,
+      punches
+   }));
+};
 
 
 const addPunch = (loc) => async (dispatch, getState) => {
@@ -90,6 +106,22 @@ const addPunch = (loc) => async (dispatch, getState) => {
 }
 
 const getPunches = (email) => async (dispatch, getState) => {
+   if (!email)
+      email = getState().user.email;
+   let url = "https://gps-time.herokuapp.com/time/getPunches?email=" + email;
+   let punches = [];
+   await fetch (url, {}).then((res) => {
+      res.json().then((data) => {
+         punches = data.punches;
+      })
+   }).catch((error) => {
+      console.log(error);
+      punches = error;
+   })
+   return punches;
+}
+
+const localGetPunches = async (email) => {
    if (!email)
       email = getState().user.email;
    let url = "https://gps-time.herokuapp.com/time/getPunches?email=" + email;
@@ -202,5 +234,6 @@ module.exports = {
    updateCompanyInfo,
    getPunches,
    getCompanyUsers,
-   getLastPunch
+   getLastPunch,
+   setReportsUser
 }

@@ -11,9 +11,6 @@ export default class SinglePunch extends React.Component {
       showMapOut: false,
    };
 
-   componentWillMount(){
-      console.log('component will mount');
-   }
    _toggleMapIn = () => {
          this.setState({showMapIn: !this.state.showMapIn});
    };
@@ -35,14 +32,9 @@ export default class SinglePunch extends React.Component {
 
       let { punch } = this.props;
       let timeOut = FormatStamp.getTime(punch.timestampOut);
-      console.log('in', timeOut);
       let timeIn = FormatStamp.getTime(punch.timestampIn);
-      console.log('out', timeIn);
       let hours = FormatStamp.getHours(punch.timestampIn, punch.timestampOut);
-      console.log('hours', hours);
       let dayString = FormatStamp.getDateString(punch.timestampIn);
-      console.log('dayString', dayString);
-      console.log('singlePunch renderr');
       return (
          <TouchableOpacity style={this.props.style} onPress={this._toggleMap}>
             {(this.state.showMapIn) ? <Map coords={punch.locationIn}/> :null}
