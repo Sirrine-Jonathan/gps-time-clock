@@ -4,6 +4,10 @@ const FormatStamp = {
 		return Date.now()
 	},
 
+	getUnix: (dateString) => {
+		return new Date(dateString).getTime();
+	},
+
 	getDateString: (miliseconds) => {
 		let date = new Date(miliseconds);
 		let week = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

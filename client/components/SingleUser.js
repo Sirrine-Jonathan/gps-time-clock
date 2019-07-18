@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import {Text, View, StyleSheet, TouchableOpacity} from "react-native";
 import { getLastPunch, setReportsUser } from '../redux/actions/appActions';
+import { Entypo } from '@expo/vector-icons';
 
 class SingleUser extends React.Component {
 
@@ -14,26 +15,18 @@ class SingleUser extends React.Component {
    render() {
       let { user } = this.props;
       let { lastPunch, punchedIn } = this.props.getLastPunch(user.email);
+      let dot = (<Entypo name="dot-single" size={28} color="green" />);
       console.log(user);
       return (
          <TouchableOpacity style={this.props.style} onPress={this._viewUser}>
             <View style={styles.userInfoBox}>
-               <View style={styles.textRow}>
-                  <Text>username:</Text>
-                  <Text>{ user.username }</Text>
+               <View style={styles.textColumn}>
+                  { dot }
                </View>
-               <View style={styles.textRow}>
-                  <Text>email:</Text>
-                  <Text>{ user.email }</Text>
+               <View style={styles.textColumn}>
+                  { user.username }
+                  { user.email }
                </View>
-               {
-                  (lastPunch) ? (
-                     <View>
-                        <Text>Last Punch</Text>
-                        <Text>{ lastPunch }</Text>
-                     </View>
-                  ):null
-               }
             </View>
          </TouchableOpacity>
       );
@@ -58,13 +51,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(SingleUser);
 const styles = StyleSheet.create({
    userInfoBox: {
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'row',
       alignContent: 'center',
       alignItems: 'center'
    },
-   textRow: {
+   textColumn: {
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
       width: '70%',
       justifyContent: 'space-between' 
    },
