@@ -1,29 +1,29 @@
 import {
-   PUNCH,
-   INIT,
-   UPDATE_ERROR,
-   UPDATE_USERS,
-   UPDATE_USER,
-   UPDATE_USER_ERROR,
-   UPDATE_COMPANY,
-   UPDATE_COMPANY_ERROR,
-   SET_REPORTS_USER
+	PUNCH,
+	INIT,
+	UPDATE_ERROR,
+	UPDATE_USERS,
+	UPDATE_USER,
+	UPDATE_USER_ERROR,
+	UPDATE_COMPANY,
+	UPDATE_COMPANY_ERROR,
+	SET_REPORTS_USER
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
 const passReportsUser = (payload) => ({
-   type: SET_REPORTS_USER,
-   payload: payload,
+	type: SET_REPORTS_USER,
+	payload: payload,
 })
 
 const punch = (payload) => ({
-   type: PUNCH,
-   payload: payload,
+	type: PUNCH,
+	payload: payload,
 })
 
 const init = (payload) => ({
-   type: INIT, 
-   payload: payload,
+	type: INIT, 
+	payload: payload,
 })
 
 const updateUsersFail = (payload) => ({

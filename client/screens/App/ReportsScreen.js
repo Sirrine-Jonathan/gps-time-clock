@@ -55,8 +55,8 @@ class ReportsScreen extends React.Component {
    };
 
    _filterPunches = (punches) => {
-   	   let date1 = this.state.firstDate;
-   	   let date2 = this.state.secondDate;
+   	   let start = FormatStamp.getUnix(this.state.firstDate); console.log('startDate: ', start);
+   	   let end = FormatStamp.getUnix(this.state.secondDate); console.log("endDate: ", end);
        if (punches == null){
           punches = this.props.getPunches(this.props.globalUser.email);
        };
@@ -65,14 +65,14 @@ class ReportsScreen extends React.Component {
        };
 
        punches = punches.filter((element) => {
-          if (!date1 && !date2){
+          if (!start && !end){
               return true;
-          } else if (!date1 && date2){
-          	  return (date2 <= element.timestampOut);
-          } else if (date1 && !date2){
-          	  return (date1 >= element.timestampIn);
+          } else if (!start && end){
+          	  return (element.timestampOut && end >= element.timestampOut);
+          } else if (start && !end){
+          	  return (start <= element.timestampIn);
           } else {
-          	  return (date1 >= element.timestampIn && date2 <= element.timestampOut);
+          	  return (start <= element.timestampIn && ((element.timestampOut && end >= element.timestampOut) || !element.timestampOut));
           }
        });
        return punches;
