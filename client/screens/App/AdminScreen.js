@@ -18,7 +18,7 @@ class AdminScreen extends React.Component {
       const employees = users.map((user) => 
          (
             <View style={styles.row}>
-               <SingleUser user={user} style={styles.user} navigation={this.props.navigation}/>
+               <SingleUser user={user} navigation={this.props.navigation}/>
             </View>
          )
       );
@@ -48,12 +48,5 @@ export default connect(mapStateToProps, mapDispatchToProps)(AdminScreen);
 const styles = StyleSheet.create({
    list: {
       marginTop: 10,
-   },
-   user: {
-      margin: 10,
-      padding: 10,
-      flex: 1,
-      backgroundColor: '#ffffff',
-      borderRadius: 5
    }
 });
