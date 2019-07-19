@@ -18,6 +18,7 @@ class HomeScreen extends React.Component {
 		long: null,
 		date: null,
 		time: null,
+		mapType: "satellite"
 	};
 
 	componentWillMount() {
@@ -58,22 +59,43 @@ class HomeScreen extends React.Component {
 		this.props.addPunch(loc);
 	};
 
+	_changeMapType = () => {
+		let mapType = this.state.mapType;
+		if (mapType == 'satellite'){
+			mapType = 'standard';
+		} else {
+			mapType = 'satellite';
+		}
+		this.setState({ mapType });
+	}
+
 	render() {
 		return (
 			<View style={styles.container}>
 				{(this.state.long && this.state.lat) ? (
 				<MapView 
 					style={{ 
-						alignSelf: 'stretch', 
-						height: 200 
+						flex: 1
 					}}
+					mapType={this.state.mapType}
 					region={{
 						latitude: this.state.lat,
 						longitude: this.state.long,
-						latitudeDelta: 0.0003,
-						longitudeDelta: 0.00015, 
+						latitudeDelta: 0.003,
+						longitudeDelta: 0.0015, 
 					}}
-				/>):null}
+					showUserLocation={true}
+					loadingEnabled={true}
+					followUserLocation={true}
+				>
+				<MapView.Marker
+				  coordinate={{
+				  	latitude: this.state.lat,
+				  	longitude: this.state.long
+				  }}
+				  title={this.props.user.username}
+				/>
+				</MapView>):null}
 				<View style={styles.timerView}>
 					<Timer 
 						lastPunch={this.props.lastPunch} 
@@ -93,7 +115,7 @@ class HomeScreen extends React.Component {
 const mapDispatchToProps = (dispatch) => {
 	return {  
 		addPunch: (punchedIn) => dispatch(addPunch(punchedIn)), 
-		initPunchedState: () => dispatch(initPunchedState())
+		initPunchedState: () => dispatch(initPunchedState()),
 	}
 }
 
@@ -118,8 +140,15 @@ const styles = StyleSheet.create({
 	puncherStyle: {
 
 	},
+	overlay: {
+		position: 'absolute',
+		backgroundColor: '#333',
+		bottom: 0,
+		height: 20
+	},
 	timerView: {
-		padding: 15,
-		paddingBottom: 25
+		position: 'absolute',
+		alignSelf: 'center',
+		bottom: '5%'
 	}
 });
