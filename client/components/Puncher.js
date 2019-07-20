@@ -19,23 +19,44 @@ export default class Puncher extends React.Component {
    	  
       return (
          <View style={this.props.style}>
+            <TouchableOpacity 
+              style={styles.btn}
+              onPress={this.props.togglePunch}
+            >
+      			  <Image style={styles.icon} source={src}/>
+      			  {/*<Text style={styles.text}>{ buttonText }</Text>*/}
+            </TouchableOpacity>
+         </View>
+      );
+   }
+}
+
+/* backup of old view contents */
+/*
             <Abutton
               stretch={true}
               backgroundColor={"#00b5ec"}
               onPress={this.props.togglePunch}
               textColor={'white'}
             >
-			  <Image style={styles.icon} source={src}/>
-			  <Text style={styles.text}>{ buttonText }</Text>
+              <Image style={styles.icon} source={src}/>
+              <Text style={styles.text}>{ buttonText }</Text>
             </Abutton>
-         </View>
-      );
-   }
-}
+*/
 
 const styles = StyleSheet.create({
-	icon: {},
+	icon: {
+    color: '#fff',
+  },
 	text: {
-		paddingLeft: 10
-	}
+    color: '#fff',
+    fontSize: 60
+	},
+  btn: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: '100%'
+  }
 });

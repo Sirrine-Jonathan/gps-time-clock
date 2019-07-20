@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { Text, View, StyleSheet, TouchableOpacity, Switch } from "react-native";
-import { getLastPunch, setReportsUser, isWorking } from '../redux/actions/appActions';
+import { setReportsUser, isWorking, toggleAdmin } from '../redux/actions/appActions';
 import CButton from './CButton';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -9,15 +9,14 @@ class SingleUser extends React.Component {
 
    state = {
       showDetails: false,
-      isAdmin: false,
-      punchedIn: null,
-      punchInfo: null
+      isAdmin: null
    }
 
    componentDidMount(){
-
+      this.setState({
+         isAdmin: this.props.user.isAdmin
+      })
    }
-
 
    _viewUser = () => {
       let { user } = this.props;
@@ -33,36 +32,45 @@ class SingleUser extends React.Component {
    }
 
    _toggleAdmin = () => {
-      let { isAdmin } = this.state;
       this.setState({
-         isAdmin: !isAdmin,
+         isAdmin: !this.props.user.isAdmin
       })
+      this.props.toggleAdmin(this.props.user);
+      this.props.update();
    }
 
    render() {
-      let { user } = this.props;
-      let { showDetails, isAdmin, punchedIn } = this.state;
+      let { user, punchInfo } = this.props;
+      let { showDetails, isAdmin } = this.state;
+      
+      if (!punchInfo){
+         console.log('unable to get punchInfo from props');
+         punchInfo = {
+           "lastPunch": 1562734295986,
+           "location": "48.169226, -122.4830126",
+           "punchedIn": true,
+         };
+      }
 
-      let color = (punchedIn) ? "green":"#333";
+      let color = (punchInfo && punchInfo.punchedIn) ? "green":"#333";
+      let lastPunch = (punchInfo && punchInfo.lastPunch) ? punchInfo.lastPunch:null;
       let dot = (<Entypo name="dot-single" size={28} color={color} />);
       let admin = (<MaterialCommunityIcons name="worker" size={28} color={color} />);
-
       let details = (
          <View style={styles.detailsView}>
             <View style={styles.details}>
                <View style={styles.textRow}>
-                  <Text style={styles.detailsText}>Email:</Text>
+                  <Text style={styles.detailsText}>Email</Text>
                   <Text style={styles.detailsText}>{ user.email }</Text>
                </View>
                <View style={styles.textRow}>
-                  <Text style={styles.detailsText}>Admin:</Text>
-                  <Text style={styles.detailsText}>{(isAdmin) ? "True":"False"}</Text>
+                  <Text style={styles.detailsText}>Admin</Text>
+                  <Text style={styles.detailsText}>{(isAdmin) ? "Yes":"No"}</Text>
                </View>
                <View style={styles.textRow}>
-                  <Text style={styles.detailsText}>PunchedIn:</Text>
-                  <Text style={styles.detailsText}>{ (punchedIn) ? "True":"False" }</Text>
+                  <Text style={styles.detailsText}>Punched In</Text>
+                  <Text style={styles.detailsText}>{ (punchInfo.punchedIn) ? "Yes":"No" }</Text>
                </View>
-
             </View>
             <View style={styles.buttonContainer}>
                <CButton title="View Punches" onPress={this._viewUser} />
@@ -87,9 +95,8 @@ class SingleUser extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
    return {
-      getLastPunch: (email) => dispatch(getLastPunch(email)),
       setReportsUser: (user) => dispatch(setReportsUser(user)),
-      isWorking: (email) => dispatch(isWorking(email)),
+      toggleAdmin: (user) => dispatch(toggleAdmin(user))
    }
 }
 

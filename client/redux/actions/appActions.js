@@ -152,22 +152,6 @@ const initPunchedState = () => async (dispatch, getState) => {
    })
 }
 
-const getLastPunch = async (email) => {
-   console.log("getLastPunch");
-   let punchInfo = null;
-   let url = "https://gps-time.herokuapp.com/time/getLastPunch?email=" + email;
-   await fetch (url, {}).then((res) => {
-      res.json().then((data) => {
-         if (!data.error)
-            punchInfo = data;
-      })
-   }).catch((err) => {
-      console.log('error');
-      console.log(err);
-   })
-   return punchInfo;
-}
-
 const updateUserInfo = (email, username, password) => async (dispatch, getState) => {
    const user = getState().user;
    fetch('https://gps-time.herokuapp.com/api/updateUser', {
@@ -186,8 +170,8 @@ const updateUserInfo = (email, username, password) => async (dispatch, getState)
    }).then((res) => {
       console.log(res);
    }).catch((error) => {
-     console.error(error);
-     dispatch(updateUserFail(true));
+      console.error(error);
+      dispatch(updateUserFail(true));
    });
 }
 
@@ -219,6 +203,7 @@ const getCompanyUsers = (company) => async (dispatch, getState) => {
    fetch(url, {}).then((res) => {
       res.json().then((data) => {
          let employees = data.filter((user) => user.email != current_user.email);
+         console.log('getCompanyUsers', employees);
          dispatch(updateUsers(employees));
       })
    }).catch((error) => {
@@ -226,8 +211,29 @@ const getCompanyUsers = (company) => async (dispatch, getState) => {
    })
 }
 
+const toggleAdmin = (user) => async (dispatch, getState)  => {
+   console.log('user', user);
+   const url = "https://gps-time.herokuapp.com/api/toggleAdmin";
+   await fetch(url, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user)
+   }).then((res) => {
+      res.json().then((data) => {
+         console.log({
+            "modifiedCount": data.modifiedCount,
+            "matchedCount": data.matchedCount
+         });
+      })
+   }).catch((error) => {
+      console.log(error);
+      dispatch(updateCompanyFail(error));
+   })
+}
+
 const isWorking = (email) => {
-   console.log("getLastPunch");
    console.log(email);
    let punchInfo = null;
    let url = "https://gps-time.herokuapp.com/time/getLastPunch?email=" + email;
@@ -250,7 +256,7 @@ module.exports = {
    updateCompanyInfo,
    getPunches,
    getCompanyUsers,
-   getLastPunch,
    setReportsUser,
-   isWorking
+   isWorking,
+   toggleAdmin
 }

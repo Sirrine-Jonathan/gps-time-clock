@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View, StyleSheet } from 'react-native';
+import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import { DrawerItems, SafeAreaView, NavigationEvents } from 'react-navigation';
 import { getPunches } from '../redux/actions/appActions';
 import CButton from './CButton';
+const logoutSrc = require("../assets/exit.png");
 
 import { logout } from '../redux/actions/authActions'
 
@@ -35,14 +36,18 @@ class DrawerContents extends React.Component {
 
       return (
          <ScrollView style={styles.content}>
-            <SafeAreaView>
+            <SafeAreaView style={{flex: 1}}>
                <View style={styles.userInfo}>
 	               <Text style={styles.username}>{ user.username }</Text>
 	               <Text style={styles.company}>{ user.company }</Text>
                </View>
                <DrawerItems {...clonedProps} />
-               <View style={styles.buttonDiv}>
-               		<CButton onPress={this._logout} title="Logout"/>
+               <View style={styles.logoutContainer}>
+                 <TouchableOpacity style={styles.buttonDiv} onPress={this._logout}>
+                    <Image style={styles.icon} source={logoutSrc}/>
+                    <Text style={styles.buttonText}>Logout</Text>
+                 		{/*<CButton onPress={this._logout} title="Logout"/>*/}
+                 </TouchableOpacity>
                </View>
             </SafeAreaView>
          </ScrollView>
@@ -54,10 +59,20 @@ const styles = StyleSheet.create({
   content: {
     marginTop: 25,
   },
+  logoutContainer: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
   buttonDiv: {
   	flex: 1,
   	flexDirection: 'row',
-  	justifyContent: 'center',
+  	justifyContent: 'space-around',
+    padding: 10,
+  },
+  buttonText: {
+    fontSize: 40,
+    color: "#333"
   },
   userInfo: {
   	flex: 1,
@@ -70,6 +85,9 @@ const styles = StyleSheet.create({
   },
   company: {
   	fontSize: 20,
+  },
+  icon: {
+
   }
 });
 

@@ -2,13 +2,14 @@ import React from "react";
 import { connect } from 'react-redux';
 import CButton from '../../components/CButton';
 import Input from '../../components/Input';
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet, ScrollView } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
 
 class SettingsScreen extends React.Component {
+
     static navigationOptions = {
-        drawerLabel: 'Settings',
-        title: 'Settings'
+      drawerLabel: 'Settings',
+      title: 'Settings'
     };
 
     state = {
@@ -90,28 +91,64 @@ class SettingsScreen extends React.Component {
     }
 
     render() {
-        let { username, email, password, company, secret } = this.state;
-        let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
-        return (
+      let { username, email, password, company, secret } = this.state;
+      let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
+      return (
+          <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
-                <View style={styles.form}>
+                <View>
                   <Text style={styles.title}>Update Account Information</Text>
-                  <Input placeholder="New Username" error={usernameErr} onChangeText={(username) => this._usernameErr(username)} value={username} />
-                  <Input placeholder="New Email" error={emailErr} onChangeText={(email) => this._emailErr(email)} value={email} />
-                  <Input placeholder="New Password" error={passwordErr} onChangeText={(password) => this._passwordErr(password)} value={password} />
-                  { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
-                  <CButton title="Update User" onPress={this._updateUser} />
+                  <View style={styles.form}>
+                    <Input
+                      imageSrc="idcard" 
+                      placeholder="New Username" 
+                      error={usernameErr} 
+                      onChangeText={(username) => this._usernameErr(username)} 
+                      value={username} 
+                    />
+                    <Input 
+                      imageSrc="at"
+                      placeholder="New Email" 
+                      error={emailErr} 
+                      onChangeText={(email) => this._emailErr(email)} 
+                      value={email} 
+                    />
+                    <Input 
+                      imageSrc="key"
+                      placeholder="New Password" 
+                      error={passwordErr} 
+                      onChangeText={(password) => this._passwordErr(password)} 
+                      value={password} 
+                    />
+                    { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
+                    <CButton title="Update User" onPress={this._updateUser} />
+                  </View>
                 </View>
                 { (this.props.user.isAdmin) ? (
+                  <View>
+                     <Text style={styles.title}>Update Company Information</Text>
                      <View style={styles.form}>
-                        <Text style={styles.title}>Update Company Information</Text>
-                        <Input placeholder="Company" error={companyErr} onChangeText={(company) => this._companyErr(company)} value={company} />
-                        <Input placeholder="Secret" error={secretErr} onChangeText={(secret) => this._secretErr(secret)} value={secret} />
+                        <Input 
+                          imageSrc="building"
+                          placeholder="Company" 
+                          error={companyErr} 
+                          onChangeText={(company) => this._companyErr(company)} 
+                          value={company} 
+                        />
+                        <Input 
+                          imageSrc="locked_quote"
+                          placeholder="Secret" 
+                          error={secretErr} onChangeText={(secret) => this._secretErr(secret)} 
+                          value={secret} 
+                        />
+                        { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
                         <CButton title="Update Company" onPress={this._updateCompany} />
                      </View>
+                  </View>
                   ):null}
             </View>
-        );
+          </ScrollView>
+      );
     }
 }
 
@@ -132,21 +169,25 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-		backgroundColor: '#DCDCDC',
+	scrollContainer: {
 	},
-	form: {
-		flex: 1,
-	},
-	error: {
-		textAlign: 'center',
-		color: '#8b0000',
-	},
+  container: {
+  },
+  form: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 	title: {
 		textAlign: 'center',
-		fontSize: 20
-	}
+		fontSize: 20,
+    padding: 20,
+    marginBottom: 20,
+    flex: 1,
+    backgroundColor: '#fff'
+	},
+  error: {
+    textAlign: 'center',
+    color: '#8b0000',
+  },
 });
