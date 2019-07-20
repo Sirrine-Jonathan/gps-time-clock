@@ -8,6 +8,7 @@ import AdminScreen from "../screens/App/AdminScreen";
 import EmployeeReportScreen from '../screens/App/EmployeeReportScreen';
 import DrawerContents from "../components/DrawerContents";
 import { store } from '../redux/createStore';
+import ExportCSV from "../screens/App/ExportCSV";
 
 
 const getCompany = () => {
@@ -24,7 +25,8 @@ let AppStack = createDrawerNavigator({
    History: ScreenHOC(ReportsScreen, "History"),
    Employees: ScreenHOC(AdminScreen, getCompany()),
    EmployeeHistory: ScreenHOC(EmployeeReportScreen, "Employee History"),
-   Settings: ScreenHOC(SettingsScreen, "Settings")
+   Settings: ScreenHOC(SettingsScreen, "Settings"),
+    ExportCSV: ScreenHOC(ExportCSV, "Export Hours")
 },
 {
    contentComponent: DrawerContents,
