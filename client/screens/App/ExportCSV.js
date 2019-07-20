@@ -4,7 +4,10 @@ import {Text, View, StyleSheet} from "react-native";
 import { NavigationEvents } from "react-navigation";
 import RangeButton from '../../components/RangeButton';
 import DateTimePicker from "react-native-modal-datetime-picker";
-
+import {
+    login,
+    sendCSVEmail
+} from '../../redux/actions/authActions'
 
 class ExportCSV extends React.Component {
 
@@ -53,7 +56,7 @@ class ExportCSV extends React.Component {
     };
 
     _sendEmail = () => {
-        console.log(this.state.user);
+        this.props.sendCSVEmail()
     }
 
 
@@ -78,6 +81,7 @@ class ExportCSV extends React.Component {
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker}
                 />
+                
             </View>
         );
     }
@@ -86,11 +90,14 @@ class ExportCSV extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+        sendCSVEmail: (dateOne, dateTwo) => dispatch(sendCSVEmail(dateOne, dateTwo))
     }
 }
 
 const mapStateToProps = (state) => {
     return {
+        emailSuccess: state.emailSuccess,
+        emailError: state.emailError
     }
 }
 

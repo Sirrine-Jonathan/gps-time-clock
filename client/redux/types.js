@@ -32,3 +32,7 @@ export const REGISTER_LOADING = "REGISTER_LOADING";
 export const LOGIN_LOADING = "LOGIN_LOADING";
 
 export const SET_REPORTS_USER = "SET_REPORTS_USER";
+
+// csv file
+export const EMAIL_ERROR = "EMAIL_ERROR";
+export const EMAIL_SUCCESS = "EMAIL_SUCCESS";

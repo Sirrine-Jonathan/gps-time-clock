@@ -16,7 +16,9 @@ import {
    UPDATE_USERS,
    REGISTER_LOADING,
    LOGIN_LOADING,
-   SET_REPORTS_USER
+   SET_REPORTS_USER,
+    EMAIL_ERROR,
+    EMAIL_SUCCESS
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -37,7 +39,9 @@ const initialState = {
    registerLoading: false,
    loginLoading: false,
    reportsUser: null,
-   reportsUsersPunches: []
+   reportsUsersPunches: [],
+    emailSuccess: null,
+    emailError: null
 }
 
 const checkAuth = async () => {
@@ -151,10 +155,23 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               reportsUser: action.payload.user,
               reportsUsersPunches: action.payload.punches
-            }
+            };
+         case EMAIL_SUCCESS:
+            return {
+                ...state,
+                emailSuccess: action.payload.success,
+                emailError: null
+            };
+         case EMAIL_ERROR:
+            return {
+                ...state,
+                emailError: action.payload.error,
+                emailSuccess: null
+            };
          default:
             return state;
     }
+
 };
 
 export default rootReducer;

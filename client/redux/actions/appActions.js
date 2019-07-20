@@ -1,13 +1,13 @@
 import {
-	PUNCH,
-	INIT,
-	UPDATE_ERROR,
-	UPDATE_USERS,
-	UPDATE_USER,
-	UPDATE_USER_ERROR,
-	UPDATE_COMPANY,
-	UPDATE_COMPANY_ERROR,
-	SET_REPORTS_USER
+   PUNCH,
+   INIT,
+   UPDATE_ERROR,
+   UPDATE_USERS,
+   UPDATE_USER,
+   UPDATE_USER_ERROR,
+   UPDATE_COMPANY,
+   UPDATE_COMPANY_ERROR,
+   SET_REPORTS_USER, EMAIL_SUCCESS, EMAIL_ERROR
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -56,6 +56,15 @@ const updateCompanyFail = (payload) => ({
    payload: payload
 })
 
+const updateEmailSucces = (payload) => ({
+   type: EMAIL_SUCCESS,
+   payload: payload
+})
+
+const updateEmailError = (payload) => ({
+   type: EMAIL_ERROR,
+   payload: payload
+})
 const setReportsUser = (user) => async (dispatch) => {
    let punches = [];
    if (user.email){
@@ -66,7 +75,6 @@ const setReportsUser = (user) => async (dispatch) => {
       punches
    }));
 };
-
 
 const addPunch = (loc) => async (dispatch, getState) => {
    const user = getState().user;
@@ -249,6 +257,35 @@ const isWorking = (email) => {
    return punchInfo.punchedIn;
 }
 
+const sendCSVEmail = (dateOne, dateTwo) => async (dispatch) => {
+   let email = getState().user.email;
+   let company = getState().user.company;
+   let url = "https://gps-time.herokuapp.com/time/SendCSVEmail";
+   fetch(url, {
+      method: 'POST',
+      headers: {
+         'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         email: email,
+         company: company,
+         dateOne: dateOne,
+         dateTwo: dateTwo
+      })
+   }).then((res) => {
+      res.json().then( (data) => {
+         if (!data.error){
+            dispatch(updateEmailSucces(data));
+         }
+         else {
+            dispatch(updateEmailError(data));
+         }
+      })
+   }).catch( (err) => {
+      dispatch(updateEmailError(data));
+   })
+}
+
 module.exports = {
    addPunch,
    initPunchedState,
@@ -258,5 +295,6 @@ module.exports = {
    getCompanyUsers,
    setReportsUser,
    isWorking,
-   toggleAdmin
+   toggleAdmin,
+   sendCSVEmail
 }
