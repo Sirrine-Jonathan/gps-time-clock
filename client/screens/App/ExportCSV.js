@@ -1,13 +1,11 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {Text, View, StyleSheet} from "react-native";
+import {Text, View, StyleSheet, ActivityIndicator} from "react-native";
 import { NavigationEvents } from "react-navigation";
 import RangeButton from '../../components/RangeButton';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import {
-    login,
-    sendCSVEmail
-} from '../../redux/actions/authActions'
+import { sendCSVEmail } from '../../redux/actions/appActions'
+import ExportButton from '../../components/ExportButton';
 
 class ExportCSV extends React.Component {
 
@@ -18,7 +16,9 @@ class ExportCSV extends React.Component {
         secondDate: null,
         firstDateDisplay: 'Select Date',
         secondDateDisplay: 'Select Date',
-        user: this.props.user
+        user: this.props.user,
+        hide: true,
+        emailSuccess: this.props.emailError
     };
 
     static navigationOptions = {
@@ -42,27 +42,30 @@ class ExportCSV extends React.Component {
     };
 
     _handleDatePicked = (date) => {
-        console.log("A date has been picked: ", date);
         // make sure a button is actually selected and not null
         if (this.state.isFirstButton) {
             this.setState({firstDateDisplay: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
             this.setState({firstDate: date});
         }
         if (!this.state.isFirstButton) {
-            this.setState({secondDateDisplay: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()})
+            this.setState({secondDateDisplay: (date.getMonth() + 1).toString() + "-" + date.getDate().toString() + "-" + date.getFullYear().toString()});
             this.setState({secondDate: date})
+        }
+        if(this.state.firstDate != null && this.state.secondDate != null) {
+            this.setState({indicator: true});
+            this.setState({hide: false});
         }
         this._hideDateTimePicker();
     };
 
     _sendEmail = () => {
-        this.props.sendCSVEmail()
-    }
+        this.props.sendCSVEmail(this.state.firstDate.getTime(), this.state.secondDate.getTime())
+    };
 
 
     render() {
-        let { user } = this.state;
-        this._sendEmail();
+        let { user, indicator } = this.state;
+        let text = "Button";
         return (
             <View style={styles.content}>
                 <View style={styles.header}>
@@ -75,6 +78,9 @@ class ExportCSV extends React.Component {
                         <Text style={styles.text}> - </Text>
                         <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
                     </View>
+                </View>
+                <View style={styles.buttonView}>
+                    <ExportButton text={"Export To Email"} hide={this.state.hide} onPress={this._sendEmail}/>
                 </View>
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -131,5 +137,9 @@ const styles = StyleSheet.create({
     },
     company: {
         fontSize: 20,
+    },
+    buttonView: {
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });

@@ -56,7 +56,7 @@ const updateCompanyFail = (payload) => ({
    payload: payload
 })
 
-const updateEmailSucces = (payload) => ({
+const updateEmailSuccess = (payload) => ({
    type: EMAIL_SUCCESS,
    payload: payload
 })
@@ -257,10 +257,14 @@ const isWorking = (email) => {
    return punchInfo.punchedIn;
 }
 
-const sendCSVEmail = (dateOne, dateTwo) => async (dispatch) => {
+const sendCSVEmail = (dateOne, dateTwo) => async (dispatch, getState) => {
+   console.log(dateOne);
+   console.log(dateTwo);
    let email = getState().user.email;
    let company = getState().user.company;
-   let url = "https://gps-time.herokuapp.com/time/SendCSVEmail";
+   console.log(email);
+   console.log(company);
+   let url = "http://gps-time.herokuapp.com/time/sendcsvemail";
    fetch(url, {
       method: 'POST',
       headers: {
