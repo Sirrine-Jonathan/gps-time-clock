@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TouchableHighlight, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 export default class CLink extends React.Component {
 	 render(){
+	 		let { color } = this.props;
+	 		if (!color)
+	 			color = "#333";
 			return (
-				<TouchableHighlight style={styles.container} onPress={this.props.onPress} >
-					<Text style={styles.text} >{ this.props.title }</Text>
-				</TouchableHighlight>
+				<TouchableOpacity style={styles.container} onPress={this.props.onPress} >
+					<Text style={{ color: color }} >{ this.props.title }</Text>
+				</TouchableOpacity>
 			);
 	 }
 }
@@ -19,9 +22,6 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'center'
-	},
-	text: {
-		color: '#333'
 	}
 });
 

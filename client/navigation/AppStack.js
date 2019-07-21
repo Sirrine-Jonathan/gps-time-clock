@@ -26,7 +26,7 @@ let AppStack = createDrawerNavigator({
    Employees: ScreenHOC(AdminScreen, getCompany()),
    EmployeeHistory: ScreenHOC(EmployeeReportScreen, "Employee History"),
    Settings: ScreenHOC(SettingsScreen, "Settings"),
-    ExportCSV: ScreenHOC(ExportCSV, "Export Hours")
+   ExportCSV: ScreenHOC(ExportCSV, "Export Hours")
 },
 {
    contentComponent: DrawerContents,

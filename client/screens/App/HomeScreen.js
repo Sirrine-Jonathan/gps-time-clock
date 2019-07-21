@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Text, View, StyleSheet, Platform, ScrollView, TouchableOpacity } from "react-native";
 import { Constants, Location, Permissions, MapView } from 'expo';
 import Loading from '../../components/Loading';
+import BackgroundImage from '../../components/BackgroundImage';
 import Puncher from '../../components/Puncher';
 import Timer from '../../components/Timer';
 import { addPunch, initPunchedState } from '../../redux/actions/appActions';
@@ -71,6 +72,7 @@ class HomeScreen extends React.Component {
 
 	render() {
 		return (
+			<BackgroundImage>
 			<View style={styles.container}>
 				{(this.state.long && this.state.lat) ? (
 				<MapView 
@@ -85,8 +87,8 @@ class HomeScreen extends React.Component {
 						longitudeDelta: 0.0015, 
 					}}
 					showUserLocation={true}
-					loadingEnabled={true}
 					followUserLocation={true}
+					loadingEnabled={true}
 				>
 				<MapView.Marker
 				  coordinate={{
@@ -108,6 +110,7 @@ class HomeScreen extends React.Component {
 					/>
 				</View>
 			</View>
+			</BackgroundImage>
 		);
 	}
 }
@@ -135,7 +138,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'space-between',
 		alignItems: 'stretch',
-		backgroundColor: '#DCDCDC',
 	},
 	puncherStyle: {
 

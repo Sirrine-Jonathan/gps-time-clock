@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {Text, View, StyleSheet, ScrollView} from "react-native";
 import { getCompanyUsers } from '../../redux/actions/appActions';;
 import SingleUser from '../../components/SingleUser';
+import BackgroundImage from '../../components/BackgroundImage';
 
 class AdminScreen extends React.Component {
 
@@ -56,9 +57,11 @@ class AdminScreen extends React.Component {
       }
       const employees = users.map(this._mapUsersToRows);
       return (
+         <BackgroundImage>
          <ScrollView style={styles.list}>
             { employees }
          </ScrollView>
+         </BackgroundImage>
       );
    }
 }

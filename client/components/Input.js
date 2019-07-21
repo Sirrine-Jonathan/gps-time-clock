@@ -48,7 +48,9 @@ export default class Input extends React.Component {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    borderBottomColor: '#F5FCFF',
+/*  borderBottomColor: '#F5FCFF',
+    borderWidth: 3,
+    borderBottomWidth: 3,  */
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     width: 250,
@@ -56,8 +58,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     alignItems:'center',
-    borderWidth: 3,
-    borderBottomWidth: 3,
+
   },
   inputIcon: {
     width:30,

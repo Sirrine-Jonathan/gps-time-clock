@@ -1,5 +1,5 @@
 import React from "react";
-import {  MapView } from 'expo';
+import { MapView } from 'expo';
 import { View, Text } from 'react-native';
 
 

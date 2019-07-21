@@ -4,6 +4,7 @@ import { View, StyleSheet, Text, AsyncStorage } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
+import BackgroundImage from '../../components/BackgroundImage';
 import { 
 	login, 
 	stageEmail, 
@@ -110,6 +111,7 @@ class LoginScreen extends React.Component {
 			const { emailErr, passwordErr } = this.state;
 			const { loginError, email, password, loading } = this.props;
 			return (
+				<BackgroundImage>
 				<View style={styles.container}>
 					<Input 
 						imageSrc="msg"
@@ -131,10 +133,12 @@ class LoginScreen extends React.Component {
 					<Text style={styles.error}>{ loginError }</Text>
 
 					<CButton title="Login" onPress={this._login} loading={loading}/>
-					<CLink title="Register" onPress={this._navToRegister} />
-					<CLink title="Forgot Password" onPress={this._navToForgotPassword} />
-					<CLink title="v1.3.6" />
+					<CLink color="#fff" title="Register" onPress={this._navToRegister} />
+					<CLink color="#fff" title="Forgot Password" onPress={this._navToForgotPassword} />
+					<CLink color="#fff" title="v1.3.7" />
 				</View>
+				</BackgroundImage>
+				
 			);
 		}
 }
@@ -150,10 +154,10 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
 	 return {
-			loginError: state.loginError,
-			email: state.email,
-			password: state.password,
-			loading: state.loginLoading
+		loginError: state.loginError,
+		email: state.email,
+		password: state.password,
+		loading: state.loginLoading
 	 }
 }
 
@@ -164,7 +168,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#DCDCDC',
 	},
 	error: {
 		textAlign: 'center',

@@ -4,6 +4,7 @@ import {Text, View, StyleSheet} from "react-native";
 import { NavigationEvents } from "react-navigation";
 import PunchList from '../../components/PunchList';
 import RangeButton from '../../components/RangeButton';
+import BackgroundImage from '../../components/BackgroundImage';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import FormatStamp from "../../util/FormatStamp";
 import { getPunches, setReportsUser } from '../../redux/actions/appActions';
@@ -57,10 +58,10 @@ class ReportsScreen extends React.Component {
    _filterPunches = (punches) => {
    	   let start = FormatStamp.getUnix(this.state.firstDate); console.log('startDate: ', start);
    	   let end = FormatStamp.getUnix(this.state.secondDate); console.log("endDate: ", end);
-       if (punches == null){
+       if (!punches){
           punches = this.props.getPunches(this.props.globalUser.email);
        };
-       if (punches == null){
+       if (!punches){
           return [];
        };
 
@@ -99,8 +100,11 @@ class ReportsScreen extends React.Component {
       if (user){
         return user; 
       } else {
+      	console.log("Reports Screen couldn't find requested user");
+      	console.log('Fell back got current user: ');
         return this.props.globalUser;
       }
+      console.log(user);
    }
 
    render() {
@@ -109,6 +113,7 @@ class ReportsScreen extends React.Component {
     punches = this._filterPunches(punches);
     let total = this._getTotal(punches);
       return (
+         <BackgroundImage>
          <View style={styles.content}>
            <NavigationEvents 
             onWillBlur={() => {
@@ -127,7 +132,7 @@ class ReportsScreen extends React.Component {
 	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
 	            </View>
                <View style={styles.total}>
-                  <Text>Total Hours: { total }</Text>
+                  <Text style={styles.totals}>Total Hours: { total }</Text>
                </View>
             </View>
             <DateTimePicker
@@ -137,6 +142,7 @@ class ReportsScreen extends React.Component {
             />
             <PunchList punches={punches}/>
          </View>
+         </BackgroundImage>
       );
    }
 
@@ -183,12 +189,20 @@ const styles = StyleSheet.create({
       paddingRight: 10,
    },
    text: {
+      color: "#fff",
       fontSize: 24,
    },
+   totals: {
+    color: "#fff",
+    textAlign: 'center',
+    fontSize: 20,
+   },
    username: {
+    color: "#fff",
    	fontSize: 25,
    },
    company: {
+    color: "#fff",
    	fontSize: 20,
    }
 });

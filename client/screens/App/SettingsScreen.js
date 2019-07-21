@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import CButton from '../../components/CButton';
 import Input from '../../components/Input';
+import BackgroundImage from '../../components/BackgroundImage';
 import {Text, View, StyleSheet, ScrollView } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
 
@@ -94,6 +95,7 @@ class SettingsScreen extends React.Component {
       let { username, email, password, company, secret } = this.state;
       let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
       return (
+          <BackgroundImage>
           <ScrollView style={styles.scrollContainer}>
             <View style={styles.container}>
                 <View>
@@ -148,6 +150,7 @@ class SettingsScreen extends React.Component {
                   ):null}
             </View>
           </ScrollView>
+          </BackgroundImage>
       );
     }
 }
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginBottom: 20,
     flex: 1,
-    backgroundColor: '#fff'
+    color: "#fff"
 	},
   error: {
     textAlign: 'center',

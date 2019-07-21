@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import Input from '../../components/Input';
 import CButton from '../../components/CButton';
+import BackgroundImage from '../../components/BackgroundImage';
 import { View, StyleSheet, Text } from "react-native";
 import { 
 	register, 
@@ -99,6 +100,7 @@ class RegisterScreen extends React.Component {
         const { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
         const { registerErr, username, email, password, company, secret, loading } = this.props;
         return (
+          <BackgroundImage>
           <View style={styles.container}>
             <Input 
               imageSrc="idcard"
@@ -143,6 +145,7 @@ class RegisterScreen extends React.Component {
 
             <CButton title="Register" onPress={this._register} loading={loading} />
           </View>
+          </BackgroundImage>
         );
     }
 }
@@ -178,7 +181,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#DCDCDC',
   },
   error: {
     textAlign: 'center',

@@ -4,6 +4,7 @@ import {ScrollView, Text, View, StyleSheet, TouchableOpacity, Image, AsyncStorag
 import { DrawerItems, SafeAreaView, NavigationEvents } from 'react-navigation';
 import { getPunches } from '../redux/actions/appActions';
 import CButton from './CButton';
+import BackgroundImage from './BackgroundImage';
 const logoutSrc = require("../assets/exit.png");
 
 import { logout } from '../redux/actions/authActions'
@@ -51,6 +52,7 @@ class DrawerContents extends React.Component {
 
 
       return (
+         <BackgroundImage src="gplaypattern">
          <ScrollView style={styles.content}>
             <SafeAreaView style={{flex: 1}}>
                <View style={styles.userInfo}>
@@ -67,6 +69,7 @@ class DrawerContents extends React.Component {
                </View>
             </SafeAreaView>
          </ScrollView>
+         </BackgroundImage>
       )
    }
 }

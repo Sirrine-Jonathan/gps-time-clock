@@ -4,8 +4,9 @@ import {Text, View, StyleSheet, ActivityIndicator} from "react-native";
 import { NavigationEvents } from "react-navigation";
 import RangeButton from '../../components/RangeButton';
 import DateTimePicker from "react-native-modal-datetime-picker";
-import { sendCSVEmail } from '../../redux/actions/appActions'
+import { sendCSVEmail } from '../../redux/actions/appActions';
 import ExportButton from '../../components/ExportButton';
+import BackgroundImage from '../../components/BackgroundImage';
 
 class ExportCSV extends React.Component {
 
@@ -67,6 +68,7 @@ class ExportCSV extends React.Component {
         let { user, indicator } = this.state;
         let text = "Button";
         return (
+            <BackgroundImage>
             <View style={styles.content}>
                 <View style={styles.header}>
                     <View style={styles.userInfo}>
@@ -89,6 +91,7 @@ class ExportCSV extends React.Component {
                 />
                 
             </View>
+            </BackgroundImage>
         );
     }
 
@@ -130,14 +133,17 @@ const styles = StyleSheet.create({
         paddingRight: 10,
     },
     text: {
+        color: "#fff",
         fontSize: 24,
     },
-    username: {
-        fontSize: 25,
-    },
-    company: {
-        fontSize: 20,
-    },
+   username: {
+    color: "#fff",
+    fontSize: 25,
+   },
+   company: {
+    color: "#fff",
+    fontSize: 20,
+   },
     buttonView: {
         justifyContent: 'center',
         alignItems: 'center',
