@@ -17,8 +17,8 @@ import {
    REGISTER_LOADING,
    LOGIN_LOADING,
    SET_REPORTS_USER,
-    EMAIL_ERROR,
-    EMAIL_SUCCESS
+   EMAIL_ERROR,
+   EMAIL_SUCCESS
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -40,8 +40,8 @@ const initialState = {
    loginLoading: false,
    reportsUser: null,
    reportsUsersPunches: [],
-    emailSuccess: null,
-    emailError: null
+   emailSuccess: null,
+   emailError: null
 }
 
 const checkAuth = async () => {

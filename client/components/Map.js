@@ -1,5 +1,5 @@
 import React from "react";
-import {  MapView } from 'expo';
+import { MapView } from 'expo';
 import { View, Text } from 'react-native';
 
 
@@ -21,7 +21,8 @@ export default class Map extends React.Component {
                          latitude: latitude,
                          longitude: longitude,
                          latitudeDelta: 0.0003,
-                         longitudeDelta: 0.00015, }}
+                         longitudeDelta: 0.00015, 
+                     }}
             />
         );
     }

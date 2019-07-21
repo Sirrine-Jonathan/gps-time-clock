@@ -7,7 +7,9 @@ import {
    UPDATE_USER_ERROR,
    UPDATE_COMPANY,
    UPDATE_COMPANY_ERROR,
-   SET_REPORTS_USER, EMAIL_SUCCESS, EMAIL_ERROR
+   SET_REPORTS_USER, 
+   EMAIL_SUCCESS, 
+   EMAIL_ERROR
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
