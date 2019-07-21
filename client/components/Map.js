@@ -13,6 +13,7 @@ export default class Map extends React.Component {
         console.log("MapView: " + latitude + "," + longitude);
         return (
             <MapView style={{alignSelf: 'stretch', height: 200, padding: 20, marginBottom: 20}}
+                     mapType='satellite'
                      pitchEnabled={false}
                      rotateEnabled={false}
                      scrollEnabled={false}
@@ -20,8 +21,8 @@ export default class Map extends React.Component {
                      region={{
                          latitude: latitude,
                          longitude: longitude,
-                         latitudeDelta: 0.0003,
-                         longitudeDelta: 0.00015, }}
+                         latitudeDelta: 0.0006,
+                         longitudeDelta: 0.00030, }}
             />
         );
     }

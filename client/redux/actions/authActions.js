@@ -127,10 +127,20 @@ const login = (email, password) => async dispatch => {
 }
 
 const logout = () => async dispatch => {
-   storeID(null);
-   dispatch({
-      type: LOGOUT
-   })
+    try {
+        await AsyncStorage.removeItem('EMAIL', () => {
+            console.log("Removed Email");
+        });
+        await AsyncStorage.removeItem('PASSWORD', () => {
+            console.log("Removed Password");
+        });
+    } catch (error) {
+        console.log(error);
+    } finally {
+        dispatch({
+            type: LOGOUT
+        })
+    }
 }
 
 const register = (username, email, company, password, secret) => async dispatch => {
