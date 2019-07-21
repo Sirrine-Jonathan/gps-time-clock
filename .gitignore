@@ -7,7 +7,7 @@
 .env.test.local
 .env.production.local
 *.orig.png
-/assets/*
+/client/assets
 
 # Fastlane
 /*.cer
