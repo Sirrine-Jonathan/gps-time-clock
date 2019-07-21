@@ -30,7 +30,7 @@ const initialState = {
    punchedIn: null, // grab from db
    lastPunch: null, // grab from db
    username: "",
-   email: "test@gmail.com",
+   email: "jjreed05@gmail.com",
    password: "password",
    company: "",
    secret: "",
