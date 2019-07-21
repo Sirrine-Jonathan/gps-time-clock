@@ -5,7 +5,7 @@ import Input from '../../components/Input';
 import BackgroundImage from '../../components/BackgroundImage';
 import {Text, View, StyleSheet, ScrollView } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
-
+import { deleteAccount } from '../../redux/actions/authActions'
 class SettingsScreen extends React.Component {
 
     static navigationOptions = {
@@ -148,6 +148,7 @@ class SettingsScreen extends React.Component {
                      </View>
                   </View>
                   ):null}
+                <CButton title="Delete Account" onPress={this.props.deleteAccount} />
             </View>
           </ScrollView>
           </BackgroundImage>
@@ -159,6 +160,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUserInfo: (email, username, password) => dispatch(updateUserInfo(email, username, password)),
     updateCompanyInfo: (email, company, secret) => dispatch(updateUserInfo(email, company, secret)),
+    deleteAccount: () => dispatch(deleteAccount())
   }
 }
 

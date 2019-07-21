@@ -162,6 +162,32 @@ const register = (username, email, company, password, secret) => async dispatch 
    });
 }
 
+const deleteAccount = () => async (dispatch, getState) => {
+const user = getState().user;
+fetch("https://gps-time.herokuapp.com/api/deleteUser", {
+      method: 'POST',
+      headers: {
+          "Content-Type": 'application/json',
+      },
+      body: JSON.stringify({
+          "email": user.email
+      })
+   })
+   .then((response) => response.json())
+   .then((res) => {
+      if (res.error){
+        console.log(res);
+      } else {
+        console.log(res);
+        logout();
+      }
+
+   })
+   .catch((error) => {
+     console.log(error);
+   });
+}
+
 const storeID = async (id) => {
    try {
       await AsyncStorage.setItem('@gps_time_clock_id', id);
@@ -170,6 +196,8 @@ const storeID = async (id) => {
       console.log(e);
    }
 }
+
+
 
 module.exports = {
    login, 
@@ -182,5 +210,6 @@ module.exports = {
    stageSecret,
    sendRecoveryEmail,
    updateRegisterLoading,
-   updateLoginLoading
+   updateLoginLoading,
+   deleteAccount,
 }
