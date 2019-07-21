@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, AsyncStorage } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
@@ -12,6 +12,9 @@ import {
 	updateLoginLoading 
 } from '../../redux/actions/authActions'
 
+const EMAIL = 'EMAIL';
+const PASSWORD = 'PASSWORD';
+
 class LoginScreen extends React.Component {
 		
 		state = {
@@ -19,17 +22,32 @@ class LoginScreen extends React.Component {
 			emailErr: false,
 			passwordErr: false,
 			loginErr: false,
+			emailCache: null,
+			passwordCache: null
 		}
 
 		static navigationOptions = {
 			title: 'Login',
 		};
 
-		_login = () => {
-			let { email, password } = this.props;
-			if (this.state.emailErr || this.state.passwordErr)
-				 return false;
-			this.props.login(email, password);
+		componentWillMount = () => {
+			this._retrieveData();
+		}
+
+	_login = () => {
+			console.log("logging in");
+			if (this.state.emailCache !== null && this.state.passwordCache !== null) {
+				let { emailCache, passwordCache} = this.state;
+				this.setState({emailCache: null, passwordCache: null});
+				this.props.login(emailCache, passwordCache);
+			}
+			else {
+				let {email, password} = this.props;
+				this._storeData(email, password);
+				if (this.state.emailErr || this.state.passwordErr)
+					return false;
+				this.props.login(email, password);
+			}
 		}
 
 		_emailErr = (email) => {
@@ -63,6 +81,31 @@ class LoginScreen extends React.Component {
 		_navToForgotPassword = () => {
 			this.props.navigation.navigate('ForgotPassword');
 		}
+
+		_storeData = async(email, password) => {
+			try {
+				await AsyncStorage.setItem(EMAIL, email);
+				await AsyncStorage.setItem(PASSWORD, password);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+		_retrieveData = async () => {
+			try {
+				const email = await AsyncStorage.getItem(EMAIL);
+				const password = await AsyncStorage.getItem(PASSWORD);
+				console.log("Login email " + email);
+				if (email !== null && password !== null) {
+					this.setState({emailCache: email, passwordCache: password})
+					this._login();
+				}
+			} catch (error) {
+				console.log(error);
+			}
+		}
+
+
 
 		render() {
 			const { emailErr, passwordErr } = this.state;

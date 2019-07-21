@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Image} from 'react-native';
+import {ScrollView, Text, View, StyleSheet, TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import { DrawerItems, SafeAreaView, NavigationEvents } from 'react-navigation';
 import { getPunches } from '../redux/actions/appActions';
 import CButton from './CButton';
@@ -9,11 +9,27 @@ const logoutSrc = require("../assets/exit.png");
 
 import { logout } from '../redux/actions/authActions'
 
+const EMAIL = 'EMAIL';
+const PASSWORD = 'PASSWORD';
+
 class DrawerContents extends React.Component {
 
    _logout = () => {
-      this.props.logout();
+       console.log("logging out");
+       this.props.logout();
    }
+    _storeData = () => {
+        try {
+            AsyncStorage.removeItem(EMAIL, () => {
+                console.log("Removed Email");
+            });
+            AsyncStorage.removeItem(PASSWORD, () => {
+                console.log("Removed Password");
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
    render() {
       const clonedProps = {
