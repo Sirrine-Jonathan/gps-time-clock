@@ -89,16 +89,12 @@ const addPunch = (loc) => async (dispatch, getState) => {
       location: loc.lat + ", " + loc.long,
    }
 
-   console.log(data);
-
    let url = null;
    if (punchedIn) {
       url = 'https://gps-time.herokuapp.com/time/addPunchOut';
    } else {
       url = 'https://gps-time.herokuapp.com/time/addPunchIn';
    }
-
-   console.log(url);
 
    fetch(url, {
      method: 'POST',
@@ -108,7 +104,6 @@ const addPunch = (loc) => async (dispatch, getState) => {
      body: JSON.stringify(data)
    })
    .then((response) => {
-      console.log(response);
       dispatch(punch(stamp));
    }).catch((error) => {
       console.log(error);

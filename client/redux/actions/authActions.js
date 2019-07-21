@@ -79,8 +79,6 @@ const updateLoginLoading = (isLoading) => {
 }
 
 const sendRecoveryEmail = (email) => async dispatch => {
-	console.log('redux sendRecoveryEmail');
-	console.log('email', email);
 	let msg = null;
 	await fetch("https://gps-time.herokuapp.com/reset/forgotPassword", {
 		method: 'POST',

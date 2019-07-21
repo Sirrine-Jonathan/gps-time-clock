@@ -35,7 +35,6 @@ class LoginScreen extends React.Component {
 		}
 
 	_login = () => {
-			console.log("logging in");
 			if (this.state.emailCache !== null && this.state.passwordCache !== null) {
 				let { emailCache, passwordCache} = this.state;
 				this.setState({emailCache: null, passwordCache: null});
@@ -95,7 +94,6 @@ class LoginScreen extends React.Component {
 			try {
 				const email = await AsyncStorage.getItem(EMAIL);
 				const password = await AsyncStorage.getItem(PASSWORD);
-				console.log("Login email " + email);
 				if (email !== null && password !== null) {
 					this.setState({emailCache: email, passwordCache: password})
 					this._login();
@@ -135,7 +133,7 @@ class LoginScreen extends React.Component {
 					<CButton title="Login" onPress={this._login} loading={loading}/>
 					<CLink color="#fff" title="Register" onPress={this._navToRegister} />
 					<CLink color="#fff" title="Forgot Password" onPress={this._navToForgotPassword} />
-					<CLink color="#fff" title="v1.3.7" />
+					<CLink color="#fff" title="v1.4.0" />
 				</View>
 				</BackgroundImage>
 				

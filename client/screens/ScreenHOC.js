@@ -19,6 +19,11 @@ const ScreenHOC = (Screen, title) => {
                     this.props.navigation.toggleDrawer();
                   }
                  }}
+                 containerStyle={{
+                   backgroundColor: '#3D6DCC',
+                   justifyContent: 'space-around',
+                   borderBttomColor: "#333"
+                 }}
                />
                   <Screen { ...this.props } />
             </View>

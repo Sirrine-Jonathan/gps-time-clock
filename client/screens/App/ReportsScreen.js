@@ -92,7 +92,8 @@ class ReportsScreen extends React.Component {
            }
       });
 
-      return totalHours.toFixed(2);
+      let milliseconds = totalHours * 60000 * 60;
+      return FormatStamp.getPrettyTotal(milliseconds);
    }
 
    // this is just a paranoia check
@@ -132,7 +133,7 @@ class ReportsScreen extends React.Component {
 	               <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
 	            </View>
                <View style={styles.total}>
-                  <Text style={styles.totals}>Total Hours: { total }</Text>
+                  <Text style={styles.totals}>{ total }</Text>
                </View>
             </View>
             <DateTimePicker

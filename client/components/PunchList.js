@@ -20,7 +20,7 @@ export default class PunchList extends React.Component {
         ));
 
 		return (
-			<ScrollView>
+			<ScrollView style={styles.scroll}>
 				{ listItems }
 			</ScrollView>
 		);
@@ -40,5 +40,8 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#ffffff',
       borderRadius: 5
+    },
+    scroll: {
+      height: '100%',
     }
 });

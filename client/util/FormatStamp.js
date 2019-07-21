@@ -46,6 +46,43 @@ const FormatStamp = {
 		return Math.abs(stampOne - stampTwo);
 	},
 
+	getPrettyDifference: (stampOne, stampTwo) => {
+		let diff = Math.abs(stampOne - stampTwo);
+		let seconds = diff / 1000;
+		let days = Math.floor(seconds / 86400);
+		seconds -= days * 86400;
+		let hours = Math.floor(seconds / 3600) % 24;
+		seconds -= hours * 3600;
+		let minutes = Math.floor(seconds / 60) % 60;
+		seconds -= minutes * 60;
+		seconds = Math.floor(seconds % 60);
+		let time = hours + ":" + minutes + ":" + seconds;
+		if (days > 1)
+			return days + " days " + time;
+		else if (days > 0)
+			return days + " day " + time;
+		else 
+			return time;
+	},
+
+	getPrettyTotal: (stamp) => {
+		let seconds = stamp / 1000;
+		let days = Math.floor(seconds / 86400);
+		seconds -= days * 86400;
+		let hours = Math.floor(seconds / 3600) % 24;
+		seconds -= hours * 3600;
+		let minutes = Math.floor(seconds / 60) % 60;
+		seconds -= minutes * 60;
+		seconds = Math.floor(seconds % 60);
+		let time = hours + ":" + minutes + ":" + seconds;
+		if (days > 1)
+			return days + " days " + time;
+		else if (days > 0)
+			return days + " day " + time;
+		else 
+			return time;
+	},
+
 	getCounter: (now, lastPunch) => {
 		let diff  = now - lastPunch;
 		let sec   = Math.floor(diff / 1000);

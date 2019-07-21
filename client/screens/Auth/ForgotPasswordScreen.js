@@ -50,6 +50,10 @@ class ForgotPasswordScreen extends React.Component {
         return (
         	<BackgroundImage>
             <View style={styles.container}>
+            	<Text style={styles.info}>
+            		We get it. It's easy to forget things. 
+            		Submit your email to receive a link to reset your password
+            	</Text>
 				<Input 
 					imageSrc="letter_box"
 					placeholder="Email"
@@ -91,5 +95,12 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		color: '#8b0000',
 		marginBottom:20,
+	},
+	info: {
+		color: "#fff",
+		width: '80%',
+		fontSize: 20,
+		marginBottom: 60,
+		textAlign: 'center'
 	}
 })
