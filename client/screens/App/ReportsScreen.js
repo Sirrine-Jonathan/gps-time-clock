@@ -57,10 +57,11 @@ class ReportsScreen extends React.Component {
    _filterPunches = (punches) => {
    	   let start = FormatStamp.getUnix(this.state.firstDate); console.log('startDate: ', start);
    	   let end = FormatStamp.getUnix(this.state.secondDate); console.log("endDate: ", end);
-       if (punches == null){
+   	   console.log(punches);
+       if (!punches){
           punches = this.props.getPunches(this.props.globalUser.email);
        };
-       if (punches == null){
+       if (!punches){
           return [];
        };
 
@@ -99,8 +100,11 @@ class ReportsScreen extends React.Component {
       if (user){
         return user; 
       } else {
+      	console.log("Reports Screen couldn't find requested user");
+      	console.log('Fell back got current user: ');
         return this.props.globalUser;
       }
+      console.log(user);
    }
 
    render() {

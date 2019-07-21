@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { View, StyleSheet, Text } from "react-native";
 import CButton from '../../components/CButton';
 import Input from '../../components/Input';
+import BackgroundImage from '../../components/BackgroundImage';
 import { sendRecoveryEmail, stageEmail } from '../../redux/actions/authActions'
 
 class ForgotPasswordScreen extends React.Component {
@@ -47,6 +48,7 @@ class ForgotPasswordScreen extends React.Component {
     	let { emailErr, messageFromServer } = this.state;
     	let { email } = this.props;
         return (
+        	<BackgroundImage>
             <View style={styles.container}>
 				<Input 
 					imageSrc="letter_box"
@@ -58,6 +60,7 @@ class ForgotPasswordScreen extends React.Component {
 				<Text style={styles.error}>{ messageFromServer.message }</Text>
                 <CButton title="Send Email" onPress={this._sendEmail} />
             </View>
+            </BackgroundImage>
         );
     }
 }
@@ -83,7 +86,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: '#DCDCDC',
 	},
 	error: {
 		textAlign: 'center',
