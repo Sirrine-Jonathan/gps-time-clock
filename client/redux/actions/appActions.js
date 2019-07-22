@@ -2,10 +2,10 @@ import {
    PUNCH,
    INIT,
    UPDATE_USER,
-   UPDATE_USER_ERROR,
+   UPDATE_USER_MSG,
    UPDATE_USER_LOADING,
    UPDATE_COMPANY,
-   UPDATE_COMPANY_ERROR,
+   UPDATE_COMPANY_MSG,
    UPDATE_COMPANY_LOADING,
    UPDATE_USERS,
    UPDATE_ERROR,
@@ -46,10 +46,6 @@ const updateUser = (payload) => ({
    payload: payload
 })
 
-const updateUserFail = (payload) => ({
-   type: UPDATE_USER_ERROR,
-   payload: payload
-})
 
 const updateCompany = (payload) => ({
    type: UPDATE_COMPANY,
@@ -161,6 +157,9 @@ const initPunchedState = () => async (dispatch, getState) => {
 
 const updateUserInfo = (email, username, password) => async (dispatch, getState) => {
    const user = getState().user;
+   dispatch({
+      type: UPDATE_USER_LOADING
+   })
    fetch('https://gps-time.herokuapp.com/api/updateUser', {
       method: 'POST',
       headers: {
@@ -168,21 +167,28 @@ const updateUserInfo = (email, username, password) => async (dispatch, getState)
       },
       body: JSON.stringify({
          oldEmail: user.email,
-         company: user.company,
-         isAdmin: user.isAdmin,
          email: email,
          username: username,
          password: password,
       })
    }).then((res) => {
-      console.log(res);
-      let newUserObj = user;
-      newUserObj['username'] = res.username;
-      newUserObj['email'] = res.email;
-      dispatch(updateUser(newUserObj));
+      res.json().then((data) => {
+         console.log(data);
+         let newUserObj = user;
+         newUserObj['username'] = data.user.username;
+         newUserObj['email'] = data.user.email;
+         dispatch(updateUser(newUserObj));
+         dispatch({
+            type: UPDATE_USER_MSG,
+            payload: res,
+         })
+      })
    }).catch((error) => {
       console.error(error);
-      dispatch(updateUserFail(true));
+      dispatch({
+         type: UPDATE_USER_MSG,
+         payload: error
+      });
    });
 }
 

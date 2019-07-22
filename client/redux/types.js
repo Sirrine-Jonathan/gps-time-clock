@@ -25,10 +25,10 @@ export const INIT = 'INIT';
 
 // updates in settings
 export const UPDATE_USER = "UPDATE_USER";
-export const UPDATE_USER_ERROR = "UPDATE_USER_ERROR";
+export const UPDATE_USER_MSG = "UPDATE_USER_MSG";
 export const UPDATE_USER_LOADING = "UPDATE_USER_LOADING";
 export const UPDATE_COMPANY = "UPDATE_COMPANY";
-export const UPDATE_COMPANY_ERROR = "UPDATE_COMPANY_ERROR";
+export const UPDATE_COMPANY_MSG = "UPDATE_COMPANY_MSG";
 export const UPDATE_COMPANY_LOADING = "UPDATE_COMPANY_LOADING";
 
 // update users from get company employees call

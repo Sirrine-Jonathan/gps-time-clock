@@ -15,6 +15,11 @@ import {
    UPDATE_ERROR,
    UPDATE_USERS,
    UPDATE_USER,
+   UPDATE_USER_MSG,
+   UPDATE_USER_LOADING,
+   UPDATE_COMPANY,
+   UPDATE_COMPANY_MSG,
+   UPDATE_COMPANY_LOADING,
    REGISTER_LOADING,
    LOGIN_LOADING,
    SET_REPORTS_USER,
@@ -47,6 +52,10 @@ const initialState = {
    emailLoading: false,
    recoverMsg: null,
    recoverLoading: false,
+   updateUserMsg: null,
+   updateUserLoading: false,
+   updateCompanyMsg: null,
+   updateCompanyLoading: false,
 }
 
 const checkAuth = async () => {
@@ -144,6 +153,31 @@ const rootReducer = (state = initialState, action) => {
             return {
               ...state,
               user: action.payload
+            }
+         case UPDATE_USER_LOADING:
+            console.log('UPDATE_USER_LOADING');
+            return {
+              ...state,
+              updateUserMsg: null,
+              updateUserLoading: true
+            }
+         case UPDATE_USER_MSG:
+            return {
+              ...state,
+              updateUserMsg: action.payload.message,
+              updateUserLoading: false,
+            }
+         case UPDATE_COMPANY_LOADING:
+            return {
+              ...state,
+              updateCompanyMsg: null,
+              updateCompanyLoading: true,
+            }
+         case UPDATE_COMPANY_MSG:
+            return {
+              ...state,
+              updateCompanyMsg: action.payload,
+              updateCompanyLoading: false,
             }
          case UPDATE_USERS:
             return {

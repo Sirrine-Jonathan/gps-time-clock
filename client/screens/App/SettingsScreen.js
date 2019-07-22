@@ -105,6 +105,7 @@ class SettingsScreen extends React.Component {
     render() {
       let { username, email, password, company, secret } = this.state;
       let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
+      let { updateUserMsg, updateUserLoading } = this.props;
       return (
           <BackgroundImage>
           <View style={styles.scrollContainer}>
@@ -156,8 +157,8 @@ class SettingsScreen extends React.Component {
                           error={secretErr} onChangeText={(secret) => this._secretErr(secret)} 
                           value={secret} 
                         />
-                        { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
-                        <CButton title="Update Company" onPress={this._updateCompany} />
+                        <Text style={styles.message}>{ updateUserMsg }</Text>
+                        <CButton title="Update Company" onPress={this._updateCompany}loading={updateUserLoading} />
                      </View>
                   </View>
                   ):null}
@@ -182,7 +183,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
-    updateError: state.updateError
+    updateError: state.updateError,
+    updateUserMsg: state.updateUserMsg,
+    updateUserLoading: state.updateUserLoading,
   }
 }
 
@@ -209,8 +212,9 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "#fff"
 	},
-  error: {
+  message: {
+    fontSize: 20,
     textAlign: 'center',
-    color: '#8b0000',
+    color: "#fff",
   },
 });
