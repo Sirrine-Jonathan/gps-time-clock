@@ -155,7 +155,6 @@ const rootReducer = (state = initialState, action) => {
               user: action.payload
             }
          case UPDATE_USER_LOADING:
-            console.log('UPDATE_USER_LOADING');
             return {
               ...state,
               updateUserMsg: null,

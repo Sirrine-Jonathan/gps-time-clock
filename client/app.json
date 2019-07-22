@@ -4,7 +4,7 @@
     "description": "A time clock application for companies with remote employees.",
     "slug": "gps-time-clock",
     "privacy": "public",
-    "sdkVersion": "31.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android"

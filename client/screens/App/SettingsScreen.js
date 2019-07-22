@@ -135,8 +135,9 @@ class SettingsScreen extends React.Component {
                       onChangeText={(password) => this._passwordErr(password)} 
                       value={password} 
                     />
-                    { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
-                    <CButton title="Update User" onPress={this._updateUser} />
+                    <Text style={styles.message}>{ updateUserMsg }</Text>
+
+                    <CButton title="Update User" onPress={this._updateUser} loading={updateUserLoading}/>
                     <CButton title="Delete Account" onPress={this._confirmDelete} color="red" />
                   </View>
                 </View>
@@ -157,8 +158,8 @@ class SettingsScreen extends React.Component {
                           error={secretErr} onChangeText={(secret) => this._secretErr(secret)} 
                           value={secret} 
                         />
-                        <Text style={styles.message}>{ updateUserMsg }</Text>
-                        <CButton title="Update Company" onPress={this._updateCompany}loading={updateUserLoading} />
+                        
+                        <CButton title="Update Company" onPress={this._updateCompany} />
                      </View>
                   </View>
                   ):null}
@@ -215,6 +216,7 @@ const styles = StyleSheet.create({
   message: {
     fontSize: 20,
     textAlign: 'center',
-    color: "#fff",
+    color: "#FFF",
+    margin: 10
   },
 });
