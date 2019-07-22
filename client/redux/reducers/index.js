@@ -14,11 +14,14 @@ import {
    INIT,
    UPDATE_ERROR,
    UPDATE_USERS,
+   UPDATE_USER,
    REGISTER_LOADING,
    LOGIN_LOADING,
    SET_REPORTS_USER,
-   EMAIL_ERROR,
-   EMAIL_SUCCESS
+   EMAIL_MSG,
+   EMAIL_LOADING,
+   RECOVER_RESPONSE,
+   RECOVER_LOADING,
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -40,8 +43,10 @@ const initialState = {
    loginLoading: false,
    reportsUser: null,
    reportsUsersPunches: [],
-   emailSuccess: null,
-   emailError: null
+   emailMsg: null,
+   emailLoading: false,
+   recoverMsg: null,
+   recoverLoading: false,
 }
 
 const checkAuth = async () => {
@@ -135,6 +140,11 @@ const rootReducer = (state = initialState, action) => {
               ...state,
               updateError: action.payload
             };
+         case UPDATE_USER: 
+            return {
+              ...state,
+              user: action.payload
+            }
          case UPDATE_USERS:
             return {
               ...state,
@@ -156,18 +166,31 @@ const rootReducer = (state = initialState, action) => {
               reportsUser: action.payload.user,
               reportsUsersPunches: action.payload.punches
             };
-         case EMAIL_SUCCESS:
+         case EMAIL_LOADING: 
             return {
                 ...state,
-                emailSuccess: action.payload.success,
-                emailError: null
-            };
-         case EMAIL_ERROR:
+                emailMsg: null,
+                emailLoading: true,
+            }
+         case EMAIL_MSG:
+            console.log(action);
             return {
                 ...state,
-                emailError: action.payload.error,
-                emailSuccess: null
+                emailMsg: action.payload.message,
+                emailLoading: false,
             };
+         case RECOVER_LOADING: 
+            return {
+                ...state,
+                recoverLoading: true,
+                recoverMsg: null,
+            }
+         case RECOVER_RESPONSE: 
+            return {
+                ...state,
+                recoverLoading: false,
+                recoverMsg: action.payload
+            }
          default:
             return state;
     }

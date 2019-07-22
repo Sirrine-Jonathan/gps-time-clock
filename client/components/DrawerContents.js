@@ -63,6 +63,9 @@ class DrawerContents extends React.Component {
                   size="medium"
                   title={initial}
                   containerStyle={{margin: 20}}
+                  onPress={() => {
+                    this.props.navigation.navigate('Settings');
+                  }}
                  />
                  <View style={styles.userInfo}>
   	               <Text style={styles.username}>{ user.username }</Text>

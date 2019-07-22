@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { View, StyleSheet, Text, AsyncStorage } from "react-native";
+import { View, StyleSheet, Text, AsyncStorage, Alert, Linking } from "react-native";
 import CButton from '../../components/CButton';
 import CLink from '../../components/CLink';
 import Input from '../../components/Input';
@@ -10,7 +10,8 @@ import {
 	stageEmail, 
 	stagePassword, 
 	updateLoginLoading 
-} from '../../redux/actions/authActions'
+} from '../../redux/actions/authActions';
+import ENV from '../../environment';
 
 const EMAIL = 'EMAIL';
 const PASSWORD = 'PASSWORD';
@@ -103,7 +104,33 @@ class LoginScreen extends React.Component {
 			}
 		}
 
+		version = "1.0.0";
+		release_date = "7/21/19";
+		
+		new_stuff = "What's new in Version " + this.version + "\n" + 
+		"- This is the first release\n" + 
+		"- Explore the app and discover features\n" +
+		"\n";
 
+		fixes = "Bug Fixes\n" +
+		"- Fixed punch button offset\n" + 
+		"- Fixed the scrolling\n" + 
+		"\n";
+
+		release_notes = this.release_date + '\n\n' + this.new_stuff + this.fixes;
+
+		_showReleaseNotes = () => {
+	      Alert.alert(
+	        "Release Notes", 
+	        this.release_notes,
+	        [
+	          { text: '✉ Email the Devs', onPress: () => {
+	          	Linking.openURL('mailto:' + ENV.email + '?subject=GPS-Time-Clock%20Support&body=How%20can%20we%20help%20you?');
+	          }},
+	          { text: 'Close' },
+	        ]
+	      )
+		}
 
 		render() {
 			const { emailErr, passwordErr } = this.state;
@@ -133,7 +160,7 @@ class LoginScreen extends React.Component {
 					<CButton title="Login" onPress={this._login} loading={loading}/>
 					<CLink color="#fff" title="Register" onPress={this._navToRegister} />
 					<CLink color="#fff" title="Forgot Password" onPress={this._navToForgotPassword} />
-					<CLink color="#fff" title="v1.4.0" />
+					<CLink color="#fff" title={"v" + this.version} onPress={this._showReleaseNotes}/>
 				</View>
 				</BackgroundImage>
 				
@@ -169,7 +196,7 @@ const styles = StyleSheet.create({
 	},
 	error: {
 		textAlign: 'center',
-		color: '#8b0000',
+		color: "#ff4747",
 		marginBottom:20,
 	}
 });

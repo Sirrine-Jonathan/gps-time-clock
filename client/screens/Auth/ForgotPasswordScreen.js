@@ -21,10 +21,7 @@ class ForgotPasswordScreen extends React.Component {
 		let { email } = this.props;
 		if (this.state.emailErr)
 			 return false;
-		let note = await this.props.sendRecoveryEmail(email);
-		this.setState({
-			messageFromServer: note
-		})
+		this.props.sendRecoveryEmail(email);
     }
 
 	_emailErr = (email) => {
@@ -45,8 +42,8 @@ class ForgotPasswordScreen extends React.Component {
     }
 
     render() {
-    	let { emailErr, messageFromServer } = this.state;
-    	let { email } = this.props;
+    	let { emailErr } = this.state;
+    	let { email, recoverMsg, recoverLoading } = this.props;
         return (
         	<BackgroundImage>
             <View style={styles.container}>
@@ -54,15 +51,15 @@ class ForgotPasswordScreen extends React.Component {
             		We get it. It's easy to forget things. 
             		Submit your email to receive a link to reset your password
             	</Text>
-				<Input 
+				<Input
 					imageSrc="letter_box"
 					placeholder="Email"
 					containsError={emailErr}
 					onChangeText={(email) => this._emailErr(email)}
 					value={email}
 				/>
-				<Text style={styles.error}>{ messageFromServer.message }</Text>
-                <CButton title="Send Email" onPress={this._sendEmail} />
+				<Text style={styles.error}>{ recoverMsg }</Text>
+                <CButton title="Send Email" onPress={this._sendEmail} loading={recoverLoading} />
             </View>
             </BackgroundImage>
         );
@@ -79,7 +76,9 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
 	 return {
 		email: state.email,
-		recoveryError: state.recoveryError
+		recoveryError: state.recoveryError,
+		recoverMsg: state.recoverMsg,
+		recoverLoading: state.recoverLoading
 	 }
 }
 
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
 	},
 	error: {
 		textAlign: 'center',
-		color: '#8b0000',
+		color: "#ff4747",
 		marginBottom:20,
 	},
 	info: {

@@ -5,7 +5,7 @@ import Input from '../../components/Input';
 import BackgroundImage from '../../components/BackgroundImage';
 import {Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
-import { deleteAccount } from '../../redux/actions/authActions'
+import { deleteAccount, stagePassword, stageEmail } from '../../redux/actions/authActions'
 class SettingsScreen extends React.Component {
 
     static navigationOptions = {
@@ -173,7 +173,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUserInfo: (email, username, password) => dispatch(updateUserInfo(email, username, password)),
     updateCompanyInfo: (email, company, secret) => dispatch(updateUserInfo(email, company, secret)),
-    deleteAccount: () => dispatch(deleteAccount())
+    deleteAccount: () => dispatch(deleteAccount()),
+    stageEmail: (email) => dispatch(stageEmail(email)),
+    stagePassword: (password) => dispatch(stagePassword(password)),
   }
 }
 

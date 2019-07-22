@@ -1,17 +1,17 @@
 import React from 'react';
-import { TouchableHighlight, Text, StyleSheet, ActivityIndicator, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, View } from 'react-native';
 
 export default class CButton extends React.Component {
   render(){
     const { onPress, title, loading, color } = this.props;
     let finalColor = (color) ? color:"#00b5ec";
     return (
-      <TouchableHighlight style={[styles.container, {"backgroundColor": finalColor}]} onPress={onPress} >
+      <TouchableOpacity style={[styles.container, {"backgroundColor": finalColor}]} onPress={onPress} >
         <View style={styles.inner} >
           <Text style={styles.text}>{ title }</Text>
           { (loading) ? <ActivityIndicator style={styles.loader}size="small" color="#ffffff" />:null }
         </View>
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   }
 }
@@ -30,8 +30,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    color: "#ffffff",
-    fontSize: 20
+    alignSelf: 'center',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
   },
   loader: {
     position: 'relative',

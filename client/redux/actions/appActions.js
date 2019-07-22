@@ -1,15 +1,18 @@
 import {
    PUNCH,
    INIT,
-   UPDATE_ERROR,
-   UPDATE_USERS,
    UPDATE_USER,
    UPDATE_USER_ERROR,
+   UPDATE_USER_LOADING,
    UPDATE_COMPANY,
    UPDATE_COMPANY_ERROR,
+   UPDATE_COMPANY_LOADING,
+   UPDATE_USERS,
+   UPDATE_ERROR,
+   UPDATE_USERS_LOADING,
    SET_REPORTS_USER, 
-   EMAIL_SUCCESS, 
-   EMAIL_ERROR
+   EMAIL_MSG,
+   EMAIL_LOADING
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -58,15 +61,14 @@ const updateCompanyFail = (payload) => ({
    payload: payload
 })
 
-const updateEmailSuccess = (payload) => ({
-   type: EMAIL_SUCCESS,
+// payload will have message property
+const updateEmailMsg = (payload) => ({
+   type: EMAIL_MSG,
    payload: payload
 })
 
-const updateEmailError = (payload) => ({
-   type: EMAIL_ERROR,
-   payload: payload
-})
+
+
 const setReportsUser = (user) => async (dispatch) => {
    let punches = [];
    if (user.email){
@@ -174,6 +176,10 @@ const updateUserInfo = (email, username, password) => async (dispatch, getState)
       })
    }).then((res) => {
       console.log(res);
+      let newUserObj = user;
+      newUserObj['username'] = res.username;
+      newUserObj['email'] = res.email;
+      dispatch(updateUser(newUserObj));
    }).catch((error) => {
       console.error(error);
       dispatch(updateUserFail(true));
@@ -257,6 +263,7 @@ const isWorking = (email) => {
 const sendCSVEmail = (dateOne, dateTwo) => async (dispatch, getState) => {
    console.log(dateOne);
    console.log(dateTwo);
+   dispatch({ type: EMAIL_LOADING })
    let email = getState().user.email;
    let company = getState().user.company;
    console.log(email);
@@ -275,15 +282,11 @@ const sendCSVEmail = (dateOne, dateTwo) => async (dispatch, getState) => {
       })
    }).then((res) => {
       res.json().then( (data) => {
-         if (!data.error){
-            dispatch(updateEmailSucces(data));
-         }
-         else {
-            dispatch(updateEmailError(data));
-         }
+         console.log('heres the data', data);
+         dispatch(updateEmailMsg(data));
       })
    }).catch( (err) => {
-      dispatch(updateEmailError(data));
+      dispatch(updateEmailMsg({ message: err.message }));
    })
 }
 

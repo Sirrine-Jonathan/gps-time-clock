@@ -12,6 +12,8 @@ import {
    STAGE_SECRET,
    LOGIN_LOADING,
    REGISTER_LOADING,
+   RECOVER_LOADING,
+   RECOVER_RESPONSE,
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -80,6 +82,7 @@ const updateLoginLoading = (isLoading) => {
 
 const sendRecoveryEmail = (email) => async dispatch => {
 	let msg = null;
+  dispatch({ type: RECOVER_LOADING });
 	await fetch("https://gps-time.herokuapp.com/reset/forgotPassword", {
 		method: 'POST',
 		headers: {
@@ -91,12 +94,12 @@ const sendRecoveryEmail = (email) => async dispatch => {
 	})
 	.then((response) => response.json())
 	.then((res) => {
-		msg = res;
+    console.log(res);
+    dispatch({ type: RECOVER_RESPONSE, payload: res.message });
 	})
 	.catch((error) => {
-		msg = error;
+		dispatch({ type: RECOVER_RESPONSE, payload: error.message });
 	});
-	return msg;
 };
 
 const login = (email, password) => async dispatch => { 
