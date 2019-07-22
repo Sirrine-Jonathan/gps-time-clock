@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
 	timerView: {
 		position: 'absolute',
 		alignSelf: 'center',
-		bottom: '5%'
+		bottom: '15%'
 	}
 });
