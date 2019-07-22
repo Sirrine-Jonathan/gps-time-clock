@@ -8,6 +8,7 @@
 .env.production.local
 *.orig.png
 /client/assets
+/client/environment.js
 
 # Fastlane
 /*.cer

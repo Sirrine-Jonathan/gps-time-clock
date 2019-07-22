@@ -66,6 +66,8 @@ class ExportCSV extends React.Component {
 
     render() {
         let { user, indicator } = this.state;
+        let { emailMsg, emailLoading } = this.props;
+        console.log('emailLoading', emailLoading);
         let text = "Button";
         return (
             <BackgroundImage>
@@ -81,15 +83,15 @@ class ExportCSV extends React.Component {
                         <RangeButton onPress={this._secondButtonActions} title={this.state.secondDateDisplay}/>
                     </View>
                 </View>
+                <Text style={styles.message} >{ emailMsg }</Text>
                 <View style={styles.buttonView}>
-                    <ExportButton text={"Export To Email"} hide={this.state.hide} onPress={this._sendEmail}/>
+                    <ExportButton text={"Export To Email"} hide={this.state.hide} onPress={this._sendEmail} loading={emailLoading}/>
                 </View>
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
                     onConfirm={this._handleDatePicked}
                     onCancel={this._hideDateTimePicker}
                 />
-                
             </View>
             </BackgroundImage>
         );
@@ -105,8 +107,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        emailSuccess: state.emailSuccess,
-        emailError: state.emailError
+        emailMsg: state.emailMsg,
+        emailLoading: state.emailLoading
     }
 }
 
@@ -124,6 +126,11 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 20,
         textAlign: 'center',
+    },
+    message: {
+        fontSize: 20,
+        textAlign: 'center',
+        color: "#fff",
     },
     range: {
         flexDirection: 'row',

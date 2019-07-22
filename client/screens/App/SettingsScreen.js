@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import CButton from '../../components/CButton';
 import Input from '../../components/Input';
 import BackgroundImage from '../../components/BackgroundImage';
-import {Text, View, StyleSheet, ScrollView } from "react-native";
+import {Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
-
+import { deleteAccount, stagePassword, stageEmail } from '../../redux/actions/authActions'
 class SettingsScreen extends React.Component {
 
     static navigationOptions = {
@@ -91,12 +91,24 @@ class SettingsScreen extends React.Component {
       this.props.updateCompanyInfo(company, secret);
     }
 
+    _confirmDelete= () => {
+      Alert.alert(
+        "Delete Account", 
+        "Are you sure?",
+        [
+          { text: 'Cancel', onPress: () => console.log("delete canceled")},
+          { text: 'Delete', onPress: () => {this.props.deleteAccount()}}
+        ]
+      )
+    }
+
     render() {
       let { username, email, password, company, secret } = this.state;
       let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
       return (
           <BackgroundImage>
-          <ScrollView style={styles.scrollContainer}>
+          <View style={styles.scrollContainer}>
+          <ScrollView style={styles.scroll}>
             <View style={styles.container}>
                 <View>
                   <Text style={styles.title}>Update Account Information</Text>
@@ -124,6 +136,7 @@ class SettingsScreen extends React.Component {
                     />
                     { (this.props.updateError) ? <Text style={styles.error}>Update Failed</Text>:null }
                     <CButton title="Update User" onPress={this._updateUser} />
+                    <CButton title="Delete Account" onPress={this._confirmDelete} color="red" />
                   </View>
                 </View>
                 { (this.props.user.isAdmin) ? (
@@ -150,6 +163,7 @@ class SettingsScreen extends React.Component {
                   ):null}
             </View>
           </ScrollView>
+          </View>
           </BackgroundImage>
       );
     }
@@ -159,6 +173,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateUserInfo: (email, username, password) => dispatch(updateUserInfo(email, username, password)),
     updateCompanyInfo: (email, company, secret) => dispatch(updateUserInfo(email, company, secret)),
+    deleteAccount: () => dispatch(deleteAccount()),
+    stageEmail: (email) => dispatch(stageEmail(email)),
+    stagePassword: (password) => dispatch(stagePassword(password)),
   }
 }
 
@@ -173,7 +190,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
 
 const styles = StyleSheet.create({
 	scrollContainer: {
-	},
+	   flex: 1,
+  },
+  scroll: {
+  },
   container: {
   },
   form: {

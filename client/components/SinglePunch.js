@@ -33,8 +33,9 @@ export default class SinglePunch extends React.Component {
       let { punch } = this.props;
       let timeOut = FormatStamp.getTime(punch.timestampOut);
       let timeIn = FormatStamp.getTime(punch.timestampIn);
-      let hours = FormatStamp.getHours(punch.timestampIn, punch.timestampOut);
+      let totalTime = FormatStamp.getPrettyDifference(punch.timestampIn, punch.timestampOut);
       let dayString = FormatStamp.getDateString(punch.timestampIn);
+
       return (
          <TouchableOpacity style={this.props.style} onPress={this._toggleMap}>
             {(this.state.showMapIn) ? <Map coords={punch.locationIn}/> :null}
@@ -52,8 +53,8 @@ export default class SinglePunch extends React.Component {
                   <Text>{ timeOut }</Text>
                </View>
                <View style={styles.textRow}>
-                  <Text>Total Hours:</Text>
-                  <Text>{ hours }</Text>
+                  <Text>Total Time:</Text>
+                  <Text>{ totalTime }</Text>
                </View>
             </View>
          </TouchableOpacity>

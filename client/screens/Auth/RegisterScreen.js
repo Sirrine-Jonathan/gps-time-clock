@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
   },
   error: {
     textAlign: 'center',
-    color: '#8b0000',
+    color: "#ff4747",
     marginBottom:20,
   }
 });

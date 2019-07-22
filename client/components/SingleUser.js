@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Text, View, StyleSheet, TouchableOpacity, Switch } from "react-native";
 import { setReportsUser, isWorking, toggleAdmin } from '../redux/actions/appActions';
 import CButton from './CButton';
+import Map from './Map';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
+import FormatStamp from '../util/FormatStamp';
 
 class SingleUser extends React.Component {
 
@@ -51,6 +53,7 @@ class SingleUser extends React.Component {
            "punchedIn": true,
          };
       }
+      console.log('punchInfo', punchInfo);
 
       let color = (punchInfo && punchInfo.punchedIn) ? "green":"#333";
       let lastPunch = (punchInfo && punchInfo.lastPunch) ? punchInfo.lastPunch:null;
@@ -71,6 +74,15 @@ class SingleUser extends React.Component {
                   <Text style={styles.detailsText}>Punched In</Text>
                   <Text style={styles.detailsText}>{ (punchInfo.punchedIn) ? "Yes":"No" }</Text>
                </View>
+               {(punchInfo.lastPunch) ? (
+               <View>
+	               <View style={styles.textRow}>
+	                  <Text style={styles.detailsText}>Last Punch</Text>
+	                  <Text style={styles.detailsText}>{ (punchInfo.lastPunch) }</Text>
+	               </View>
+	               <Map coords={punchInfo.location} />
+               </View>
+               ):null }
             </View>
             <View style={styles.buttonContainer}>
                <CButton title="View Punches" onPress={this._viewUser} />

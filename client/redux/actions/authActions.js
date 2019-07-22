@@ -12,6 +12,8 @@ import {
    STAGE_SECRET,
    LOGIN_LOADING,
    REGISTER_LOADING,
+   RECOVER_LOADING,
+   RECOVER_RESPONSE,
 } from '../types';
 import { AsyncStorage } from 'react-native';
 
@@ -79,9 +81,8 @@ const updateLoginLoading = (isLoading) => {
 }
 
 const sendRecoveryEmail = (email) => async dispatch => {
-	console.log('redux sendRecoveryEmail');
-	console.log('email', email);
 	let msg = null;
+  dispatch({ type: RECOVER_LOADING });
 	await fetch("https://gps-time.herokuapp.com/reset/forgotPassword", {
 		method: 'POST',
 		headers: {
@@ -93,12 +94,12 @@ const sendRecoveryEmail = (email) => async dispatch => {
 	})
 	.then((response) => response.json())
 	.then((res) => {
-		msg = res;
+    console.log(res);
+    dispatch({ type: RECOVER_RESPONSE, payload: res.message });
 	})
 	.catch((error) => {
-		msg = error;
+		dispatch({ type: RECOVER_RESPONSE, payload: error.message });
 	});
-	return msg;
 };
 
 const login = (email, password) => async dispatch => { 
@@ -172,6 +173,32 @@ const register = (username, email, company, password, secret) => async dispatch 
    });
 }
 
+const deleteAccount = () => async (dispatch, getState) => {
+const user = getState().user;
+fetch("https://gps-time.herokuapp.com/api/deleteUser", {
+      method: 'POST',
+      headers: {
+          "Content-Type": 'application/json',
+      },
+      body: JSON.stringify({
+          "email": user.email
+      })
+   })
+   .then((response) => response.json())
+   .then((res) => {
+      if (res.error){
+        console.log(res);
+      } else {
+        console.log(res);
+        logout();
+      }
+
+   })
+   .catch((error) => {
+     console.log(error);
+   });
+}
+
 const storeID = async (id) => {
    try {
       await AsyncStorage.setItem('@gps_time_clock_id', id);
@@ -180,6 +207,8 @@ const storeID = async (id) => {
       console.log(e);
    }
 }
+
+
 
 module.exports = {
    login, 
@@ -192,5 +221,6 @@ module.exports = {
    stageSecret,
    sendRecoveryEmail,
    updateRegisterLoading,
-   updateLoginLoading
+   updateLoginLoading,
+   deleteAccount,
 }

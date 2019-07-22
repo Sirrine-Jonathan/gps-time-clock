@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {ScrollView, Text, View, StyleSheet, TouchableOpacity, Image, AsyncStorage} from 'react-native';
 import { DrawerItems, SafeAreaView, NavigationEvents } from 'react-navigation';
 import { getPunches } from '../redux/actions/appActions';
+import { Avatar } from "react-native-elements";
 import CButton from './CButton';
 import BackgroundImage from './BackgroundImage';
 const logoutSrc = require("../assets/exit.png");
@@ -50,14 +51,26 @@ class DrawerContents extends React.Component {
 
       const { user } = this.props;
 
+      let initial = user.username.split('')[0];
 
       return (
          <BackgroundImage src="gplaypattern">
          <ScrollView style={styles.content}>
             <SafeAreaView style={{flex: 1}}>
-               <View style={styles.userInfo}>
-	               <Text style={styles.username}>{ user.username }</Text>
-	               <Text style={styles.company}>{ user.company }</Text>
+               <View style={styles.drawerHeader}>
+                 <Avatar
+                  rounded
+                  size="medium"
+                  title={initial}
+                  containerStyle={{margin: 20}}
+                  onPress={() => {
+                    this.props.navigation.navigate('Settings');
+                  }}
+                 />
+                 <View style={styles.userInfo}>
+  	               <Text style={styles.username}>{ user.username }</Text>
+  	               <Text style={styles.company}>{ user.company }</Text>
+                 </View>
                </View>
                <DrawerItems {...clonedProps} />
                <View style={styles.logoutContainer}>
@@ -92,6 +105,11 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 40,
     color: "#333"
+  },
+  drawerHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
   userInfo: {
   	flex: 1,

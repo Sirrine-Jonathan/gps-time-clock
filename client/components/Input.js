@@ -13,8 +13,8 @@ const icons = {
 	"locked_quote": require("../assets/locked_quote.png")
 }
 
-const iconColor = "#dff0fe";
-const warningColor = "#feeddf";
+const normalColor = "#ffffff";
+const warningColor = "#ff4747";
 
 
 export default class Input extends React.Component {
@@ -25,12 +25,16 @@ export default class Input extends React.Component {
 
    render(){
    	const { imageSrc, containsError } = this.props;
-   	let borderColor = { "borderColor": iconColor }
+   	let warningStyle = {
+        "borderColor": normalColor
+    }
    	if (containsError){
-   		borderColor = { "borderColor": warningColor }
+   		warningStyle = { 
+        "borderColor": warningColor
+      }
    	}
       return (
-        <View style={[styles.inputContainer, borderColor]}>
+        <View style={[styles.inputContainer, warningStyle]}>
             <Image style={styles.inputIcon} source={this._mapImage(imageSrc)}/>
             <TextInput
 					style={styles.input}
@@ -48,9 +52,9 @@ export default class Input extends React.Component {
 
 const styles = StyleSheet.create({
   inputContainer: {
-/*  borderBottomColor: '#F5FCFF',
+    borderBottomColor: '#F5FCFF',
     borderWidth: 3,
-    borderBottomWidth: 3,  */
+    borderBottomWidth: 3,
     backgroundColor: '#FFFFFF',
     borderRadius: 30,
     width: 250,
@@ -58,7 +62,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     flexDirection: 'row',
     alignItems:'center',
-
   },
   inputIcon: {
     width:30,
