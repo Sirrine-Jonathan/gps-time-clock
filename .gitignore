@@ -22,7 +22,7 @@
 *.sublime-workspace
 
 # Node
-node_modules
+client/node_modules
 npm-debug.log
 yarn-error.log
 
