@@ -6,6 +6,7 @@ import BackgroundImage from '../../components/BackgroundImage';
 import {Text, View, StyleSheet, ScrollView, Alert } from "react-native";
 import { updateUserInfo, updateCompanyInfo } from '../../redux/actions/appActions'
 import { deleteAccount, stagePassword, stageEmail } from '../../redux/actions/authActions'
+
 class SettingsScreen extends React.Component {
 
     static navigationOptions = {
@@ -107,7 +108,6 @@ class SettingsScreen extends React.Component {
       let { usernameErr, emailErr, passwordErr, companyErr, secretErr } = this.state;
       let { updateUserMsg, updateUserLoading } = this.props;
       return (
-          <BackgroundImage>
           <View style={styles.scrollContainer}>
           <ScrollView style={styles.scroll}>
             <View style={styles.container}>
@@ -166,7 +166,6 @@ class SettingsScreen extends React.Component {
             </View>
           </ScrollView>
           </View>
-          </BackgroundImage>
       );
     }
 }

@@ -54,7 +54,7 @@ class DrawerContents extends React.Component {
       let initial = user.username.split('')[0];
 
       return (
-         <BackgroundImage src="gplaypattern">
+         /*<BackgroundImage src="gplaypattern">*/
          <ScrollView style={styles.content}>
             <SafeAreaView style={{flex: 1}}>
                <View style={styles.drawerHeader}>
@@ -82,7 +82,7 @@ class DrawerContents extends React.Component {
                </View>
             </SafeAreaView>
          </ScrollView>
-         </BackgroundImage>
+        /*</BackgroundImage>*/
       )
    }
 }
@@ -109,7 +109,8 @@ const styles = StyleSheet.create({
   drawerHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
+    marginTop: 25
   },
   userInfo: {
   	flex: 1,

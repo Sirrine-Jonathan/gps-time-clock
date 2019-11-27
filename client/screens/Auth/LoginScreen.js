@@ -104,7 +104,7 @@ class LoginScreen extends React.Component {
 			}
 		}
 
-		version = "1.0.1";
+		version = "2.0.0";
 		release_date = "7/21/19";
 		
 		new_stuff = "What's new in Version " + this.version + "\n" + 
